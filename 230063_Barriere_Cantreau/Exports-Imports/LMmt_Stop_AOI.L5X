@@ -1,0 +1,257 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="35.00" TargetName="LMmt_Stop" TargetType="AddOnInstructionDefinition" TargetClass="Standard" TargetRevision="1.1 " TargetLastEdited="2014-05-13T08:24:07.102Z" ContainsContext="true" ExportDate="Wed Oct 18 15:47:14 2023" ExportOptions="References NoRawData L5KData DecoratedData Context Dependencies ForceProtectedEncoding AllProjDocTrans">
+<Controller Use="Context" Name="Convoyage_989">
+<DataTypes Use="Context">
+<DataType Name="tstLM_Axis" Family="NoFamily" Class="User">
+<Members>
+<Member Name="ControlWord" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="MCHeader" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="MCParaWord0" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="MCParaWord1" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="MCParaWord2" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="MCParaWord3" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="MCParaWord4" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="MCParaWord5" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="MCParaWord6" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="MCParaWord7" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="MCParaWord8" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="MCParaWord9" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="MCParaWord10" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="MCParaWord11" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="MCParaWord12" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="MCParaWord13" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="StatusWord" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="StateVar" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="WarnWord" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="ComDemandPosition" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="ComActualPosition" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="ComActualCurrent32" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="ComActualCurrent16" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="CfgControl" DataType="INT" Dimension="0" Radix="Hex" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="CfgIndexOut" DataType="INT" Dimension="0" Radix="Hex" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="CfgValueOut" DataType="DINT" Dimension="0" Radix="Hex" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="CfgStatus" DataType="INT" Dimension="0" Radix="Hex" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="CfgIndexIn" DataType="INT" Dimension="0" Radix="Hex" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="CfgValueIn" DataType="DINT" Dimension="0" Radix="Hex" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="ZZZZZZZZZZtstLM_Axis29" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="CommandRunning" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZtstLM_Axis29" BitNumber="0" ExternalAccess="Read/Write"/>
+<Member Name="CommandAborted" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZtstLM_Axis29" BitNumber="1" ExternalAccess="Read/Write"/>
+<Member Name="ConfigChannelBusy" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZtstLM_Axis29" BitNumber="2" ExternalAccess="Read/Write"/>
+<Member Name="AxisName" DataType="STRING" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="AxisNr" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="AxisCtrlType" DataType="STRING" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+</DataTypes>
+<AddOnInstructionDefinitions Use="Context">
+<AddOnInstructionDefinition Use="Target" Name="LMmt_Stop" Class="Standard" Revision="1.1" Vendor="NTI AG LinMot" ExecutePrescan="false" ExecutePostscan="false" ExecuteEnableInFalse="false" CreatedDate="2011-12-08T09:15:12.593Z" CreatedBy="Not Available" EditedDate="2014-05-13T08:24:07.102Z"
+ EditedBy="Not Available" SoftwareRevision="v20.01">
+<Parameters>
+<Parameter Name="EnableIn" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Enable Input - System Defined Parameter]]>
+</Description>
+</Parameter>
+<Parameter Name="EnableOut" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Enable Output - System Defined Parameter]]>
+</Description>
+</Parameter>
+<Parameter Name="Axis" TagType="Base" DataType="tstLM_Axis" Usage="InOut" Required="true" Visible="true" Constant="false"/>
+<Parameter Name="Execute" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Deceleration" TagType="Base" DataType="REAL" Usage="Input" Radix="Float" Required="false" Visible="true" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Done" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Busy" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Error" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="ErrorID" TagType="Base" DataType="INT" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="INT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+</Parameters>
+<LocalTags>
+<LocalTag Name="iFbState" DataType="INT" Radix="Hex" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="INT" Radix="Hex" Value="16#0000"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="iCState" DataType="INT" Radix="Hex" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="INT" Radix="Hex" Value="16#0000"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="iNewCmdCount" DataType="INT" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="INT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="iOldCmdCount" DataType="INT" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="INT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="iCmdHeader" DataType="INT" Radix="Hex" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[368]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="INT" Radix="Hex" Value="16#0170"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="dDeceleration" DataType="DINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="sBit" DataType="BOOL" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="rEdge" DataType="BOOL" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="rDeceleration" DataType="REAL" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+</LocalTags>
+<Routines>
+<Routine Name="Logic" Type="RLL">
+<RLLContent>
+<Rung Number="0" Type="N">
+<Comment>
+<![CDATA[:::::::::::::: Asign variables ::::::::::::::]]>
+</Comment>
+<Text>
+<![CDATA[MVM(Axis.StateVar,16#000F,iOldCmdCount)MVM(Axis.StateVar,16#FF00,iCState);]]>
+</Text>
+</Rung>
+<Rung Number="1" Type="N">
+<Comment>
+<![CDATA[:::::::::::::: Detect rising edge and check start conditions ::::::::::::::]]>
+</Comment>
+<Text>
+<![CDATA[XIC(Execute)ONS(sBit)[EQU(iCState,16#0800) OTL(Axis.CommandAborted) OTL(Axis.CommandRunning) OTL(Busy) MOV(1,iFbState) JMP(ExCmd) ,NEQ(iCState,16#0800) MOV(50,iFbState) MOV(1,ErrorID) OTL(Error) ];]]>
+</Text>
+</Rung>
+<Rung Number="2" Type="N">
+<Comment>
+<![CDATA[:::::::::::::: Check on axis error ::::::::::::::]]>
+</Comment>
+<Text>
+<![CDATA[XIC(Busy)EQU(iCState,16#0400)MOV(50,iFbState)MOV(3,ErrorID)OTU(Axis.CommandRunning)OTL(Error);]]>
+</Text>
+</Rung>
+<Rung Number="3" Type="N">
+<Text>
+<![CDATA[XIC(Busy)NEQ(iCState,16#0800)MOV(50,iFbState)MOV(4,ErrorID)OTU(Axis.CommandRunning)OTL(Error);]]>
+</Text>
+</Rung>
+<Rung Number="4" Type="N">
+<Comment>
+<![CDATA[:::::::::::::: State 1: Prepare and send command ::::::::::::::]]>
+</Comment>
+<Text>
+<![CDATA[LBL(ExCmd)EQU(iFbState,1)MVM(Axis.StateVar,16#000F,iOldCmdCount)[[LEQ(Deceleration,0) MOV(10,rDeceleration) ,GRT(Deceleration,0) MOV(Deceleration,rDeceleration) ] LIM(0,rDeceleration,21474) MUL(rDeceleration,100000,dDeceleration) BTD(dDeceleration,0,Axis.MCParaWord0,0,16) BTD(dDeceleration,16,Axis.MCParaWord1,0,16) ,ADD(iOldCmdCount,1,iNewCmdCount) MOD(iNewCmdCount,16,iNewCmdCount) MOV(0,Axis.MCHeader) ADD(iCmdHeader,iNewCmdCount,Axis.MCHeader) ]MOV(2,iFbState);]]>
+</Text>
+</Rung>
+<Rung Number="5" Type="N">
+<Comment>
+<![CDATA[:::::::::::::: State 2: Check if command has been executed ::::::::::::::]]>
+</Comment>
+<Text>
+<![CDATA[EQU(iFbState,2)EQU(iOldCmdCount,iNewCmdCount)XIC(Axis.StateVar.6)OTL(Done)OTU(Busy)MOV(3,iFbState);]]>
+</Text>
+</Rung>
+<Rung Number="6" Type="N">
+<Comment>
+<![CDATA[:::::::::::::: State 3: Wait not Execute ::::::::::::::]]>
+</Comment>
+<Text>
+<![CDATA[EQU(iFbState,3)XIO(Execute)OTU(Axis.CommandAborted)OTU(Axis.CommandRunning)OTU(Done)OTU(Busy)MOV(iNewCmdCount,Axis.MCHeader)MOV(0,iFbState);]]>
+</Text>
+</Rung>
+<Rung Number="7" Type="N">
+<Comment>
+<![CDATA[:::::::::::::: State 50: Error State ::::::::::::::]]>
+</Comment>
+<Text>
+<![CDATA[EQU(iFbState,50)OTL(Error)OTU(Done)OTU(Busy)XIO(Execute)OTU(Error)MOV(0,ErrorID)MOV(0,iFbState);]]>
+</Text>
+</Rung>
+</RLLContent>
+</Routine>
+</Routines>
+<Dependencies>
+<Dependency Type="DataType" Name="tstLM_Axis"/>
+</Dependencies>
+</AddOnInstructionDefinition>
+</AddOnInstructionDefinitions>
+</Controller>
+</RSLogix5000Content>

@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="34.02" TargetName="KS_VAR" TargetType="AddOnInstructionDefinition" TargetClass="Safety" TargetRevision="1.0 " TargetLastEdited="2018-12-11T16:49:56.308Z" TargetSignature="16#f048_e686" ContainsContext="true" ExportDate="Wed Dec 06 15:06:50 2023" ExportOptions="References NoRawData L5KData DecoratedData Context Dependencies ForceProtectedEncoding AllProjDocTrans"
+>
+<Controller Use="Context" Name="Safety_VoieA_210191">
+<DataTypes Use="Context">
+</DataTypes>
+<AddOnInstructionDefinitions Use="Context">
+<EncodedData EncodedType="AddOnInstructionDefinition" Name="KS_VAR" Class="Safety" Revision="1.0" SignatureID="F048E686" SignatureTimestamp="2018-12-11T16:49:56.308Z" SafetySignatureID="3DA844A0" EditedDate="2018-12-11T16:49:56.308Z" SoftwareRevision="v31.00" EncryptionConfig="9">
+<AdditionalHelpText>
+<![CDATA[Add ON:  KS_VAR
+Bloc pour la coupure du variateur en sécurité par le réseau  en STO (Safe Torque Off)
+La coupure du variateur est temporisé (50 ms)
+Cette temporisation permet de d'attendre que le variateur soit prêt à envoyer la coupure du STO
+La sortie Var_Ok, nous informe que la variateur et bien sous tension et RDY.
+Il est en attente pour recevoir une commande de marche.]]>
+</AdditionalHelpText>
+<Parameters>
+<Parameter Name="EnableIn" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Enable Input - System Defined Parameter]]>
+</Description>
+</Parameter>
+<Parameter Name="EnableOut" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Enable Output - System Defined Parameter]]>
+</Description>
+</Parameter>
+<Parameter Name="In_stat" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="true" Visible="true" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Etat de la zone de sécurité]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="In_Var_Safety" TagType="Base" DataType="AB:CIP_Drive_Safety1:SI:0" Usage="InOut" Required="true" Visible="true" Constant="false">
+<Description>
+<![CDATA[Status de sécurité de l'entrée du Variateur]]>
+</Description>
+</Parameter>
+<Parameter Name="Out_Var_Safety" TagType="Base" DataType="AB:CIP_Drive_Safety1:SO:0" Usage="InOut" Required="true" Visible="true" Constant="false">
+<Description>
+<![CDATA[Pilotage Sortie de sécurité  du Variateur (STO)]]>
+</Description>
+</Parameter>
+<Parameter Name="STO_Ok" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Variateur Sous Tension]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+</Parameters>
+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</EncodedData>
+</AddOnInstructionDefinitions>
+</Controller>
+</RSLogix5000Content>

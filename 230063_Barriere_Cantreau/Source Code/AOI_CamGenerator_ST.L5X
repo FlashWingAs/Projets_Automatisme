@@ -1,0 +1,3385 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="30.02" TargetName="AOI_CamGenerator_ST" TargetType="AddOnInstructionDefinition" TargetRevision="24.0 " TargetLastEdited="2017-01-17T15:25:24.819Z" ContainsContext="true" ExportDate="Tue Dec 12 09:50:14 2023" ExportOptions="References NoRawData L5KData DecoratedData Context Dependencies ForceProtectedEncoding AllProjDocTrans">
+<Controller Use="Context" Name="Comas_L4">
+<DataTypes Use="Context">
+<DataType Name="UDT_CamGeneration" Family="NoFamily" Class="User">
+<Members>
+<Member Name="Cmd" DataType="UDT_CamGeneration_Cmd" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="In" DataType="UDT_CamGeneration_In" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Out" DataType="UDT_CamGeneration_Out" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+<Dependencies>
+<Dependency Type="DataType" Name="UDT_CamGeneration_Cmd"/>
+<Dependency Type="DataType" Name="UDT_CamGeneration_In"/>
+<Dependency Type="DataType" Name="UDT_CamGeneration_Out"/>
+</Dependencies>
+</DataType>
+<DataType Name="UDT_CamGeneration_Cmd" Family="NoFamily" Class="User">
+<Members>
+<Member Name="ZZZZZZZZZZUDT_CamGen0" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="Reset" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZUDT_CamGen0" BitNumber="0" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Effacement défaut]]>
+</Description>
+</Member>
+<Member Name="Start" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZUDT_CamGen0" BitNumber="1" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Commande de lancement des calculs]]>
+</Description>
+</Member>
+<Member Name="CamOrCamProfil" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZUDT_CamGen0" BitNumber="2" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[0 = tableau de points (sans MCCP)
+1 = Profil executable (avec MCCP)]]>
+</Description>
+</Member>
+<Member Name="Optimize" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZUDT_CamGen0" BitNumber="3" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+<DataType Name="UDT_CamGeneration_In" Family="NoFamily" Class="User">
+<Members>
+<Member Name="Cam" DataType="CAM" Dimension="32" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="StartSlope" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="EndSlope" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="DefaultProfilType" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[2 = Modified Trapezoidal 4 = Sine modified 5 = 3-4-5 Poly 7 = 4-5-6-7 Poly]]>
+</Description>
+</Member>
+<Member Name="Cfg_Segments" DataType="UDT_SegmentSetUp" Dimension="32" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+<Dependencies>
+<Dependency Type="DataType" Name="UDT_SegmentSetUp"/>
+</Dependencies>
+</DataType>
+<DataType Name="UDT_CamGeneration_Out" Family="NoFamily" Class="User">
+<Members>
+<Member Name="Cam" DataType="CAM" Dimension="32" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="NbrOfCamPoints" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="StartSlope" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="EndSlope" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="CamProfil" DataType="CAM_PROFILE" Dimension="32" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+<DataType Name="UDT_CamSegment" Family="NoFamily" Class="User">
+<Members>
+<Member Name="M0" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="S0" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="V0" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="V1" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="V2" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="M1" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="M2" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="M3" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="M4" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="M5" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="dM" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="a4" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="S1" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="S2" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="S3" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="S4" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="S5" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="dS" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="K1" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="K2" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="K3" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="K4" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="K5" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="K6" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="K7" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="K8" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="K9" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="ActSlope" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="PrevSlope" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="No_Of_Points" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="NbPoints" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="CfgIndex" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="CAM_Points" DataType="CAM" Dimension="32" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Cv" DataType="REAL" Dimension="2" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Mn" DataType="REAL" Dimension="2" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Sn" DataType="REAL" Dimension="2" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="RiseReturnComp" DataType="BOOL" Dimension="32" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="ZZZZZZZZZZUDT_CamSeg37" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="IsAcceleration" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZUDT_CamSeg37" BitNumber="0" ExternalAccess="Read/Write"/>
+<Member Name="Err" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZUDT_CamSeg37" BitNumber="1" ExternalAccess="Read/Write"/>
+<Member Name="B1" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZUDT_CamSeg37" BitNumber="2" ExternalAccess="Read/Write"/>
+<Member Name="MemoRiseReturnComp" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZUDT_CamSeg37" BitNumber="3" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+<DataType Name="UDT_SegmentSetUp" Family="NoFamily" Class="User">
+<Members>
+<Member Name="AccelProportion" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[X means 1/X accel]]>
+</Description>
+</Member>
+<Member Name="DecelProportion" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[X means 1/X decel]]>
+</Description>
+</Member>
+<Member Name="ProfilType" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[2 = Modified Trapezoidal 4 = Sine modified 5 = 3-4-5 Poly 7 = 4-5-6-7 Poly]]>
+</Description>
+</Member>
+</Members>
+</DataType>
+</DataTypes>
+<AddOnInstructionDefinitions Use="Context">
+<AddOnInstructionDefinition Name="AOI_PosComp_ST" Revision="2.0" ExecutePrescan="true" ExecutePostscan="false" ExecuteEnableInFalse="false" CreatedDate="2013-06-06T14:23:27.659Z" CreatedBy="FRL-PC\FRL" EditedDate="2016-03-01T08:13:51.902Z" EditedBy="WIN-0GN4TD2Q8CH\GMignet" SoftwareRevision="v28.00">
+<Parameters>
+<Parameter Name="EnableIn" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only"/>
+<Parameter Name="EnableOut" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only"/>
+<Parameter Name="CAM_Design" TagType="Base" DataType="UDT_CamSegment" Usage="InOut" Required="true" Visible="true" Constant="false"/>
+<Parameter Name="Cfg_Segments" TagType="Base" DataType="UDT_SegmentSetUp" Dimensions="20" Usage="InOut" Required="true" Visible="true" Constant="false"/>
+</Parameters>
+<LocalTags>
+<LocalTag Name="L_Index" DataType="REAL" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_Pointer" DataType="DINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_CoeffSlave" DataType="REAL" Dimensions="32" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[[0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Array DataType="REAL" Dimensions="32" Radix="Float">
+<Element Index="[0]" Value="0.0"/>
+<Element Index="[1]" Value="0.0"/>
+<Element Index="[2]" Value="0.0"/>
+<Element Index="[3]" Value="0.0"/>
+<Element Index="[4]" Value="0.0"/>
+<Element Index="[5]" Value="0.0"/>
+<Element Index="[6]" Value="0.0"/>
+<Element Index="[7]" Value="0.0"/>
+<Element Index="[8]" Value="0.0"/>
+<Element Index="[9]" Value="0.0"/>
+<Element Index="[10]" Value="0.0"/>
+<Element Index="[11]" Value="0.0"/>
+<Element Index="[12]" Value="0.0"/>
+<Element Index="[13]" Value="0.0"/>
+<Element Index="[14]" Value="0.0"/>
+<Element Index="[15]" Value="0.0"/>
+<Element Index="[16]" Value="0.0"/>
+<Element Index="[17]" Value="0.0"/>
+<Element Index="[18]" Value="0.0"/>
+<Element Index="[19]" Value="0.0"/>
+<Element Index="[20]" Value="0.0"/>
+<Element Index="[21]" Value="0.0"/>
+<Element Index="[22]" Value="0.0"/>
+<Element Index="[23]" Value="0.0"/>
+<Element Index="[24]" Value="0.0"/>
+<Element Index="[25]" Value="0.0"/>
+<Element Index="[26]" Value="0.0"/>
+<Element Index="[27]" Value="0.0"/>
+<Element Index="[28]" Value="0.0"/>
+<Element Index="[29]" Value="0.0"/>
+<Element Index="[30]" Value="0.0"/>
+<Element Index="[31]" Value="0.0"/>
+</Array>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_CoeffMaster" DataType="REAL" Dimensions="32" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[[0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Array DataType="REAL" Dimensions="32" Radix="Float">
+<Element Index="[0]" Value="0.0"/>
+<Element Index="[1]" Value="0.0"/>
+<Element Index="[2]" Value="0.0"/>
+<Element Index="[3]" Value="0.0"/>
+<Element Index="[4]" Value="0.0"/>
+<Element Index="[5]" Value="0.0"/>
+<Element Index="[6]" Value="0.0"/>
+<Element Index="[7]" Value="0.0"/>
+<Element Index="[8]" Value="0.0"/>
+<Element Index="[9]" Value="0.0"/>
+<Element Index="[10]" Value="0.0"/>
+<Element Index="[11]" Value="0.0"/>
+<Element Index="[12]" Value="0.0"/>
+<Element Index="[13]" Value="0.0"/>
+<Element Index="[14]" Value="0.0"/>
+<Element Index="[15]" Value="0.0"/>
+<Element Index="[16]" Value="0.0"/>
+<Element Index="[17]" Value="0.0"/>
+<Element Index="[18]" Value="0.0"/>
+<Element Index="[19]" Value="0.0"/>
+<Element Index="[20]" Value="0.0"/>
+<Element Index="[21]" Value="0.0"/>
+<Element Index="[22]" Value="0.0"/>
+<Element Index="[23]" Value="0.0"/>
+<Element Index="[24]" Value="0.0"/>
+<Element Index="[25]" Value="0.0"/>
+<Element Index="[26]" Value="0.0"/>
+<Element Index="[27]" Value="0.0"/>
+<Element Index="[28]" Value="0.0"/>
+<Element Index="[29]" Value="0.0"/>
+<Element Index="[30]" Value="0.0"/>
+<Element Index="[31]" Value="0.0"/>
+</Array>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_RawIndex" DataType="DINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_No_PtSeg" DataType="DINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_MemoCheckSum" DataType="DINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_Coeff" DataType="REAL" Dimensions="4" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[[0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Array DataType="REAL" Dimensions="4" Radix="Float">
+<Element Index="[0]" Value="0.0"/>
+<Element Index="[1]" Value="0.0"/>
+<Element Index="[2]" Value="0.0"/>
+<Element Index="[3]" Value="0.0"/>
+</Array>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_PI" DataType="REAL" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_Peak" DataType="REAL" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_CoeffPeak" DataType="REAL" Dimensions="32" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[[0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Array DataType="REAL" Dimensions="32" Radix="Float">
+<Element Index="[0]" Value="0.0"/>
+<Element Index="[1]" Value="0.0"/>
+<Element Index="[2]" Value="0.0"/>
+<Element Index="[3]" Value="0.0"/>
+<Element Index="[4]" Value="0.0"/>
+<Element Index="[5]" Value="0.0"/>
+<Element Index="[6]" Value="0.0"/>
+<Element Index="[7]" Value="0.0"/>
+<Element Index="[8]" Value="0.0"/>
+<Element Index="[9]" Value="0.0"/>
+<Element Index="[10]" Value="0.0"/>
+<Element Index="[11]" Value="0.0"/>
+<Element Index="[12]" Value="0.0"/>
+<Element Index="[13]" Value="0.0"/>
+<Element Index="[14]" Value="0.0"/>
+<Element Index="[15]" Value="0.0"/>
+<Element Index="[16]" Value="0.0"/>
+<Element Index="[17]" Value="0.0"/>
+<Element Index="[18]" Value="0.0"/>
+<Element Index="[19]" Value="0.0"/>
+<Element Index="[20]" Value="0.0"/>
+<Element Index="[21]" Value="0.0"/>
+<Element Index="[22]" Value="0.0"/>
+<Element Index="[23]" Value="0.0"/>
+<Element Index="[24]" Value="0.0"/>
+<Element Index="[25]" Value="0.0"/>
+<Element Index="[26]" Value="0.0"/>
+<Element Index="[27]" Value="0.0"/>
+<Element Index="[28]" Value="0.0"/>
+<Element Index="[29]" Value="0.0"/>
+<Element Index="[30]" Value="0.0"/>
+<Element Index="[31]" Value="0.0"/>
+</Array>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_Cv" DataType="REAL" Dimensions="2" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[[0.00000000e+000,0.00000000e+000]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Array DataType="REAL" Dimensions="2" Radix="Float">
+<Element Index="[0]" Value="0.0"/>
+<Element Index="[1]" Value="0.0"/>
+</Array>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_Mn" DataType="REAL" Dimensions="2" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[[0.00000000e+000,0.00000000e+000]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Array DataType="REAL" Dimensions="2" Radix="Float">
+<Element Index="[0]" Value="0.0"/>
+<Element Index="[1]" Value="0.0"/>
+</Array>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_Sn" DataType="REAL" Dimensions="2" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[[0.00000000e+000,0.00000000e+000]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Array DataType="REAL" Dimensions="2" Radix="Float">
+<Element Index="[0]" Value="0.0"/>
+<Element Index="[1]" Value="0.0"/>
+</Array>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_CheckSum" DataType="DINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_dV0" DataType="REAL" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_NoDwell" DataType="BOOL" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_AccelProportion" DataType="REAL" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_DecelProportion" DataType="REAL" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_dV1" DataType="REAL" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_An" DataType="REAL" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_M2" DataType="REAL" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+</LocalTags>
+<Routines>
+<Routine Name="Logic" Type="ST">
+<STContent>
+<Line Number="0">
+<![CDATA[L_CheckSum	:= CAM_Design.NbPoints + Cfg_Segments[CAM_Design.CfgIndex].ProfilType;]]>
+</Line>
+<Line Number="1">
+<![CDATA[]]>
+</Line>
+<Line Number="2">
+<![CDATA[//Compute Coeff function of selected law]]>
+</Line>
+<Line Number="3">
+<![CDATA[If ( L_CheckSum <> L_MemoCheckSum) Then]]>
+</Line>
+<Line Number="4">
+<![CDATA[	L_Index 														:= 0;]]>
+</Line>
+<Line Number="5">
+<![CDATA[	L_Peak															:= 0;]]>
+</Line>
+<Line Number="6">
+<![CDATA[	L_No_PtSeg														:= (CAM_Design.NbPoints/2);]]>
+</Line>
+<Line Number="7">
+<![CDATA[	L_MemoCheckSum 													:= L_CheckSum;]]>
+</Line>
+<Line Number="8">
+<![CDATA[]]>
+</Line>
+<Line Number="9">
+<![CDATA[	Case Cfg_Segments[CAM_Design.CfgIndex].ProfilType Of]]>
+</Line>
+<Line Number="10">
+<![CDATA[	]]>
+</Line>
+<Line Number="11">
+<![CDATA[	2:	For L_Pointer := 1 to L_No_PtSeg do]]>
+</Line>
+<Line Number="12">
+<![CDATA[			L_Index 												:= L_Index + (0.5/L_No_PtSeg);				]]>
+</Line>
+<Line Number="13">
+<![CDATA[			L_Peak 													:= L_Peak + (0.375/L_No_PtSeg);]]>
+</Line>
+<Line Number="14">
+<![CDATA[			If L_Index <= (1/8) Then]]>
+</Line>
+<Line Number="15">
+<![CDATA[				L_CoeffSlave[L_Pointer] 							:= 2/(2+L_PI)*(L_Index-0.25/L_PI*SIN(4*L_PI*L_Index));]]>
+</Line>
+<Line Number="16">
+<![CDATA[			Elsif (L_Index > (1/8)) And (L_Index <= (3/8)) Then]]>
+</Line>
+<Line Number="17">
+<![CDATA[				L_CoeffSlave[L_Pointer] 							:= 1/(2+L_PI)*(4*L_PI*(L_Index)**2+(2-L_PI)*L_Index+(L_PI**2-8)/16/L_PI);]]>
+</Line>
+<Line Number="18">
+<![CDATA[			Elsif (L_Index > (3/8)) And (L_Index <= (0.5)) Then]]>
+</Line>
+<Line Number="19">
+<![CDATA[				L_CoeffSlave[L_Pointer] 							:= 2/(2+L_PI)*((L_PI+1)*L_Index-1/4/L_PI*SIN(4*L_PI*(L_Index-1/4))-L_PI/4);]]>
+</Line>
+<Line Number="20">
+<![CDATA[			Elsif (L_Index > (0.5)) And (L_Index <= (5/8)) Then]]>
+</Line>
+<Line Number="21">
+<![CDATA[				L_CoeffSlave[L_Pointer] 							:= 1-2/(2+L_PI)*((L_PI+1)*(1-L_Index)-1/4/L_PI*SIN(4*L_PI*((1-L_Index)-1/4))-L_PI/4);]]>
+</Line>
+<Line Number="22">
+<![CDATA[			Elsif (L_Index > (5/8)) And (L_Index <= (7/8)) Then]]>
+</Line>
+<Line Number="23">
+<![CDATA[				L_CoeffSlave[L_Pointer] 							:= 1-1/(L_PI+2)*(4*L_PI*(1-L_Index)**2+(2-L_PI)*(1-L_Index)+(L_PI**2-8)/16/L_PI);]]>
+</Line>
+<Line Number="24">
+<![CDATA[			Else]]>
+</Line>
+<Line Number="25">
+<![CDATA[				L_CoeffSlave[L_Pointer] 							:= 1-2/(L_PI+2)*((1-L_Index)-1/4/L_PI*SIN(4*L_PI*(1-L_Index)));]]>
+</Line>
+<Line Number="26">
+<![CDATA[			End_If;]]>
+</Line>
+<Line Number="27">
+<![CDATA[			L_CoeffPeak[L_Pointer] 									:= L_CoeffSlave[L_Pointer]-0.017668661-0.38897*L_Peak;]]>
+</Line>
+<Line Number="28">
+<![CDATA[			L_CoeffMaster[L_Pointer] 								:= L_CoeffMaster[L_Pointer - 1] + (1/L_No_PtSeg);]]>
+</Line>
+<Line Number="29">
+<![CDATA[		End_For;]]>
+</Line>
+<Line Number="30">
+<![CDATA[		L_Cv[0]														:= 2; ]]>
+</Line>
+<Line Number="31">
+<![CDATA[		L_Mn[0]														:= 0.5;]]>
+</Line>
+<Line Number="32">
+<![CDATA[		L_Sn[0] 													:= 0.5;]]>
+</Line>
+<Line Number="33">
+<![CDATA[		L_Cv[1]														:= 1.6103; ]]>
+</Line>
+<Line Number="34">
+<![CDATA[		L_Mn[1]														:= 0.375;]]>
+</Line>
+<Line Number="35">
+<![CDATA[		L_Sn[1] 													:= 0.33646;]]>
+</Line>
+<Line Number="36">
+<![CDATA[		L_An														:= 4.88812;]]>
+</Line>
+<Line Number="37">
+<![CDATA[]]>
+</Line>
+<Line Number="38">
+<![CDATA[	3:	L_No_PtSeg													:= 5;]]>
+</Line>
+<Line Number="39">
+<![CDATA[		For L_Pointer := 1 to L_No_PtSeg do]]>
+</Line>
+<Line Number="40">
+<![CDATA[			L_Index 												:= L_Index + 0.25;				]]>
+</Line>
+<Line Number="41">
+<![CDATA[			L_Peak 													:= L_Index;]]>
+</Line>
+<Line Number="42">
+<![CDATA[			L_CoeffSlave[L_Pointer] 								:= 3*((L_Index)**2) - 2*((L_Index)**3);]]>
+</Line>
+<Line Number="43">
+<![CDATA[			L_CoeffPeak[L_Pointer] 									:= L_CoeffSlave[L_Pointer];]]>
+</Line>
+<Line Number="44">
+<![CDATA[			L_CoeffMaster[L_Pointer] 								:= L_CoeffMaster[L_Pointer - 1] + 0.5;]]>
+</Line>
+<Line Number="45">
+<![CDATA[		End_For;]]>
+</Line>
+<Line Number="46">
+<![CDATA[		L_No_PtSeg													:= 2;]]>
+</Line>
+<Line Number="47">
+<![CDATA[		L_Cv[0]														:= 1.5; ]]>
+</Line>
+<Line Number="48">
+<![CDATA[		L_Mn[0]														:= 0.5;]]>
+</Line>
+<Line Number="49">
+<![CDATA[		L_Sn[0] 													:= 0.5;]]>
+</Line>
+<Line Number="50">
+<![CDATA[		L_Cv[1]														:= 1.5; ]]>
+</Line>
+<Line Number="51">
+<![CDATA[		L_Mn[1]														:= 0.5;]]>
+</Line>
+<Line Number="52">
+<![CDATA[		L_Sn[1] 													:= 0.5;]]>
+</Line>
+<Line Number="53">
+<![CDATA[		L_An														:= 4;]]>
+</Line>
+<Line Number="54">
+<![CDATA[]]>
+</Line>
+<Line Number="55">
+<![CDATA[	4:	For L_Pointer := 1 to L_No_PtSeg do]]>
+</Line>
+<Line Number="56">
+<![CDATA[			L_Index 												:= L_Index + (0.5/L_No_PtSeg);				]]>
+</Line>
+<Line Number="57">
+<![CDATA[			L_Peak 													:= L_Peak + (0.374974995022058/L_No_PtSeg);]]>
+</Line>
+<Line Number="58">
+<![CDATA[			If L_Index < (1/8) Then]]>
+</Line>
+<Line Number="59">
+<![CDATA[				L_CoeffSlave[L_Pointer] 							:= L_PI/(4+L_PI)*(L_Index-1/4/L_PI*SIN(4*L_PI*L_Index));]]>
+</Line>
+<Line Number="60">
+<![CDATA[			Else]]>
+</Line>
+<Line Number="61">
+<![CDATA[				L_CoeffSlave[L_Pointer] 							:= L_PI/(4+L_PI)*(2/L_PI+L_Index-9/4/L_PI*SIN(L_PI/3*(1+4*L_Index)));]]>
+</Line>
+<Line Number="62">
+<![CDATA[			End_If;]]>
+</Line>
+<Line Number="63">
+<![CDATA[			If (L_Peak+0.125025004977942) < (1/8) Then]]>
+</Line>
+<Line Number="64">
+<![CDATA[				L_CoeffPeak[L_Pointer] 								:= L_PI/(4+L_PI)*((L_Peak+0.125025004977942)-1/4/L_PI*SIN(4*L_PI*(L_Peak+0.125025004977942)))-0.0199924101557209-0.440039072926203*L_Peak;]]>
+</Line>
+<Line Number="65">
+<![CDATA[			Else]]>
+</Line>
+<Line Number="66">
+<![CDATA[				L_CoeffPeak[L_Pointer] 								:= L_PI/(4+L_PI)*(2/L_PI+(L_Peak+0.125025004977942)-9/4/L_PI*SIN(L_PI/3*(1+4*(L_Peak+0.125025004977942))))-0.0199924101557209-0.440039072926203*L_Peak;]]>
+</Line>
+<Line Number="67">
+<![CDATA[			End_If;]]>
+</Line>
+<Line Number="68">
+<![CDATA[			L_CoeffMaster[L_Pointer] 								:= L_CoeffMaster[L_Pointer - 1] + (1/L_No_PtSeg);]]>
+</Line>
+<Line Number="69">
+<![CDATA[		End_For;]]>
+</Line>
+<Line Number="70">
+<![CDATA[		L_Cv[0]														:= 1.7596; ]]>
+</Line>
+<Line Number="71">
+<![CDATA[		L_Mn[0]														:= 0.5;]]>
+</Line>
+<Line Number="72">
+<![CDATA[		L_Sn[0] 													:= 0.5;]]>
+</Line>
+<Line Number="73">
+<![CDATA[		L_Cv[1]														:= 1.3195609270738; ]]>
+</Line>
+<Line Number="74">
+<![CDATA[		L_Mn[1]														:= 0.374974995022058;]]>
+</Line>
+<Line Number="75">
+<![CDATA[		L_Sn[1] 													:= 0.315003940664265;]]>
+</Line>
+<Line Number="76">
+<![CDATA[		L_An														:= 5.527957357;]]>
+</Line>
+<Line Number="77">
+<![CDATA[]]>
+</Line>
+<Line Number="78">
+<![CDATA[	5:	For L_Pointer := 1 to L_No_PtSeg do]]>
+</Line>
+<Line Number="79">
+<![CDATA[			L_Index 												:= L_Index + (0.5/L_No_PtSeg);				]]>
+</Line>
+<Line Number="80">
+<![CDATA[			L_CoeffSlave[L_Pointer] 								:= 6*((L_Index)**5) - 15*((L_Index)**4) + 10*((L_Index)**3);]]>
+</Line>
+<Line Number="81">
+<![CDATA[			L_Peak													:= L_Peak + (0.288657731551211/L_No_PtSeg);]]>
+</Line>
+<Line Number="82">
+<![CDATA[			L_CoeffPeak[L_Pointer]									:= 6*((L_Peak+0.211342268448789)**5) - 15*((L_Peak+0.211342268448789)**4) + 10*((L_Peak+0.211342268448789)**3)-(0.833433809852203*L_Peak)-0.0670018015184139;]]>
+</Line>
+<Line Number="83">
+<![CDATA[			L_CoeffMaster[L_Pointer] 								:= L_CoeffMaster[L_Pointer - 1] + (1/L_No_PtSeg);]]>
+</Line>
+<Line Number="84">
+<![CDATA[		End_For;]]>
+</Line>
+<Line Number="85">
+<![CDATA[		L_Cv[0]														:= 1.875; ]]>
+</Line>
+<Line Number="86">
+<![CDATA[		L_Mn[0]														:= 0.5;]]>
+</Line>
+<Line Number="87">
+<![CDATA[		L_Sn[0] 													:= 0.5;]]>
+</Line>
+<Line Number="88">
+<![CDATA[		L_Cv[1]														:= 1.0415661901478; ]]>
+</Line>
+<Line Number="89">
+<![CDATA[		L_Mn[1]														:= 0.288657731551211;]]>
+</Line>
+<Line Number="90">
+<![CDATA[		L_Sn[1] 													:= 0.192421085531565;]]>
+</Line>
+<Line Number="91">
+<![CDATA[		L_An														:= 5.77350283926745;]]>
+</Line>
+<Line Number="92">
+<![CDATA[]]>
+</Line>
+<Line Number="93">
+<![CDATA[	7:	For L_Pointer := 1 to L_No_PtSeg do]]>
+</Line>
+<Line Number="94">
+<![CDATA[			L_Index 												:= L_Index + (0.5/L_No_PtSeg);				]]>
+</Line>
+<Line Number="95">
+<![CDATA[			L_CoeffSlave[L_Pointer] 								:= 35*((L_Index)**4) - 84*((L_Index)**5) + 70*((L_Index)**6) - 20*((L_Index)**7);]]>
+</Line>
+<Line Number="96">
+<![CDATA[			L_Peak			 										:= L_Peak + (0.223644728961517/L_No_PtSeg);]]>
+</Line>
+<Line Number="97">
+<![CDATA[			L_CoeffPeak[L_Pointer]									:= 35*(L_Peak+0.276355271038483)**4-84*(L_Peak+0.276355271038483)**5+70*(L_Peak+0.276355271038483)**6-20*(L_Peak+0.276355271038483)**7-0.0974652864980157-1.11971501566437*L_Peak;]]>
+</Line>
+<Line Number="98">
+<![CDATA[			L_CoeffMaster[L_Pointer] 								:= L_CoeffMaster[L_Pointer - 1] + (1/L_No_PtSeg);]]>
+</Line>
+<Line Number="99">
+<![CDATA[		End_For;]]>
+</Line>
+<Line Number="100">
+<![CDATA[		L_Cv[0]														:= 2.19; ]]>
+</Line>
+<Line Number="101">
+<![CDATA[		L_Mn[0]														:= 0.5;]]>
+</Line>
+<Line Number="102">
+<![CDATA[		L_Sn[0] 													:= 0.5;]]>
+</Line>
+<Line Number="103">
+<![CDATA[		L_Cv[1]														:= 1.07028498433563; ]]>
+</Line>
+<Line Number="104">
+<![CDATA[		L_Mn[1]														:= 0.223644728961517;]]>
+</Line>
+<Line Number="105">
+<![CDATA[		L_Sn[1] 													:= 0.152116352309586;]]>
+</Line>
+<Line Number="106">
+<![CDATA[		L_An														:= 7.513188448;]]>
+</Line>
+<Line Number="107">
+<![CDATA[]]>
+</Line>
+<Line Number="108">
+<![CDATA[	Else ]]>
+</Line>
+<Line Number="109">
+<![CDATA[		CAM_Design.Err												:= 1;]]>
+</Line>
+<Line Number="110">
+<![CDATA[		TND();]]>
+</Line>
+<Line Number="111">
+<![CDATA[	End_Case;]]>
+</Line>
+<Line Number="112">
+<![CDATA[End_If;]]>
+</Line>
+<Line Number="113">
+<![CDATA[]]>
+</Line>
+<Line Number="114">
+<![CDATA[If CAM_Design.RiseReturnComp[CAM_Design.CfgIndex] And Not CAM_Design.MemoRiseReturnComp Then]]>
+</Line>
+<Line Number="115">
+<![CDATA[	L_Coeff[0]														:= ((1/L_Cv[0])/L_Mn[0]);]]>
+</Line>
+<Line Number="116">
+<![CDATA[	L_Coeff[1]														:= ((1/L_Cv[1])/L_Mn[1]);]]>
+</Line>
+<Line Number="117">
+<![CDATA[	L_Coeff[2]														:= L_Coeff[0]*L_Sn[0];]]>
+</Line>
+<Line Number="118">
+<![CDATA[	L_Coeff[3]														:= L_Coeff[1]*L_Sn[1];]]>
+</Line>
+<Line Number="119">
+<![CDATA[Elsif CAM_Design.MemoRiseReturnComp And Not CAM_Design.RiseReturnComp[CAM_Design.CfgIndex] Then]]>
+</Line>
+<Line Number="120">
+<![CDATA[	L_Coeff[0]														:= ((1/L_Cv[1])/L_Mn[1]);]]>
+</Line>
+<Line Number="121">
+<![CDATA[	L_Coeff[1]														:= ((1/L_Cv[0])/L_Mn[0]);]]>
+</Line>
+<Line Number="122">
+<![CDATA[	L_Coeff[2]														:= L_Coeff[0]*L_Sn[1];]]>
+</Line>
+<Line Number="123">
+<![CDATA[	L_Coeff[3]														:= L_Coeff[1]*L_Sn[0];]]>
+</Line>
+<Line Number="124">
+<![CDATA[Elsif CAM_Design.MemoRiseReturnComp And CAM_Design.RiseReturnComp[CAM_Design.CfgIndex] Then]]>
+</Line>
+<Line Number="125">
+<![CDATA[	L_Coeff[0]														:= ((1/L_Cv[1])/L_Mn[1]);]]>
+</Line>
+<Line Number="126">
+<![CDATA[	L_Coeff[1]														:= L_Coeff[0];]]>
+</Line>
+<Line Number="127">
+<![CDATA[	L_Coeff[2]														:= L_Coeff[0]*L_Sn[1];]]>
+</Line>
+<Line Number="128">
+<![CDATA[	L_Coeff[3]														:= L_Coeff[2];]]>
+</Line>
+<Line Number="129">
+<![CDATA[Else]]>
+</Line>
+<Line Number="130">
+<![CDATA[	L_Coeff[0]														:= ((1/L_Cv[0])/L_Mn[0]);]]>
+</Line>
+<Line Number="131">
+<![CDATA[	L_Coeff[1]														:= L_Coeff[0];]]>
+</Line>
+<Line Number="132">
+<![CDATA[	L_Coeff[2]														:= L_Coeff[0]*L_Sn[0];]]>
+</Line>
+<Line Number="133">
+<![CDATA[	L_Coeff[3]														:= L_Coeff[2];]]>
+</Line>
+<Line Number="134">
+<![CDATA[End_If;]]>
+</Line>
+<Line Number="135">
+<![CDATA[]]>
+</Line>
+<Line Number="136">
+<![CDATA[//Estimate velocity]]>
+</Line>
+<Line Number="137">
+<![CDATA[If CAM_Design.V0 <> CAM_Design.V2 Then]]>
+</Line>
+<Line Number="138">
+<![CDATA[	CAM_Design.V1													:= ((((CAM_Design.dS - (CAM_Design.dM * CAM_Design.V0)) - ((CAM_Design.V2 - CAM_Design.V0) * (CAM_Design.dM/2) * (1 - L_Coeff[3]))) / (((CAM_Design.dM/2)*L_Coeff[2]) + ((CAM_Design.dM/2)*L_Coeff[3])))) + CAM_Design.V0;]]>
+</Line>
+<Line Number="139">
+<![CDATA[Else]]>
+</Line>
+<Line Number="140">
+<![CDATA[	CAM_Design.V1													:= (CAM_Design.dS / CAM_Design.dM) * (L_Cv[0]/L_Cv[1]);]]>
+</Line>
+<Line Number="141">
+<![CDATA[End_If;]]>
+</Line>
+<Line Number="142">
+<![CDATA[]]>
+</Line>
+<Line Number="143">
+<![CDATA[If CAM_Design.MemoRiseReturnComp Then]]>
+</Line>
+<Line Number="144">
+<![CDATA[	If ABS(CAM_Design.ActSlope) = ABS(CAM_Design.PrevSlope) Then]]>
+</Line>
+<Line Number="145">
+<![CDATA[		L_AccelProportion											:= Cfg_Segments[CAM_Design.CfgIndex-1].DecelProportion;]]>
+</Line>
+<Line Number="146">
+<![CDATA[		L_DecelProportion											:= Cfg_Segments[CAM_Design.CfgIndex-1].AccelProportion;]]>
+</Line>
+<Line Number="147">
+<![CDATA[	Else]]>
+</Line>
+<Line Number="148">
+<![CDATA[		L_M2														:= ABS(CAM_Design.V1 / CAM_Design.a4)* ((L_An/L_Cv[1])*L_Mn[1]);//(L_Cv[1]+L_Mn[1]);]]>
+</Line>
+<Line Number="149">
+<![CDATA[		L_AccelProportion											:= CAM_Design.dM/L_M2;]]>
+</Line>
+<Line Number="150">
+<![CDATA[		L_DecelProportion											:= CAM_Design.dM/(CAM_Design.dM - L_M2);]]>
+</Line>
+<Line Number="151">
+<![CDATA[		If L_AccelProportion <= 1 Then]]>
+</Line>
+<Line Number="152">
+<![CDATA[			If ABS(CAM_Design.a4) < 0.01 Then]]>
+</Line>
+<Line Number="153">
+<![CDATA[				L_AccelProportion									:= 2;]]>
+</Line>
+<Line Number="154">
+<![CDATA[				L_DecelProportion 									:= 2;]]>
+</Line>
+<Line Number="155">
+<![CDATA[				CAM_Design.MemoRiseReturnComp						:= 0;]]>
+</Line>
+<Line Number="156">
+<![CDATA[				If CAM_Design.RiseReturnComp[CAM_Design.CfgIndex] Then]]>
+</Line>
+<Line Number="157">
+<![CDATA[					L_Coeff[0]										:= ((1/L_Cv[0])/L_Mn[0]);]]>
+</Line>
+<Line Number="158">
+<![CDATA[					L_Coeff[1]										:= ((1/L_Cv[1])/L_Mn[1]);]]>
+</Line>
+<Line Number="159">
+<![CDATA[					L_Coeff[2]										:= L_Coeff[0]*L_Sn[0];]]>
+</Line>
+<Line Number="160">
+<![CDATA[					L_Coeff[3]										:= L_Coeff[1]*L_Sn[1];]]>
+</Line>
+<Line Number="161">
+<![CDATA[				Else]]>
+</Line>
+<Line Number="162">
+<![CDATA[					L_Coeff[0]										:= ((1/L_Cv[0])/L_Mn[0]);]]>
+</Line>
+<Line Number="163">
+<![CDATA[					L_Coeff[1]										:= L_Coeff[0];]]>
+</Line>
+<Line Number="164">
+<![CDATA[					L_Coeff[2]										:= L_Coeff[0]*L_Sn[0];]]>
+</Line>
+<Line Number="165">
+<![CDATA[					L_Coeff[3]										:= L_Coeff[2];]]>
+</Line>
+<Line Number="166">
+<![CDATA[				End_If;]]>
+</Line>
+<Line Number="167">
+<![CDATA[			Else]]>
+</Line>
+<Line Number="168">
+<![CDATA[				L_AccelProportion									:= 3/2;]]>
+</Line>
+<Line Number="169">
+<![CDATA[				L_DecelProportion 									:= 3;]]>
+</Line>
+<Line Number="170">
+<![CDATA[			End_If;]]>
+</Line>
+<Line Number="171">
+<![CDATA[		End_If;]]>
+</Line>
+<Line Number="172">
+<![CDATA[	End_If;]]>
+</Line>
+<Line Number="173">
+<![CDATA[Else]]>
+</Line>
+<Line Number="174">
+<![CDATA[	L_AccelProportion												:= Cfg_Segments[CAM_Design.CfgIndex].AccelProportion;]]>
+</Line>
+<Line Number="175">
+<![CDATA[	L_DecelProportion												:= Cfg_Segments[CAM_Design.CfgIndex].DecelProportion;]]>
+</Line>
+<Line Number="176">
+<![CDATA[End_If;]]>
+</Line>
+<Line Number="177">
+<![CDATA[]]>
+</Line>
+<Line Number="178">
+<![CDATA[If (L_AccelProportion <= 0) And (L_DecelProportion <= 0) Then  ]]>
+</Line>
+<Line Number="179">
+<![CDATA[	CAM_Design.M2													:= CAM_Design.dM/3;]]>
+</Line>
+<Line Number="180">
+<![CDATA[	CAM_Design.M4													:= CAM_Design.M2  ;]]>
+</Line>
+<Line Number="181">
+<![CDATA[	L_NoDwell														:= 0;]]>
+</Line>
+<Line Number="182">
+<![CDATA[Elsif ((L_AccelProportion > 0) And (L_DecelProportion > 0)]]>
+</Line>
+<Line Number="183">
+<![CDATA[And (L_AccelProportion <> 1) And (L_DecelProportion <> 1)) Then ]]>
+</Line>
+<Line Number="184">
+<![CDATA[	CAM_Design.M2													:= (CAM_Design.dM / L_AccelProportion);]]>
+</Line>
+<Line Number="185">
+<![CDATA[	CAM_Design.M4													:= (CAM_Design.dM / L_DecelProportion);]]>
+</Line>
+<Line Number="186">
+<![CDATA[	CAM_Design.K2													:= CAM_Design.M2 + CAM_Design.M4;]]>
+</Line>
+<Line Number="187">
+<![CDATA[	L_NoDwell														:= 0;]]>
+</Line>
+<Line Number="188">
+<![CDATA[	If (CAM_Design.K2 >= CAM_Design.dM) Then]]>
+</Line>
+<Line Number="189">
+<![CDATA[		CAM_Design.M2												:= (CAM_Design.dM / L_AccelProportion);]]>
+</Line>
+<Line Number="190">
+<![CDATA[		CAM_Design.M4												:= (CAM_Design.dM - CAM_Design.M2);]]>
+</Line>
+<Line Number="191">
+<![CDATA[		L_NoDwell													:= 1;]]>
+</Line>
+<Line Number="192">
+<![CDATA[	End_If;]]>
+</Line>
+<Line Number="193">
+<![CDATA[Elsif (L_AccelProportion > 0) And (L_DecelProportion <= 0)]]>
+</Line>
+<Line Number="194">
+<![CDATA[And (L_AccelProportion <> 1) Then ]]>
+</Line>
+<Line Number="195">
+<![CDATA[	CAM_Design.M2													:= (CAM_Design.dM / L_AccelProportion);]]>
+</Line>
+<Line Number="196">
+<![CDATA[	CAM_Design.M4													:= (CAM_Design.dM - CAM_Design.M2);]]>
+</Line>
+<Line Number="197">
+<![CDATA[	L_NoDwell														:= 1;]]>
+</Line>
+<Line Number="198">
+<![CDATA[Elsif (L_AccelProportion <= 0) And (L_DecelProportion > 0)]]>
+</Line>
+<Line Number="199">
+<![CDATA[And (L_DecelProportion <> 1) Then ]]>
+</Line>
+<Line Number="200">
+<![CDATA[	CAM_Design.M4													:= (CAM_Design.dM / L_DecelProportion);]]>
+</Line>
+<Line Number="201">
+<![CDATA[	CAM_Design.M2													:= (CAM_Design.dM - CAM_Design.M4);]]>
+</Line>
+<Line Number="202">
+<![CDATA[	L_NoDwell														:= 1;]]>
+</Line>
+<Line Number="203">
+<![CDATA[Elsif (L_AccelProportion = 1) Or (L_DecelProportion = 1) Then ]]>
+</Line>
+<Line Number="204">
+<![CDATA[	CAM_Design.M2													:= (CAM_Design.dM / 2);]]>
+</Line>
+<Line Number="205">
+<![CDATA[	CAM_Design.M4													:= CAM_Design.M2;]]>
+</Line>
+<Line Number="206">
+<![CDATA[	L_NoDwell														:= 1;]]>
+</Line>
+<Line Number="207">
+<![CDATA[End_If;]]>
+</Line>
+<Line Number="208">
+<![CDATA[]]>
+</Line>
+<Line Number="209">
+<![CDATA[CAM_Design.M3														:= CAM_Design.dM -(CAM_Design.M2 + CAM_Design.M4);]]>
+</Line>
+<Line Number="210">
+<![CDATA[]]>
+</Line>
+<Line Number="211">
+<![CDATA[CAM_Design.K2														:= (CAM_Design.M2*L_Coeff[2]) + CAM_Design.M3 + (CAM_Design.M4*L_Coeff[3]);]]>
+</Line>
+<Line Number="212">
+<![CDATA[If CAM_Design.K2 <= 0 Then]]>
+</Line>
+<Line Number="213">
+<![CDATA[	CAM_Design.Err													:= 1;]]>
+</Line>
+<Line Number="214">
+<![CDATA[	TND();]]>
+</Line>
+<Line Number="215">
+<![CDATA[Else]]>
+</Line>
+<Line Number="216">
+<![CDATA[	CAM_Design.V1													:= (((CAM_Design.dS - (CAM_Design.dM * CAM_Design.V0)) - ((CAM_Design.V2 - CAM_Design.V0) * CAM_Design.M4 * (1 - L_Coeff[3]))) / CAM_Design.K2) + CAM_Design.V0;]]>
+</Line>
+<Line Number="217">
+<![CDATA[	CAM_Design.K1													:= (CAM_Design.V1 - CAM_Design.V0) * CAM_Design.M2 * L_Coeff[0];]]>
+</Line>
+<Line Number="218">
+<![CDATA[	CAM_Design.K5													:= (CAM_Design.V1 - CAM_Design.V2) * CAM_Design.M4 * L_Coeff[1];]]>
+</Line>
+<Line Number="219">
+<![CDATA[	CAM_Design.S3													:= CAM_Design.M3 * CAM_Design.V1;]]>
+</Line>
+<Line Number="220">
+<![CDATA[End_If;]]>
+</Line>
+<Line Number="221">
+<![CDATA[]]>
+</Line>
+<Line Number="222">
+<![CDATA[For L_RawIndex := 1 to L_No_PtSeg Do]]>
+</Line>
+<Line Number="223">
+<![CDATA[	CAM_Design.K3													:= L_CoeffMaster[L_RawIndex] * CAM_Design.M2;]]>
+</Line>
+<Line Number="224">
+<![CDATA[	CAM_Design.CAM_Points[CAM_Design.No_Of_Points].Master 			:= CAM_Design.M0 + CAM_Design.K3;]]>
+</Line>
+<Line Number="225">
+<![CDATA[	If CAM_Design.MemoRiseReturnComp Then]]>
+</Line>
+<Line Number="226">
+<![CDATA[		CAM_Design.CAM_Points[CAM_Design.No_Of_Points].Slave 		:= (CAM_Design.V0 * CAM_Design.K3) + (L_CoeffPeak[L_RawIndex] * CAM_Design.K1) + CAM_Design.S0;]]>
+</Line>
+<Line Number="227">
+<![CDATA[	Else]]>
+</Line>
+<Line Number="228">
+<![CDATA[		CAM_Design.CAM_Points[CAM_Design.No_Of_Points].Slave 		:= (CAM_Design.V0 * CAM_Design.K3) + (L_CoeffSlave[L_RawIndex] * CAM_Design.K1) + CAM_Design.S0;]]>
+</Line>
+<Line Number="229">
+<![CDATA[	End_If;]]>
+</Line>
+<Line Number="230">
+<![CDATA[	CAM_Design.CAM_Points[CAM_Design.No_Of_Points].SegmentType 		:= 1;]]>
+</Line>
+<Line Number="231">
+<![CDATA[	CAM_Design.No_Of_Points 										:= CAM_Design.No_Of_Points + 1;]]>
+</Line>
+<Line Number="232">
+<![CDATA[End_For;]]>
+</Line>
+<Line Number="233">
+<![CDATA[If CAM_Design.MemoRiseReturnComp Then]]>
+</Line>
+<Line Number="234">
+<![CDATA[	CAM_Design.MemoRiseReturnComp									:= 0;]]>
+</Line>
+<Line Number="235">
+<![CDATA[End_If;]]>
+</Line>
+<Line Number="236">
+<![CDATA[]]>
+</Line>
+<Line Number="237">
+<![CDATA[CAM_Design.M5 														:= CAM_Design.CAM_Points[CAM_Design.No_Of_Points - 1].Master + CAM_Design.M3;]]>
+</Line>
+<Line Number="238">
+<![CDATA[CAM_Design.S5 														:= CAM_Design.CAM_Points[CAM_Design.No_Of_Points - 1].Slave + CAM_Design.S3;]]>
+</Line>
+<Line Number="239">
+<![CDATA[If Not L_NoDwell And (CAM_Design.M3 > 0.1) Then]]>
+</Line>
+<Line Number="240">
+<![CDATA[	CAM_Design.CAM_Points[CAM_Design.No_Of_Points].Master 			:= CAM_Design.M5;]]>
+</Line>
+<Line Number="241">
+<![CDATA[	CAM_Design.CAM_Points[CAM_Design.No_Of_Points].Slave 			:= CAM_Design.S5;]]>
+</Line>
+<Line Number="242">
+<![CDATA[	CAM_Design.CAM_Points[CAM_Design.No_Of_Points].SegmentType 		:= 1;]]>
+</Line>
+<Line Number="243">
+<![CDATA[	CAM_Design.CAM_Points[CAM_Design.No_Of_Points - 1].SegmentType 	:= 0;]]>
+</Line>
+<Line Number="244">
+<![CDATA[	CAM_Design.No_Of_Points 										:= CAM_Design.No_Of_Points + 1;]]>
+</Line>
+<Line Number="245">
+<![CDATA[End_If;]]>
+</Line>
+<Line Number="246">
+<![CDATA[]]>
+</Line>
+<Line Number="247">
+<![CDATA[For L_RawIndex := 1 to L_No_PtSeg Do]]>
+</Line>
+<Line Number="248">
+<![CDATA[	CAM_Design.K3													:= L_CoeffMaster[L_RawIndex] * CAM_Design.M4;]]>
+</Line>
+<Line Number="249">
+<![CDATA[	CAM_Design.CAM_Points[CAM_Design.No_Of_Points].Master 			:= CAM_Design.M5 + CAM_Design.K3;]]>
+</Line>
+<Line Number="250">
+<![CDATA[	If CAM_Design.RiseReturnComp[CAM_Design.CfgIndex] Then]]>
+</Line>
+<Line Number="251">
+<![CDATA[		CAM_Design.CAM_Points[CAM_Design.No_Of_Points].Slave 		:= (CAM_Design.V2 * CAM_Design.K3) + ((L_Sn[1] - L_CoeffPeak[L_No_PtSeg - L_RawIndex]) * CAM_Design.K5) + CAM_Design.S5;]]>
+</Line>
+<Line Number="252">
+<![CDATA[	Else]]>
+</Line>
+<Line Number="253">
+<![CDATA[		CAM_Design.CAM_Points[CAM_Design.No_Of_Points].Slave 		:= (CAM_Design.V2 * CAM_Design.K3) + ((L_Sn[0] - L_CoeffSlave[L_No_PtSeg - L_RawIndex]) * CAM_Design.K5) + CAM_Design.S5;]]>
+</Line>
+<Line Number="254">
+<![CDATA[	End_If;]]>
+</Line>
+<Line Number="255">
+<![CDATA[	CAM_Design.CAM_Points[CAM_Design.No_Of_Points].SegmentType 		:= 1;]]>
+</Line>
+<Line Number="256">
+<![CDATA[	CAM_Design.No_Of_Points 										:= CAM_Design.No_Of_Points + 1;]]>
+</Line>
+<Line Number="257">
+<![CDATA[End_For;]]>
+</Line>
+<Line Number="258">
+<![CDATA[If CAM_Design.RiseReturnComp[CAM_Design.CfgIndex] Then]]>
+</Line>
+<Line Number="259">
+<![CDATA[	CAM_Design.MemoRiseReturnComp									:= 1;]]>
+</Line>
+<Line Number="260">
+<![CDATA[End_If;]]>
+</Line>
+<Line Number="261">
+<![CDATA[]]>
+</Line>
+<Line Number="262">
+<![CDATA[CAM_Design.CAM_Points[CAM_Design.No_Of_Points-1].Master 			:= CAM_Design.dM + CAM_Design.M0;]]>
+</Line>
+<Line Number="263">
+<![CDATA[CAM_Design.CAM_Points[CAM_Design.No_Of_Points-1].Slave 				:= CAM_Design.dS + CAM_Design.S0;]]>
+</Line>
+<Line Number="264">
+<![CDATA[]]>
+</Line>
+<Line Number="265">
+<![CDATA[CAM_Design.a4 														:= ((CAM_Design.V2 - CAM_Design.V1) / CAM_Design.M4)*((L_An/L_Cv[1])*L_Mn[1]);]]>
+</Line>
+</STContent>
+</Routine>
+<Routine Name="Prescan" Type="RLL">
+<RLLContent>
+<Rung Number="0" Type="N">
+<Text>
+<![CDATA[CLR(L_MemoCheckSum)CLR(CAM_Design.No_Of_Points);]]>
+</Text>
+</Rung>
+<Rung Number="1" Type="N">
+<Text>
+<![CDATA[MOV(3.1415926535897932384626433832795,L_PI);]]>
+</Text>
+</Rung>
+</RLLContent>
+</Routine>
+</Routines>
+<Dependencies>
+<Dependency Type="DataType" Name="UDT_CamSegment"/>
+<Dependency Type="DataType" Name="UDT_SegmentSetUp"/>
+</Dependencies>
+</AddOnInstructionDefinition>
+<AddOnInstructionDefinition Use="Target" Name="AOI_CamGenerator_ST" Revision="24.0" ExecutePrescan="true" ExecutePostscan="false" ExecuteEnableInFalse="false" CreatedDate="2011-03-07T09:10:37.734Z" CreatedBy="FLAMARCHE\Franck" EditedDate="2017-01-17T15:25:24.819Z" EditedBy="WIN-JG1HQ4KSF7D\Admin" SoftwareRevision="v30.00"
+>
+<Parameters>
+<Parameter Name="EnableIn" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Enable Input - System Defined Parameter]]>
+</Description>
+</Parameter>
+<Parameter Name="EnableOut" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Enable Output - System Defined Parameter]]>
+</Description>
+</Parameter>
+<Parameter Name="MIO_CAM_Interface" TagType="Base" DataType="UDT_CamGeneration" Usage="InOut" Required="true" Visible="true" Constant="false"/>
+<Parameter Name="Sts_ERR" TagType="Base" DataType="DINT" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Sts_EXERR" TagType="Base" DataType="DINT" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Sts_IP" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Sts_PC" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Sts_ER" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="CycleTime" TagType="Base" DataType="DINT" Usage="Output" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="L_NbCAMPoints" TagType="Base" DataType="DINT" Usage="Output" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+</Parameters>
+<LocalTags>
+<LocalTag Name="CAM_Design" DataType="UDT_CamSegment" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0,0,0,[[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0]],[0.00000000e+000,0.00000000e+000],[0.00000000e+000,0.00000000e+000],[0.00000000e+000,0.00000000e+000],[2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0,2#0],0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="UDT_CamSegment">
+<DataValueMember Name="M0" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="S0" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="V0" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="V1" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="V2" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="M1" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="M2" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="M3" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="M4" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="M5" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="dM" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="a4" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="S1" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="S2" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="S3" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="S4" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="S5" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="dS" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="K1" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="K2" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="K3" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="K4" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="K5" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="K6" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="K7" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="K8" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="K9" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="ActSlope" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="PrevSlope" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="No_Of_Points" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="NbPoints" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="CfgIndex" DataType="DINT" Radix="Decimal" Value="0"/>
+<ArrayMember Name="CAM_Points" DataType="CAM" Dimensions="32">
+<Element Index="[0]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[1]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[2]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[3]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[4]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[5]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[6]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[7]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[8]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[9]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[10]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[11]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[12]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[13]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[14]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[15]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[16]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[17]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[18]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[19]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[20]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[21]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[22]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[23]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[24]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[25]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[26]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[27]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[28]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[29]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[30]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[31]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+</ArrayMember>
+<ArrayMember Name="Cv" DataType="REAL" Dimensions="2" Radix="Float">
+<Element Index="[0]" Value="0.0"/>
+<Element Index="[1]" Value="0.0"/>
+</ArrayMember>
+<ArrayMember Name="Mn" DataType="REAL" Dimensions="2" Radix="Float">
+<Element Index="[0]" Value="0.0"/>
+<Element Index="[1]" Value="0.0"/>
+</ArrayMember>
+<ArrayMember Name="Sn" DataType="REAL" Dimensions="2" Radix="Float">
+<Element Index="[0]" Value="0.0"/>
+<Element Index="[1]" Value="0.0"/>
+</ArrayMember>
+<ArrayMember Name="RiseReturnComp" DataType="BOOL" Dimensions="32" Radix="Decimal">
+<Element Index="[0]" Value="0"/>
+<Element Index="[1]" Value="0"/>
+<Element Index="[2]" Value="0"/>
+<Element Index="[3]" Value="0"/>
+<Element Index="[4]" Value="0"/>
+<Element Index="[5]" Value="0"/>
+<Element Index="[6]" Value="0"/>
+<Element Index="[7]" Value="0"/>
+<Element Index="[8]" Value="0"/>
+<Element Index="[9]" Value="0"/>
+<Element Index="[10]" Value="0"/>
+<Element Index="[11]" Value="0"/>
+<Element Index="[12]" Value="0"/>
+<Element Index="[13]" Value="0"/>
+<Element Index="[14]" Value="0"/>
+<Element Index="[15]" Value="0"/>
+<Element Index="[16]" Value="0"/>
+<Element Index="[17]" Value="0"/>
+<Element Index="[18]" Value="0"/>
+<Element Index="[19]" Value="0"/>
+<Element Index="[20]" Value="0"/>
+<Element Index="[21]" Value="0"/>
+<Element Index="[22]" Value="0"/>
+<Element Index="[23]" Value="0"/>
+<Element Index="[24]" Value="0"/>
+<Element Index="[25]" Value="0"/>
+<Element Index="[26]" Value="0"/>
+<Element Index="[27]" Value="0"/>
+<Element Index="[28]" Value="0"/>
+<Element Index="[29]" Value="0"/>
+<Element Index="[30]" Value="0"/>
+<Element Index="[31]" Value="0"/>
+</ArrayMember>
+<DataValueMember Name="IsAcceleration" DataType="BOOL" Value="0"/>
+<DataValueMember Name="Err" DataType="BOOL" Value="0"/>
+<DataValueMember Name="B1" DataType="BOOL" Value="0"/>
+<DataValueMember Name="MemoRiseReturnComp" DataType="BOOL" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_CAMIndex" DataType="DINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_I" DataType="DINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_AOI_CAM_PosComp" DataType="AOI_PosComp_ST" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[[1,0.00000000e+000,0,[0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000],[0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000],0,0,0,[0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000],0.00000000e+000,0.00000000e+000,[0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000],[0.00000000e+000,0.00000000e+000],[0.00000000e+000,0.00000000e+000],[0.00000000e+000,0.00000000e+000],0,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="AOI_PosComp_ST">
+<DataValueMember Name="EnableIn" DataType="BOOL" Value="1"/>
+<DataValueMember Name="EnableOut" DataType="BOOL" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_MI_MCCP" DataType="MOTION_INSTRUCTION" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_SlvVal" DataType="REAL" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_SlvAcc" DataType="REAL" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_MI_MCSV" DataType="MOTION_INSTRUCTION" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_InLength" DataType="DINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_NbSegToTransf" DataType="DINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_V2" DataType="REAL" Dimensions="800" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[[0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000,0.00000000e+000]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Array DataType="REAL" Dimensions="800" Radix="Float">
+<Element Index="[0]" Value="0.0"/>
+<Element Index="[1]" Value="0.0"/>
+<Element Index="[2]" Value="0.0"/>
+<Element Index="[3]" Value="0.0"/>
+<Element Index="[4]" Value="0.0"/>
+<Element Index="[5]" Value="0.0"/>
+<Element Index="[6]" Value="0.0"/>
+<Element Index="[7]" Value="0.0"/>
+<Element Index="[8]" Value="0.0"/>
+<Element Index="[9]" Value="0.0"/>
+<Element Index="[10]" Value="0.0"/>
+<Element Index="[11]" Value="0.0"/>
+<Element Index="[12]" Value="0.0"/>
+<Element Index="[13]" Value="0.0"/>
+<Element Index="[14]" Value="0.0"/>
+<Element Index="[15]" Value="0.0"/>
+<Element Index="[16]" Value="0.0"/>
+<Element Index="[17]" Value="0.0"/>
+<Element Index="[18]" Value="0.0"/>
+<Element Index="[19]" Value="0.0"/>
+<Element Index="[20]" Value="0.0"/>
+<Element Index="[21]" Value="0.0"/>
+<Element Index="[22]" Value="0.0"/>
+<Element Index="[23]" Value="0.0"/>
+<Element Index="[24]" Value="0.0"/>
+<Element Index="[25]" Value="0.0"/>
+<Element Index="[26]" Value="0.0"/>
+<Element Index="[27]" Value="0.0"/>
+<Element Index="[28]" Value="0.0"/>
+<Element Index="[29]" Value="0.0"/>
+<Element Index="[30]" Value="0.0"/>
+<Element Index="[31]" Value="0.0"/>
+<Element Index="[32]" Value="0.0"/>
+<Element Index="[33]" Value="0.0"/>
+<Element Index="[34]" Value="0.0"/>
+<Element Index="[35]" Value="0.0"/>
+<Element Index="[36]" Value="0.0"/>
+<Element Index="[37]" Value="0.0"/>
+<Element Index="[38]" Value="0.0"/>
+<Element Index="[39]" Value="0.0"/>
+<Element Index="[40]" Value="0.0"/>
+<Element Index="[41]" Value="0.0"/>
+<Element Index="[42]" Value="0.0"/>
+<Element Index="[43]" Value="0.0"/>
+<Element Index="[44]" Value="0.0"/>
+<Element Index="[45]" Value="0.0"/>
+<Element Index="[46]" Value="0.0"/>
+<Element Index="[47]" Value="0.0"/>
+<Element Index="[48]" Value="0.0"/>
+<Element Index="[49]" Value="0.0"/>
+<Element Index="[50]" Value="0.0"/>
+<Element Index="[51]" Value="0.0"/>
+<Element Index="[52]" Value="0.0"/>
+<Element Index="[53]" Value="0.0"/>
+<Element Index="[54]" Value="0.0"/>
+<Element Index="[55]" Value="0.0"/>
+<Element Index="[56]" Value="0.0"/>
+<Element Index="[57]" Value="0.0"/>
+<Element Index="[58]" Value="0.0"/>
+<Element Index="[59]" Value="0.0"/>
+<Element Index="[60]" Value="0.0"/>
+<Element Index="[61]" Value="0.0"/>
+<Element Index="[62]" Value="0.0"/>
+<Element Index="[63]" Value="0.0"/>
+<Element Index="[64]" Value="0.0"/>
+<Element Index="[65]" Value="0.0"/>
+<Element Index="[66]" Value="0.0"/>
+<Element Index="[67]" Value="0.0"/>
+<Element Index="[68]" Value="0.0"/>
+<Element Index="[69]" Value="0.0"/>
+<Element Index="[70]" Value="0.0"/>
+<Element Index="[71]" Value="0.0"/>
+<Element Index="[72]" Value="0.0"/>
+<Element Index="[73]" Value="0.0"/>
+<Element Index="[74]" Value="0.0"/>
+<Element Index="[75]" Value="0.0"/>
+<Element Index="[76]" Value="0.0"/>
+<Element Index="[77]" Value="0.0"/>
+<Element Index="[78]" Value="0.0"/>
+<Element Index="[79]" Value="0.0"/>
+<Element Index="[80]" Value="0.0"/>
+<Element Index="[81]" Value="0.0"/>
+<Element Index="[82]" Value="0.0"/>
+<Element Index="[83]" Value="0.0"/>
+<Element Index="[84]" Value="0.0"/>
+<Element Index="[85]" Value="0.0"/>
+<Element Index="[86]" Value="0.0"/>
+<Element Index="[87]" Value="0.0"/>
+<Element Index="[88]" Value="0.0"/>
+<Element Index="[89]" Value="0.0"/>
+<Element Index="[90]" Value="0.0"/>
+<Element Index="[91]" Value="0.0"/>
+<Element Index="[92]" Value="0.0"/>
+<Element Index="[93]" Value="0.0"/>
+<Element Index="[94]" Value="0.0"/>
+<Element Index="[95]" Value="0.0"/>
+<Element Index="[96]" Value="0.0"/>
+<Element Index="[97]" Value="0.0"/>
+<Element Index="[98]" Value="0.0"/>
+<Element Index="[99]" Value="0.0"/>
+<Element Index="[100]" Value="0.0"/>
+<Element Index="[101]" Value="0.0"/>
+<Element Index="[102]" Value="0.0"/>
+<Element Index="[103]" Value="0.0"/>
+<Element Index="[104]" Value="0.0"/>
+<Element Index="[105]" Value="0.0"/>
+<Element Index="[106]" Value="0.0"/>
+<Element Index="[107]" Value="0.0"/>
+<Element Index="[108]" Value="0.0"/>
+<Element Index="[109]" Value="0.0"/>
+<Element Index="[110]" Value="0.0"/>
+<Element Index="[111]" Value="0.0"/>
+<Element Index="[112]" Value="0.0"/>
+<Element Index="[113]" Value="0.0"/>
+<Element Index="[114]" Value="0.0"/>
+<Element Index="[115]" Value="0.0"/>
+<Element Index="[116]" Value="0.0"/>
+<Element Index="[117]" Value="0.0"/>
+<Element Index="[118]" Value="0.0"/>
+<Element Index="[119]" Value="0.0"/>
+<Element Index="[120]" Value="0.0"/>
+<Element Index="[121]" Value="0.0"/>
+<Element Index="[122]" Value="0.0"/>
+<Element Index="[123]" Value="0.0"/>
+<Element Index="[124]" Value="0.0"/>
+<Element Index="[125]" Value="0.0"/>
+<Element Index="[126]" Value="0.0"/>
+<Element Index="[127]" Value="0.0"/>
+<Element Index="[128]" Value="0.0"/>
+<Element Index="[129]" Value="0.0"/>
+<Element Index="[130]" Value="0.0"/>
+<Element Index="[131]" Value="0.0"/>
+<Element Index="[132]" Value="0.0"/>
+<Element Index="[133]" Value="0.0"/>
+<Element Index="[134]" Value="0.0"/>
+<Element Index="[135]" Value="0.0"/>
+<Element Index="[136]" Value="0.0"/>
+<Element Index="[137]" Value="0.0"/>
+<Element Index="[138]" Value="0.0"/>
+<Element Index="[139]" Value="0.0"/>
+<Element Index="[140]" Value="0.0"/>
+<Element Index="[141]" Value="0.0"/>
+<Element Index="[142]" Value="0.0"/>
+<Element Index="[143]" Value="0.0"/>
+<Element Index="[144]" Value="0.0"/>
+<Element Index="[145]" Value="0.0"/>
+<Element Index="[146]" Value="0.0"/>
+<Element Index="[147]" Value="0.0"/>
+<Element Index="[148]" Value="0.0"/>
+<Element Index="[149]" Value="0.0"/>
+<Element Index="[150]" Value="0.0"/>
+<Element Index="[151]" Value="0.0"/>
+<Element Index="[152]" Value="0.0"/>
+<Element Index="[153]" Value="0.0"/>
+<Element Index="[154]" Value="0.0"/>
+<Element Index="[155]" Value="0.0"/>
+<Element Index="[156]" Value="0.0"/>
+<Element Index="[157]" Value="0.0"/>
+<Element Index="[158]" Value="0.0"/>
+<Element Index="[159]" Value="0.0"/>
+<Element Index="[160]" Value="0.0"/>
+<Element Index="[161]" Value="0.0"/>
+<Element Index="[162]" Value="0.0"/>
+<Element Index="[163]" Value="0.0"/>
+<Element Index="[164]" Value="0.0"/>
+<Element Index="[165]" Value="0.0"/>
+<Element Index="[166]" Value="0.0"/>
+<Element Index="[167]" Value="0.0"/>
+<Element Index="[168]" Value="0.0"/>
+<Element Index="[169]" Value="0.0"/>
+<Element Index="[170]" Value="0.0"/>
+<Element Index="[171]" Value="0.0"/>
+<Element Index="[172]" Value="0.0"/>
+<Element Index="[173]" Value="0.0"/>
+<Element Index="[174]" Value="0.0"/>
+<Element Index="[175]" Value="0.0"/>
+<Element Index="[176]" Value="0.0"/>
+<Element Index="[177]" Value="0.0"/>
+<Element Index="[178]" Value="0.0"/>
+<Element Index="[179]" Value="0.0"/>
+<Element Index="[180]" Value="0.0"/>
+<Element Index="[181]" Value="0.0"/>
+<Element Index="[182]" Value="0.0"/>
+<Element Index="[183]" Value="0.0"/>
+<Element Index="[184]" Value="0.0"/>
+<Element Index="[185]" Value="0.0"/>
+<Element Index="[186]" Value="0.0"/>
+<Element Index="[187]" Value="0.0"/>
+<Element Index="[188]" Value="0.0"/>
+<Element Index="[189]" Value="0.0"/>
+<Element Index="[190]" Value="0.0"/>
+<Element Index="[191]" Value="0.0"/>
+<Element Index="[192]" Value="0.0"/>
+<Element Index="[193]" Value="0.0"/>
+<Element Index="[194]" Value="0.0"/>
+<Element Index="[195]" Value="0.0"/>
+<Element Index="[196]" Value="0.0"/>
+<Element Index="[197]" Value="0.0"/>
+<Element Index="[198]" Value="0.0"/>
+<Element Index="[199]" Value="0.0"/>
+<Element Index="[200]" Value="0.0"/>
+<Element Index="[201]" Value="0.0"/>
+<Element Index="[202]" Value="0.0"/>
+<Element Index="[203]" Value="0.0"/>
+<Element Index="[204]" Value="0.0"/>
+<Element Index="[205]" Value="0.0"/>
+<Element Index="[206]" Value="0.0"/>
+<Element Index="[207]" Value="0.0"/>
+<Element Index="[208]" Value="0.0"/>
+<Element Index="[209]" Value="0.0"/>
+<Element Index="[210]" Value="0.0"/>
+<Element Index="[211]" Value="0.0"/>
+<Element Index="[212]" Value="0.0"/>
+<Element Index="[213]" Value="0.0"/>
+<Element Index="[214]" Value="0.0"/>
+<Element Index="[215]" Value="0.0"/>
+<Element Index="[216]" Value="0.0"/>
+<Element Index="[217]" Value="0.0"/>
+<Element Index="[218]" Value="0.0"/>
+<Element Index="[219]" Value="0.0"/>
+<Element Index="[220]" Value="0.0"/>
+<Element Index="[221]" Value="0.0"/>
+<Element Index="[222]" Value="0.0"/>
+<Element Index="[223]" Value="0.0"/>
+<Element Index="[224]" Value="0.0"/>
+<Element Index="[225]" Value="0.0"/>
+<Element Index="[226]" Value="0.0"/>
+<Element Index="[227]" Value="0.0"/>
+<Element Index="[228]" Value="0.0"/>
+<Element Index="[229]" Value="0.0"/>
+<Element Index="[230]" Value="0.0"/>
+<Element Index="[231]" Value="0.0"/>
+<Element Index="[232]" Value="0.0"/>
+<Element Index="[233]" Value="0.0"/>
+<Element Index="[234]" Value="0.0"/>
+<Element Index="[235]" Value="0.0"/>
+<Element Index="[236]" Value="0.0"/>
+<Element Index="[237]" Value="0.0"/>
+<Element Index="[238]" Value="0.0"/>
+<Element Index="[239]" Value="0.0"/>
+<Element Index="[240]" Value="0.0"/>
+<Element Index="[241]" Value="0.0"/>
+<Element Index="[242]" Value="0.0"/>
+<Element Index="[243]" Value="0.0"/>
+<Element Index="[244]" Value="0.0"/>
+<Element Index="[245]" Value="0.0"/>
+<Element Index="[246]" Value="0.0"/>
+<Element Index="[247]" Value="0.0"/>
+<Element Index="[248]" Value="0.0"/>
+<Element Index="[249]" Value="0.0"/>
+<Element Index="[250]" Value="0.0"/>
+<Element Index="[251]" Value="0.0"/>
+<Element Index="[252]" Value="0.0"/>
+<Element Index="[253]" Value="0.0"/>
+<Element Index="[254]" Value="0.0"/>
+<Element Index="[255]" Value="0.0"/>
+<Element Index="[256]" Value="0.0"/>
+<Element Index="[257]" Value="0.0"/>
+<Element Index="[258]" Value="0.0"/>
+<Element Index="[259]" Value="0.0"/>
+<Element Index="[260]" Value="0.0"/>
+<Element Index="[261]" Value="0.0"/>
+<Element Index="[262]" Value="0.0"/>
+<Element Index="[263]" Value="0.0"/>
+<Element Index="[264]" Value="0.0"/>
+<Element Index="[265]" Value="0.0"/>
+<Element Index="[266]" Value="0.0"/>
+<Element Index="[267]" Value="0.0"/>
+<Element Index="[268]" Value="0.0"/>
+<Element Index="[269]" Value="0.0"/>
+<Element Index="[270]" Value="0.0"/>
+<Element Index="[271]" Value="0.0"/>
+<Element Index="[272]" Value="0.0"/>
+<Element Index="[273]" Value="0.0"/>
+<Element Index="[274]" Value="0.0"/>
+<Element Index="[275]" Value="0.0"/>
+<Element Index="[276]" Value="0.0"/>
+<Element Index="[277]" Value="0.0"/>
+<Element Index="[278]" Value="0.0"/>
+<Element Index="[279]" Value="0.0"/>
+<Element Index="[280]" Value="0.0"/>
+<Element Index="[281]" Value="0.0"/>
+<Element Index="[282]" Value="0.0"/>
+<Element Index="[283]" Value="0.0"/>
+<Element Index="[284]" Value="0.0"/>
+<Element Index="[285]" Value="0.0"/>
+<Element Index="[286]" Value="0.0"/>
+<Element Index="[287]" Value="0.0"/>
+<Element Index="[288]" Value="0.0"/>
+<Element Index="[289]" Value="0.0"/>
+<Element Index="[290]" Value="0.0"/>
+<Element Index="[291]" Value="0.0"/>
+<Element Index="[292]" Value="0.0"/>
+<Element Index="[293]" Value="0.0"/>
+<Element Index="[294]" Value="0.0"/>
+<Element Index="[295]" Value="0.0"/>
+<Element Index="[296]" Value="0.0"/>
+<Element Index="[297]" Value="0.0"/>
+<Element Index="[298]" Value="0.0"/>
+<Element Index="[299]" Value="0.0"/>
+<Element Index="[300]" Value="0.0"/>
+<Element Index="[301]" Value="0.0"/>
+<Element Index="[302]" Value="0.0"/>
+<Element Index="[303]" Value="0.0"/>
+<Element Index="[304]" Value="0.0"/>
+<Element Index="[305]" Value="0.0"/>
+<Element Index="[306]" Value="0.0"/>
+<Element Index="[307]" Value="0.0"/>
+<Element Index="[308]" Value="0.0"/>
+<Element Index="[309]" Value="0.0"/>
+<Element Index="[310]" Value="0.0"/>
+<Element Index="[311]" Value="0.0"/>
+<Element Index="[312]" Value="0.0"/>
+<Element Index="[313]" Value="0.0"/>
+<Element Index="[314]" Value="0.0"/>
+<Element Index="[315]" Value="0.0"/>
+<Element Index="[316]" Value="0.0"/>
+<Element Index="[317]" Value="0.0"/>
+<Element Index="[318]" Value="0.0"/>
+<Element Index="[319]" Value="0.0"/>
+<Element Index="[320]" Value="0.0"/>
+<Element Index="[321]" Value="0.0"/>
+<Element Index="[322]" Value="0.0"/>
+<Element Index="[323]" Value="0.0"/>
+<Element Index="[324]" Value="0.0"/>
+<Element Index="[325]" Value="0.0"/>
+<Element Index="[326]" Value="0.0"/>
+<Element Index="[327]" Value="0.0"/>
+<Element Index="[328]" Value="0.0"/>
+<Element Index="[329]" Value="0.0"/>
+<Element Index="[330]" Value="0.0"/>
+<Element Index="[331]" Value="0.0"/>
+<Element Index="[332]" Value="0.0"/>
+<Element Index="[333]" Value="0.0"/>
+<Element Index="[334]" Value="0.0"/>
+<Element Index="[335]" Value="0.0"/>
+<Element Index="[336]" Value="0.0"/>
+<Element Index="[337]" Value="0.0"/>
+<Element Index="[338]" Value="0.0"/>
+<Element Index="[339]" Value="0.0"/>
+<Element Index="[340]" Value="0.0"/>
+<Element Index="[341]" Value="0.0"/>
+<Element Index="[342]" Value="0.0"/>
+<Element Index="[343]" Value="0.0"/>
+<Element Index="[344]" Value="0.0"/>
+<Element Index="[345]" Value="0.0"/>
+<Element Index="[346]" Value="0.0"/>
+<Element Index="[347]" Value="0.0"/>
+<Element Index="[348]" Value="0.0"/>
+<Element Index="[349]" Value="0.0"/>
+<Element Index="[350]" Value="0.0"/>
+<Element Index="[351]" Value="0.0"/>
+<Element Index="[352]" Value="0.0"/>
+<Element Index="[353]" Value="0.0"/>
+<Element Index="[354]" Value="0.0"/>
+<Element Index="[355]" Value="0.0"/>
+<Element Index="[356]" Value="0.0"/>
+<Element Index="[357]" Value="0.0"/>
+<Element Index="[358]" Value="0.0"/>
+<Element Index="[359]" Value="0.0"/>
+<Element Index="[360]" Value="0.0"/>
+<Element Index="[361]" Value="0.0"/>
+<Element Index="[362]" Value="0.0"/>
+<Element Index="[363]" Value="0.0"/>
+<Element Index="[364]" Value="0.0"/>
+<Element Index="[365]" Value="0.0"/>
+<Element Index="[366]" Value="0.0"/>
+<Element Index="[367]" Value="0.0"/>
+<Element Index="[368]" Value="0.0"/>
+<Element Index="[369]" Value="0.0"/>
+<Element Index="[370]" Value="0.0"/>
+<Element Index="[371]" Value="0.0"/>
+<Element Index="[372]" Value="0.0"/>
+<Element Index="[373]" Value="0.0"/>
+<Element Index="[374]" Value="0.0"/>
+<Element Index="[375]" Value="0.0"/>
+<Element Index="[376]" Value="0.0"/>
+<Element Index="[377]" Value="0.0"/>
+<Element Index="[378]" Value="0.0"/>
+<Element Index="[379]" Value="0.0"/>
+<Element Index="[380]" Value="0.0"/>
+<Element Index="[381]" Value="0.0"/>
+<Element Index="[382]" Value="0.0"/>
+<Element Index="[383]" Value="0.0"/>
+<Element Index="[384]" Value="0.0"/>
+<Element Index="[385]" Value="0.0"/>
+<Element Index="[386]" Value="0.0"/>
+<Element Index="[387]" Value="0.0"/>
+<Element Index="[388]" Value="0.0"/>
+<Element Index="[389]" Value="0.0"/>
+<Element Index="[390]" Value="0.0"/>
+<Element Index="[391]" Value="0.0"/>
+<Element Index="[392]" Value="0.0"/>
+<Element Index="[393]" Value="0.0"/>
+<Element Index="[394]" Value="0.0"/>
+<Element Index="[395]" Value="0.0"/>
+<Element Index="[396]" Value="0.0"/>
+<Element Index="[397]" Value="0.0"/>
+<Element Index="[398]" Value="0.0"/>
+<Element Index="[399]" Value="0.0"/>
+<Element Index="[400]" Value="0.0"/>
+<Element Index="[401]" Value="0.0"/>
+<Element Index="[402]" Value="0.0"/>
+<Element Index="[403]" Value="0.0"/>
+<Element Index="[404]" Value="0.0"/>
+<Element Index="[405]" Value="0.0"/>
+<Element Index="[406]" Value="0.0"/>
+<Element Index="[407]" Value="0.0"/>
+<Element Index="[408]" Value="0.0"/>
+<Element Index="[409]" Value="0.0"/>
+<Element Index="[410]" Value="0.0"/>
+<Element Index="[411]" Value="0.0"/>
+<Element Index="[412]" Value="0.0"/>
+<Element Index="[413]" Value="0.0"/>
+<Element Index="[414]" Value="0.0"/>
+<Element Index="[415]" Value="0.0"/>
+<Element Index="[416]" Value="0.0"/>
+<Element Index="[417]" Value="0.0"/>
+<Element Index="[418]" Value="0.0"/>
+<Element Index="[419]" Value="0.0"/>
+<Element Index="[420]" Value="0.0"/>
+<Element Index="[421]" Value="0.0"/>
+<Element Index="[422]" Value="0.0"/>
+<Element Index="[423]" Value="0.0"/>
+<Element Index="[424]" Value="0.0"/>
+<Element Index="[425]" Value="0.0"/>
+<Element Index="[426]" Value="0.0"/>
+<Element Index="[427]" Value="0.0"/>
+<Element Index="[428]" Value="0.0"/>
+<Element Index="[429]" Value="0.0"/>
+<Element Index="[430]" Value="0.0"/>
+<Element Index="[431]" Value="0.0"/>
+<Element Index="[432]" Value="0.0"/>
+<Element Index="[433]" Value="0.0"/>
+<Element Index="[434]" Value="0.0"/>
+<Element Index="[435]" Value="0.0"/>
+<Element Index="[436]" Value="0.0"/>
+<Element Index="[437]" Value="0.0"/>
+<Element Index="[438]" Value="0.0"/>
+<Element Index="[439]" Value="0.0"/>
+<Element Index="[440]" Value="0.0"/>
+<Element Index="[441]" Value="0.0"/>
+<Element Index="[442]" Value="0.0"/>
+<Element Index="[443]" Value="0.0"/>
+<Element Index="[444]" Value="0.0"/>
+<Element Index="[445]" Value="0.0"/>
+<Element Index="[446]" Value="0.0"/>
+<Element Index="[447]" Value="0.0"/>
+<Element Index="[448]" Value="0.0"/>
+<Element Index="[449]" Value="0.0"/>
+<Element Index="[450]" Value="0.0"/>
+<Element Index="[451]" Value="0.0"/>
+<Element Index="[452]" Value="0.0"/>
+<Element Index="[453]" Value="0.0"/>
+<Element Index="[454]" Value="0.0"/>
+<Element Index="[455]" Value="0.0"/>
+<Element Index="[456]" Value="0.0"/>
+<Element Index="[457]" Value="0.0"/>
+<Element Index="[458]" Value="0.0"/>
+<Element Index="[459]" Value="0.0"/>
+<Element Index="[460]" Value="0.0"/>
+<Element Index="[461]" Value="0.0"/>
+<Element Index="[462]" Value="0.0"/>
+<Element Index="[463]" Value="0.0"/>
+<Element Index="[464]" Value="0.0"/>
+<Element Index="[465]" Value="0.0"/>
+<Element Index="[466]" Value="0.0"/>
+<Element Index="[467]" Value="0.0"/>
+<Element Index="[468]" Value="0.0"/>
+<Element Index="[469]" Value="0.0"/>
+<Element Index="[470]" Value="0.0"/>
+<Element Index="[471]" Value="0.0"/>
+<Element Index="[472]" Value="0.0"/>
+<Element Index="[473]" Value="0.0"/>
+<Element Index="[474]" Value="0.0"/>
+<Element Index="[475]" Value="0.0"/>
+<Element Index="[476]" Value="0.0"/>
+<Element Index="[477]" Value="0.0"/>
+<Element Index="[478]" Value="0.0"/>
+<Element Index="[479]" Value="0.0"/>
+<Element Index="[480]" Value="0.0"/>
+<Element Index="[481]" Value="0.0"/>
+<Element Index="[482]" Value="0.0"/>
+<Element Index="[483]" Value="0.0"/>
+<Element Index="[484]" Value="0.0"/>
+<Element Index="[485]" Value="0.0"/>
+<Element Index="[486]" Value="0.0"/>
+<Element Index="[487]" Value="0.0"/>
+<Element Index="[488]" Value="0.0"/>
+<Element Index="[489]" Value="0.0"/>
+<Element Index="[490]" Value="0.0"/>
+<Element Index="[491]" Value="0.0"/>
+<Element Index="[492]" Value="0.0"/>
+<Element Index="[493]" Value="0.0"/>
+<Element Index="[494]" Value="0.0"/>
+<Element Index="[495]" Value="0.0"/>
+<Element Index="[496]" Value="0.0"/>
+<Element Index="[497]" Value="0.0"/>
+<Element Index="[498]" Value="0.0"/>
+<Element Index="[499]" Value="0.0"/>
+<Element Index="[500]" Value="0.0"/>
+<Element Index="[501]" Value="0.0"/>
+<Element Index="[502]" Value="0.0"/>
+<Element Index="[503]" Value="0.0"/>
+<Element Index="[504]" Value="0.0"/>
+<Element Index="[505]" Value="0.0"/>
+<Element Index="[506]" Value="0.0"/>
+<Element Index="[507]" Value="0.0"/>
+<Element Index="[508]" Value="0.0"/>
+<Element Index="[509]" Value="0.0"/>
+<Element Index="[510]" Value="0.0"/>
+<Element Index="[511]" Value="0.0"/>
+<Element Index="[512]" Value="0.0"/>
+<Element Index="[513]" Value="0.0"/>
+<Element Index="[514]" Value="0.0"/>
+<Element Index="[515]" Value="0.0"/>
+<Element Index="[516]" Value="0.0"/>
+<Element Index="[517]" Value="0.0"/>
+<Element Index="[518]" Value="0.0"/>
+<Element Index="[519]" Value="0.0"/>
+<Element Index="[520]" Value="0.0"/>
+<Element Index="[521]" Value="0.0"/>
+<Element Index="[522]" Value="0.0"/>
+<Element Index="[523]" Value="0.0"/>
+<Element Index="[524]" Value="0.0"/>
+<Element Index="[525]" Value="0.0"/>
+<Element Index="[526]" Value="0.0"/>
+<Element Index="[527]" Value="0.0"/>
+<Element Index="[528]" Value="0.0"/>
+<Element Index="[529]" Value="0.0"/>
+<Element Index="[530]" Value="0.0"/>
+<Element Index="[531]" Value="0.0"/>
+<Element Index="[532]" Value="0.0"/>
+<Element Index="[533]" Value="0.0"/>
+<Element Index="[534]" Value="0.0"/>
+<Element Index="[535]" Value="0.0"/>
+<Element Index="[536]" Value="0.0"/>
+<Element Index="[537]" Value="0.0"/>
+<Element Index="[538]" Value="0.0"/>
+<Element Index="[539]" Value="0.0"/>
+<Element Index="[540]" Value="0.0"/>
+<Element Index="[541]" Value="0.0"/>
+<Element Index="[542]" Value="0.0"/>
+<Element Index="[543]" Value="0.0"/>
+<Element Index="[544]" Value="0.0"/>
+<Element Index="[545]" Value="0.0"/>
+<Element Index="[546]" Value="0.0"/>
+<Element Index="[547]" Value="0.0"/>
+<Element Index="[548]" Value="0.0"/>
+<Element Index="[549]" Value="0.0"/>
+<Element Index="[550]" Value="0.0"/>
+<Element Index="[551]" Value="0.0"/>
+<Element Index="[552]" Value="0.0"/>
+<Element Index="[553]" Value="0.0"/>
+<Element Index="[554]" Value="0.0"/>
+<Element Index="[555]" Value="0.0"/>
+<Element Index="[556]" Value="0.0"/>
+<Element Index="[557]" Value="0.0"/>
+<Element Index="[558]" Value="0.0"/>
+<Element Index="[559]" Value="0.0"/>
+<Element Index="[560]" Value="0.0"/>
+<Element Index="[561]" Value="0.0"/>
+<Element Index="[562]" Value="0.0"/>
+<Element Index="[563]" Value="0.0"/>
+<Element Index="[564]" Value="0.0"/>
+<Element Index="[565]" Value="0.0"/>
+<Element Index="[566]" Value="0.0"/>
+<Element Index="[567]" Value="0.0"/>
+<Element Index="[568]" Value="0.0"/>
+<Element Index="[569]" Value="0.0"/>
+<Element Index="[570]" Value="0.0"/>
+<Element Index="[571]" Value="0.0"/>
+<Element Index="[572]" Value="0.0"/>
+<Element Index="[573]" Value="0.0"/>
+<Element Index="[574]" Value="0.0"/>
+<Element Index="[575]" Value="0.0"/>
+<Element Index="[576]" Value="0.0"/>
+<Element Index="[577]" Value="0.0"/>
+<Element Index="[578]" Value="0.0"/>
+<Element Index="[579]" Value="0.0"/>
+<Element Index="[580]" Value="0.0"/>
+<Element Index="[581]" Value="0.0"/>
+<Element Index="[582]" Value="0.0"/>
+<Element Index="[583]" Value="0.0"/>
+<Element Index="[584]" Value="0.0"/>
+<Element Index="[585]" Value="0.0"/>
+<Element Index="[586]" Value="0.0"/>
+<Element Index="[587]" Value="0.0"/>
+<Element Index="[588]" Value="0.0"/>
+<Element Index="[589]" Value="0.0"/>
+<Element Index="[590]" Value="0.0"/>
+<Element Index="[591]" Value="0.0"/>
+<Element Index="[592]" Value="0.0"/>
+<Element Index="[593]" Value="0.0"/>
+<Element Index="[594]" Value="0.0"/>
+<Element Index="[595]" Value="0.0"/>
+<Element Index="[596]" Value="0.0"/>
+<Element Index="[597]" Value="0.0"/>
+<Element Index="[598]" Value="0.0"/>
+<Element Index="[599]" Value="0.0"/>
+<Element Index="[600]" Value="0.0"/>
+<Element Index="[601]" Value="0.0"/>
+<Element Index="[602]" Value="0.0"/>
+<Element Index="[603]" Value="0.0"/>
+<Element Index="[604]" Value="0.0"/>
+<Element Index="[605]" Value="0.0"/>
+<Element Index="[606]" Value="0.0"/>
+<Element Index="[607]" Value="0.0"/>
+<Element Index="[608]" Value="0.0"/>
+<Element Index="[609]" Value="0.0"/>
+<Element Index="[610]" Value="0.0"/>
+<Element Index="[611]" Value="0.0"/>
+<Element Index="[612]" Value="0.0"/>
+<Element Index="[613]" Value="0.0"/>
+<Element Index="[614]" Value="0.0"/>
+<Element Index="[615]" Value="0.0"/>
+<Element Index="[616]" Value="0.0"/>
+<Element Index="[617]" Value="0.0"/>
+<Element Index="[618]" Value="0.0"/>
+<Element Index="[619]" Value="0.0"/>
+<Element Index="[620]" Value="0.0"/>
+<Element Index="[621]" Value="0.0"/>
+<Element Index="[622]" Value="0.0"/>
+<Element Index="[623]" Value="0.0"/>
+<Element Index="[624]" Value="0.0"/>
+<Element Index="[625]" Value="0.0"/>
+<Element Index="[626]" Value="0.0"/>
+<Element Index="[627]" Value="0.0"/>
+<Element Index="[628]" Value="0.0"/>
+<Element Index="[629]" Value="0.0"/>
+<Element Index="[630]" Value="0.0"/>
+<Element Index="[631]" Value="0.0"/>
+<Element Index="[632]" Value="0.0"/>
+<Element Index="[633]" Value="0.0"/>
+<Element Index="[634]" Value="0.0"/>
+<Element Index="[635]" Value="0.0"/>
+<Element Index="[636]" Value="0.0"/>
+<Element Index="[637]" Value="0.0"/>
+<Element Index="[638]" Value="0.0"/>
+<Element Index="[639]" Value="0.0"/>
+<Element Index="[640]" Value="0.0"/>
+<Element Index="[641]" Value="0.0"/>
+<Element Index="[642]" Value="0.0"/>
+<Element Index="[643]" Value="0.0"/>
+<Element Index="[644]" Value="0.0"/>
+<Element Index="[645]" Value="0.0"/>
+<Element Index="[646]" Value="0.0"/>
+<Element Index="[647]" Value="0.0"/>
+<Element Index="[648]" Value="0.0"/>
+<Element Index="[649]" Value="0.0"/>
+<Element Index="[650]" Value="0.0"/>
+<Element Index="[651]" Value="0.0"/>
+<Element Index="[652]" Value="0.0"/>
+<Element Index="[653]" Value="0.0"/>
+<Element Index="[654]" Value="0.0"/>
+<Element Index="[655]" Value="0.0"/>
+<Element Index="[656]" Value="0.0"/>
+<Element Index="[657]" Value="0.0"/>
+<Element Index="[658]" Value="0.0"/>
+<Element Index="[659]" Value="0.0"/>
+<Element Index="[660]" Value="0.0"/>
+<Element Index="[661]" Value="0.0"/>
+<Element Index="[662]" Value="0.0"/>
+<Element Index="[663]" Value="0.0"/>
+<Element Index="[664]" Value="0.0"/>
+<Element Index="[665]" Value="0.0"/>
+<Element Index="[666]" Value="0.0"/>
+<Element Index="[667]" Value="0.0"/>
+<Element Index="[668]" Value="0.0"/>
+<Element Index="[669]" Value="0.0"/>
+<Element Index="[670]" Value="0.0"/>
+<Element Index="[671]" Value="0.0"/>
+<Element Index="[672]" Value="0.0"/>
+<Element Index="[673]" Value="0.0"/>
+<Element Index="[674]" Value="0.0"/>
+<Element Index="[675]" Value="0.0"/>
+<Element Index="[676]" Value="0.0"/>
+<Element Index="[677]" Value="0.0"/>
+<Element Index="[678]" Value="0.0"/>
+<Element Index="[679]" Value="0.0"/>
+<Element Index="[680]" Value="0.0"/>
+<Element Index="[681]" Value="0.0"/>
+<Element Index="[682]" Value="0.0"/>
+<Element Index="[683]" Value="0.0"/>
+<Element Index="[684]" Value="0.0"/>
+<Element Index="[685]" Value="0.0"/>
+<Element Index="[686]" Value="0.0"/>
+<Element Index="[687]" Value="0.0"/>
+<Element Index="[688]" Value="0.0"/>
+<Element Index="[689]" Value="0.0"/>
+<Element Index="[690]" Value="0.0"/>
+<Element Index="[691]" Value="0.0"/>
+<Element Index="[692]" Value="0.0"/>
+<Element Index="[693]" Value="0.0"/>
+<Element Index="[694]" Value="0.0"/>
+<Element Index="[695]" Value="0.0"/>
+<Element Index="[696]" Value="0.0"/>
+<Element Index="[697]" Value="0.0"/>
+<Element Index="[698]" Value="0.0"/>
+<Element Index="[699]" Value="0.0"/>
+<Element Index="[700]" Value="0.0"/>
+<Element Index="[701]" Value="0.0"/>
+<Element Index="[702]" Value="0.0"/>
+<Element Index="[703]" Value="0.0"/>
+<Element Index="[704]" Value="0.0"/>
+<Element Index="[705]" Value="0.0"/>
+<Element Index="[706]" Value="0.0"/>
+<Element Index="[707]" Value="0.0"/>
+<Element Index="[708]" Value="0.0"/>
+<Element Index="[709]" Value="0.0"/>
+<Element Index="[710]" Value="0.0"/>
+<Element Index="[711]" Value="0.0"/>
+<Element Index="[712]" Value="0.0"/>
+<Element Index="[713]" Value="0.0"/>
+<Element Index="[714]" Value="0.0"/>
+<Element Index="[715]" Value="0.0"/>
+<Element Index="[716]" Value="0.0"/>
+<Element Index="[717]" Value="0.0"/>
+<Element Index="[718]" Value="0.0"/>
+<Element Index="[719]" Value="0.0"/>
+<Element Index="[720]" Value="0.0"/>
+<Element Index="[721]" Value="0.0"/>
+<Element Index="[722]" Value="0.0"/>
+<Element Index="[723]" Value="0.0"/>
+<Element Index="[724]" Value="0.0"/>
+<Element Index="[725]" Value="0.0"/>
+<Element Index="[726]" Value="0.0"/>
+<Element Index="[727]" Value="0.0"/>
+<Element Index="[728]" Value="0.0"/>
+<Element Index="[729]" Value="0.0"/>
+<Element Index="[730]" Value="0.0"/>
+<Element Index="[731]" Value="0.0"/>
+<Element Index="[732]" Value="0.0"/>
+<Element Index="[733]" Value="0.0"/>
+<Element Index="[734]" Value="0.0"/>
+<Element Index="[735]" Value="0.0"/>
+<Element Index="[736]" Value="0.0"/>
+<Element Index="[737]" Value="0.0"/>
+<Element Index="[738]" Value="0.0"/>
+<Element Index="[739]" Value="0.0"/>
+<Element Index="[740]" Value="0.0"/>
+<Element Index="[741]" Value="0.0"/>
+<Element Index="[742]" Value="0.0"/>
+<Element Index="[743]" Value="0.0"/>
+<Element Index="[744]" Value="0.0"/>
+<Element Index="[745]" Value="0.0"/>
+<Element Index="[746]" Value="0.0"/>
+<Element Index="[747]" Value="0.0"/>
+<Element Index="[748]" Value="0.0"/>
+<Element Index="[749]" Value="0.0"/>
+<Element Index="[750]" Value="0.0"/>
+<Element Index="[751]" Value="0.0"/>
+<Element Index="[752]" Value="0.0"/>
+<Element Index="[753]" Value="0.0"/>
+<Element Index="[754]" Value="0.0"/>
+<Element Index="[755]" Value="0.0"/>
+<Element Index="[756]" Value="0.0"/>
+<Element Index="[757]" Value="0.0"/>
+<Element Index="[758]" Value="0.0"/>
+<Element Index="[759]" Value="0.0"/>
+<Element Index="[760]" Value="0.0"/>
+<Element Index="[761]" Value="0.0"/>
+<Element Index="[762]" Value="0.0"/>
+<Element Index="[763]" Value="0.0"/>
+<Element Index="[764]" Value="0.0"/>
+<Element Index="[765]" Value="0.0"/>
+<Element Index="[766]" Value="0.0"/>
+<Element Index="[767]" Value="0.0"/>
+<Element Index="[768]" Value="0.0"/>
+<Element Index="[769]" Value="0.0"/>
+<Element Index="[770]" Value="0.0"/>
+<Element Index="[771]" Value="0.0"/>
+<Element Index="[772]" Value="0.0"/>
+<Element Index="[773]" Value="0.0"/>
+<Element Index="[774]" Value="0.0"/>
+<Element Index="[775]" Value="0.0"/>
+<Element Index="[776]" Value="0.0"/>
+<Element Index="[777]" Value="0.0"/>
+<Element Index="[778]" Value="0.0"/>
+<Element Index="[779]" Value="0.0"/>
+<Element Index="[780]" Value="0.0"/>
+<Element Index="[781]" Value="0.0"/>
+<Element Index="[782]" Value="0.0"/>
+<Element Index="[783]" Value="0.0"/>
+<Element Index="[784]" Value="0.0"/>
+<Element Index="[785]" Value="0.0"/>
+<Element Index="[786]" Value="0.0"/>
+<Element Index="[787]" Value="0.0"/>
+<Element Index="[788]" Value="0.0"/>
+<Element Index="[789]" Value="0.0"/>
+<Element Index="[790]" Value="0.0"/>
+<Element Index="[791]" Value="0.0"/>
+<Element Index="[792]" Value="0.0"/>
+<Element Index="[793]" Value="0.0"/>
+<Element Index="[794]" Value="0.0"/>
+<Element Index="[795]" Value="0.0"/>
+<Element Index="[796]" Value="0.0"/>
+<Element Index="[797]" Value="0.0"/>
+<Element Index="[798]" Value="0.0"/>
+<Element Index="[799]" Value="0.0"/>
+</Array>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_OutLength" DataType="DINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_CheckSum" DataType="REAL" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_OldCheckSum" DataType="REAL" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="CST" DataType="DINT" Dimensions="4" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Array DataType="DINT" Dimensions="4" Radix="Decimal">
+<Element Index="[0]" Value="0"/>
+<Element Index="[1]" Value="0"/>
+<Element Index="[2]" Value="0"/>
+<Element Index="[3]" Value="0"/>
+</Array>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_FirstSlope" DataType="BOOL" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_SndSlope" DataType="BOOL" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_Optimize" DataType="BOOL" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_Rebuilt" DataType="BOOL" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_Slope1" DataType="REAL" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_Slope2" DataType="REAL" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_DSlope" DataType="REAL" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_CAMLength" DataType="DINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_CAMPLength" DataType="DINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+</LocalTags>
+<Routines>
+<Routine Name="Logic" Type="ST">
+<STContent>
+<Line Number="0">
+<![CDATA[// Clear fault]]>
+</Line>
+<Line Number="1">
+<![CDATA[If MIO_CAM_Interface.Cmd.Reset And Sts_ER Then]]>
+</Line>
+<Line Number="2">
+<![CDATA[	Sts_ER 					:= 0;]]>
+</Line>
+<Line Number="3">
+<![CDATA[	Sts_ERR					:= 0;]]>
+</Line>
+<Line Number="4">
+<![CDATA[	Sts_EXERR 				:= 0;]]>
+</Line>
+<Line Number="5">
+<![CDATA[	CAM_Design.Err			:= 0; ]]>
+</Line>
+<Line Number="6">
+<![CDATA[End_If;]]>
+</Line>
+<Line Number="7">
+<![CDATA[//Wait for start]]>
+</Line>
+<Line Number="8">
+<![CDATA[If Not MIO_CAM_Interface.Cmd.Start Then]]>
+</Line>
+<Line Number="9">
+<![CDATA[	Sts_PC 					:= 0;]]>
+</Line>
+<Line Number="10">
+<![CDATA[	TND();]]>
+</Line>
+<Line Number="11">
+<![CDATA[Elsif Sts_ER Or (MIO_CAM_Interface.Cmd.Start And Sts_PC) Then]]>
+</Line>
+<Line Number="12">
+<![CDATA[	TND();]]>
+</Line>
+<Line Number="13">
+<![CDATA[End_If;]]>
+</Line>
+<Line Number="14">
+<![CDATA[]]>
+</Line>
+<Line Number="15">
+<![CDATA[GSV(CST,,CurrentValue,CST[0]);]]>
+</Line>
+<Line Number="16">
+<![CDATA[]]>
+</Line>
+<Line Number="17">
+<![CDATA[//--------------------------------------------------]]>
+</Line>
+<Line Number="18">
+<![CDATA[//				Cam Generation execution]]>
+</Line>
+<Line Number="19">
+<![CDATA[//--------------------------------------------------]]>
+</Line>
+<Line Number="20">
+<![CDATA[Sts_IP 						:= 1;]]>
+</Line>
+<Line Number="21">
+<![CDATA[CAM_Design.No_Of_Points 	:= 0; ]]>
+</Line>
+<Line Number="22">
+<![CDATA[L_MI_MCCP.FLAGS 			:= 0;]]>
+</Line>
+<Line Number="23">
+<![CDATA[L_NbSegToTransf				:= 0;]]>
+</Line>
+<Line Number="24">
+<![CDATA[L_NbCAMPoints 				:= 1;]]>
+</Line>
+<Line Number="25">
+<![CDATA[L_CheckSum					:= 0;]]>
+</Line>
+<Line Number="26">
+<![CDATA[]]>
+</Line>
+<Line Number="27">
+<![CDATA[IF Not MIO_CAM_Interface.Cmd.CamOrCamProfil Then]]>
+</Line>
+<Line Number="28">
+<![CDATA[	L_OutLength := L_CAMLength;]]>
+</Line>
+<Line Number="29">
+<![CDATA[Else]]>
+</Line>
+<Line Number="30">
+<![CDATA[	L_OutLength := L_CAMPLength;]]>
+</Line>
+<Line Number="31">
+<![CDATA[End_If;]]>
+</Line>
+<Line Number="32">
+<![CDATA[]]>
+</Line>
+<Line Number="33">
+<![CDATA[For L_I:= 0 to (L_OutLength - 1) Do]]>
+</Line>
+<Line Number="34">
+<![CDATA[	MIO_CAM_Interface.Out.Cam[L_I].Master 					:= 0;]]>
+</Line>
+<Line Number="35">
+<![CDATA[	MIO_CAM_Interface.Out.Cam[L_I].Slave 					:= 0;]]>
+</Line>
+<Line Number="36">
+<![CDATA[	MIO_CAM_Interface.Out.Cam[L_I].SegmentType 				:= 0;]]>
+</Line>
+<Line Number="37">
+<![CDATA[End_For;]]>
+</Line>
+<Line Number="38">
+<![CDATA[]]>
+</Line>
+<Line Number="39">
+<![CDATA[// Check Cam Length]]>
+</Line>
+<Line Number="40">
+<![CDATA[For L_I:= 1 to (L_InLength - 1) Do]]>
+</Line>
+<Line Number="41">
+<![CDATA[	L_CheckSum			:= MIO_CAM_Interface.In.Cam[L_I-1].Master + MIO_CAM_Interface.In.Cam[L_I-1].Slave + MIO_CAM_Interface.In.Cam[L_I-1].SegmentType + L_CheckSum;]]>
+</Line>
+<Line Number="42">
+<![CDATA[	If MIO_CAM_Interface.In.DefaultProfilType <> -1 Then]]>
+</Line>
+<Line Number="43">
+<![CDATA[		MIO_CAM_Interface.In.Cfg_Segments[L_I-1].ProfilType	:= MIO_CAM_Interface.In.DefaultProfilType;]]>
+</Line>
+<Line Number="44">
+<![CDATA[	End_If;]]>
+</Line>
+<Line Number="45">
+<![CDATA[	If MIO_CAM_Interface.In.Cam[L_I].Master <> 0 Then]]>
+</Line>
+<Line Number="46">
+<![CDATA[		L_NbCAMPoints	:= L_NbCAMPoints + 1;]]>
+</Line>
+<Line Number="47">
+<![CDATA[	Else]]>
+</Line>
+<Line Number="48">
+<![CDATA[		Exit;]]>
+</Line>
+<Line Number="49">
+<![CDATA[	End_If;]]>
+</Line>
+<Line Number="50">
+<![CDATA[End_For;]]>
+</Line>
+<Line Number="51">
+<![CDATA[]]>
+</Line>
+<Line Number="52">
+<![CDATA[If (MIO_CAM_Interface.Cmd.Optimize And Not L_Optimize) Then]]>
+</Line>
+<Line Number="53">
+<![CDATA[	L_Rebuilt	:= 1;]]>
+</Line>
+<Line Number="54">
+<![CDATA[	L_Optimize	:= 1;]]>
+</Line>
+<Line Number="55">
+<![CDATA[Elsif (Not MIO_CAM_Interface.Cmd.Optimize And L_Optimize) Then]]>
+</Line>
+<Line Number="56">
+<![CDATA[	L_Rebuilt	:= 1;]]>
+</Line>
+<Line Number="57">
+<![CDATA[	L_Optimize	:= 0;]]>
+</Line>
+<Line Number="58">
+<![CDATA[End_If;]]>
+</Line>
+<Line Number="59">
+<![CDATA[]]>
+</Line>
+<Line Number="60">
+<![CDATA[// Compute PCAM]]>
+</Line>
+<Line Number="61">
+<![CDATA[If (L_CheckSum <> L_OldCheckSum) Or L_Rebuilt Then]]>
+</Line>
+<Line Number="62">
+<![CDATA[	MCCP(L_MI_MCCP,]]>
+</Line>
+<Line Number="63">
+<![CDATA[		MIO_CAM_Interface.In.Cam,]]>
+</Line>
+<Line Number="64">
+<![CDATA[		L_NbCAMPoints,]]>
+</Line>
+<Line Number="65">
+<![CDATA[		MIO_CAM_Interface.In.StartSlope,]]>
+</Line>
+<Line Number="66">
+<![CDATA[		MIO_CAM_Interface.In.EndSlope,]]>
+</Line>
+<Line Number="67">
+<![CDATA[		MIO_CAM_Interface.Out.CamProfil);]]>
+</Line>
+<Line Number="68">
+<![CDATA[]]>
+</Line>
+<Line Number="69">
+<![CDATA[	If L_MI_MCCP.ER Then]]>
+</Line>
+<Line Number="70">
+<![CDATA[		Sts_IP 					:= 0;]]>
+</Line>
+<Line Number="71">
+<![CDATA[		Sts_ER 					:= 1;]]>
+</Line>
+<Line Number="72">
+<![CDATA[		Sts_ERR 				:= L_MI_MCCP.ERR;]]>
+</Line>
+<Line Number="73">
+<![CDATA[		Sts_EXERR 				:= L_MI_MCCP.EXERR;]]>
+</Line>
+<Line Number="74">
+<![CDATA[		TND();]]>
+</Line>
+<Line Number="75">
+<![CDATA[	End_if;]]>
+</Line>
+<Line Number="76">
+<![CDATA[]]>
+</Line>
+<Line Number="77">
+<![CDATA[	//Examine number of Cam points needed]]>
+</Line>
+<Line Number="78">
+<![CDATA[	For L_I:= 1 to (L_NbCAMPoints-1) Do]]>
+</Line>
+<Line Number="79">
+<![CDATA[		L_MI_MCSV.FLAGS			:= 0;]]>
+</Line>
+<Line Number="80">
+<![CDATA[		MCSV(L_MI_MCSV,]]>
+</Line>
+<Line Number="81">
+<![CDATA[			MIO_CAM_Interface.Out.CamProfil,]]>
+</Line>
+<Line Number="82">
+<![CDATA[			MIO_CAM_Interface.In.Cam[L_I].Master,]]>
+</Line>
+<Line Number="83">
+<![CDATA[			L_SlvVal,]]>
+</Line>
+<Line Number="84">
+<![CDATA[			L_V2[L_I],]]>
+</Line>
+<Line Number="85">
+<![CDATA[			L_SlvAcc);	]]>
+</Line>
+<Line Number="86">
+<![CDATA[		If (MIO_CAM_Interface.In.Cam[L_I-1].SegmentType = 1) And (MIO_CAM_Interface.In.Cfg_Segments[L_I-1].ProfilType <> 0) Then]]>
+</Line>
+<Line Number="87">
+<![CDATA[			L_NbSegToTransf								:= L_NbSegToTransf + 1;]]>
+</Line>
+<Line Number="88">
+<![CDATA[			If (L_I < (L_NbCAMPoints-1)) And MIO_CAM_Interface.Cmd.Optimize Then]]>
+</Line>
+<Line Number="89">
+<![CDATA[				L_FirstSlope	:= (MIO_CAM_Interface.In.Cam[L_I].Slave >= MIO_CAM_Interface.In.Cam[L_I-1].Slave);]]>
+</Line>
+<Line Number="90">
+<![CDATA[				L_SndSlope		:= (MIO_CAM_Interface.In.Cam[L_I+1].Slave >= MIO_CAM_Interface.In.Cam[L_I].Slave);]]>
+</Line>
+<Line Number="91">
+<![CDATA[				If ((L_FirstSlope And Not L_SndSlope) Or (Not L_FirstSlope And L_SndSlope)) And (L_V2[L_I] <> 0) Then]]>
+</Line>
+<Line Number="92">
+<![CDATA[					L_V2[L_I] := 0;]]>
+</Line>
+<Line Number="93">
+<![CDATA[				Else]]>
+</Line>
+<Line Number="94">
+<![CDATA[					L_Slope1	:= (MIO_CAM_Interface.In.Cam[L_I].Slave - MIO_CAM_Interface.In.Cam[L_I-1].Slave) / (MIO_CAM_Interface.In.Cam[L_I].Master - MIO_CAM_Interface.In.Cam[L_I-1].Master);]]>
+</Line>
+<Line Number="95">
+<![CDATA[					L_Slope2	:= (MIO_CAM_Interface.In.Cam[L_I+1].Slave - MIO_CAM_Interface.In.Cam[L_I].Slave) / (MIO_CAM_Interface.In.Cam[L_I+1].Master - MIO_CAM_Interface.In.Cam[L_I].Master);]]>
+</Line>
+<Line Number="96">
+<![CDATA[					If (L_Slope1 <> 0) And (L_Slope2 <> 0) Then]]>
+</Line>
+<Line Number="97">
+<![CDATA[						L_DSlope							:= L_Slope1 / L_Slope2;]]>
+</Line>
+<Line Number="98">
+<![CDATA[					Else]]>
+</Line>
+<Line Number="99">
+<![CDATA[						L_DSlope							:= 0;]]>
+</Line>
+<Line Number="100">
+<![CDATA[					End_If;]]>
+</Line>
+<Line Number="101">
+<![CDATA[					If ABS(L_DSlope) > 3 Then]]>
+</Line>
+<Line Number="102">
+<![CDATA[						L_V2[L_I] := L_V2[L_I] /(L_DSlope/2.8);]]>
+</Line>
+<Line Number="103">
+<![CDATA[					End_If;]]>
+</Line>
+<Line Number="104">
+<![CDATA[				End_If;]]>
+</Line>
+<Line Number="105">
+<![CDATA[				CAM_Design.RiseReturnComp[L_I-1]		:= ((L_FirstSlope And Not L_SndSlope) Or (Not L_FirstSlope And L_SndSlope) Or (MIO_CAM_Interface.In.Cam[L_I-1].SegmentType = MIO_CAM_Interface.In.Cam[L_I].SegmentType)) And ((MIO_CAM_Interface.In.Cam[L_I].SegmentType = 1) And (MIO_CAM_Interface.In.Cfg_Segments[L_I-1].ProfilType <> 3));]]>
+</Line>
+<Line Number="106">
+<![CDATA[			Else]]>
+</Line>
+<Line Number="107">
+<![CDATA[				CAM_Design.RiseReturnComp[L_I-1]		:= 0;]]>
+</Line>
+<Line Number="108">
+<![CDATA[			End_If;]]>
+</Line>
+<Line Number="109">
+<![CDATA[		Else]]>
+</Line>
+<Line Number="110">
+<![CDATA[			L_FirstSlope								:= 0;]]>
+</Line>
+<Line Number="111">
+<![CDATA[			L_SndSlope									:= 0;]]>
+</Line>
+<Line Number="112">
+<![CDATA[			CAM_Design.RiseReturnComp[L_I-1]			:= 0;]]>
+</Line>
+<Line Number="113">
+<![CDATA[		End_If;]]>
+</Line>
+<Line Number="114">
+<![CDATA[	End_For;]]>
+</Line>
+<Line Number="115">
+<![CDATA[	]]>
+</Line>
+<Line Number="116">
+<![CDATA[	If L_NbSegToTransf > 0 Then]]>
+</Line>
+<Line Number="117">
+<![CDATA[		CAM_Design.NbPoints		:= ((L_OutLength - (L_NbCAMPoints - L_NbSegToTransf))/L_NbSegToTransf) - 2;]]>
+</Line>
+<Line Number="118">
+<![CDATA[	Else]]>
+</Line>
+<Line Number="119">
+<![CDATA[		CAM_Design.NbPoints 	:= 15;]]>
+</Line>
+<Line Number="120">
+<![CDATA[	End_If;]]>
+</Line>
+<Line Number="121">
+<![CDATA[]]>
+</Line>
+<Line Number="122">
+<![CDATA[	If (CAM_Design.NbPoints > 15) Then]]>
+</Line>
+<Line Number="123">
+<![CDATA[		CAM_Design.NbPoints 	:= 15;]]>
+</Line>
+<Line Number="124">
+<![CDATA[	Elsif (CAM_Design.NbPoints < 5) Then]]>
+</Line>
+<Line Number="125">
+<![CDATA[		Sts_ERR					:= 190;]]>
+</Line>
+<Line Number="126">
+<![CDATA[		Sts_EXERR				:= 0;]]>
+</Line>
+<Line Number="127">
+<![CDATA[		Sts_ER					:= 1;]]>
+</Line>
+<Line Number="128">
+<![CDATA[		Sts_IP					:= 0;]]>
+</Line>
+<Line Number="129">
+<![CDATA[		TND(); ]]>
+</Line>
+<Line Number="130">
+<![CDATA[	End_If;]]>
+</Line>
+<Line Number="131">
+<![CDATA[	L_OldCheckSum				:= L_CheckSum;]]>
+</Line>
+<Line Number="132">
+<![CDATA[	L_Rebuilt					:= 0;]]>
+</Line>
+<Line Number="133">
+<![CDATA[End_If;]]>
+</Line>
+<Line Number="134">
+<![CDATA[]]>
+</Line>
+<Line Number="135">
+<![CDATA[//Generate PCAM]]>
+</Line>
+<Line Number="136">
+<![CDATA[For L_CAMIndex := 1 to (L_NbCAMPoints - 1) Do]]>
+</Line>
+<Line Number="137">
+<![CDATA[	CAM_Design.CfgIndex			:= L_CAMIndex - 1;]]>
+</Line>
+<Line Number="138">
+<![CDATA[	CAM_Design.V0				:= L_V2[CAM_Design.CfgIndex];]]>
+</Line>
+<Line Number="139">
+<![CDATA[	CAM_Design.V2				:= L_V2[L_CAMIndex];]]>
+</Line>
+<Line Number="140">
+<![CDATA[	]]>
+</Line>
+<Line Number="141">
+<![CDATA[	If CAM_Design.No_Of_Points = 0 Then]]>
+</Line>
+<Line Number="142">
+<![CDATA[		CAM_Design.M0														:= MIO_CAM_Interface.In.Cam[L_CAMIndex - 1].Master;]]>
+</Line>
+<Line Number="143">
+<![CDATA[		CAM_Design.S0														:= MIO_CAM_Interface.In.Cam[L_CAMIndex - 1].Slave;]]>
+</Line>
+<Line Number="144">
+<![CDATA[		CAM_Design.CAM_Points[CAM_Design.No_Of_Points].Master				:= CAM_Design.M0;]]>
+</Line>
+<Line Number="145">
+<![CDATA[		CAM_Design.CAM_Points[CAM_Design.No_Of_Points].Slave				:= CAM_Design.S0;]]>
+</Line>
+<Line Number="146">
+<![CDATA[		CAM_Design.CAM_Points[CAM_Design.No_Of_Points].SegmentType			:= 1;]]>
+</Line>
+<Line Number="147">
+<![CDATA[		CAM_Design.No_Of_Points 											:= CAM_Design.No_Of_Points + 1;]]>
+</Line>
+<Line Number="148">
+<![CDATA[	Else]]>
+</Line>
+<Line Number="149">
+<![CDATA[		CAM_Design.M0														:= CAM_Design.CAM_Points[CAM_Design.No_Of_Points - 1].Master;]]>
+</Line>
+<Line Number="150">
+<![CDATA[		CAM_Design.S0														:= CAM_Design.CAM_Points[CAM_Design.No_Of_Points - 1].Slave;]]>
+</Line>
+<Line Number="151">
+<![CDATA[	End_If;]]>
+</Line>
+<Line Number="152">
+<![CDATA[	]]>
+</Line>
+<Line Number="153">
+<![CDATA[	If L_CAMIndex = (L_NbCAMPoints - 1) Then]]>
+</Line>
+<Line Number="154">
+<![CDATA[		CAM_Design.V2				:= MIO_CAM_Interface.In.EndSlope;]]>
+</Line>
+<Line Number="155">
+<![CDATA[	Elsif ABS(CAM_Design.V2) <= 0.01 Then]]>
+</Line>
+<Line Number="156">
+<![CDATA[		CAM_Design.V2				:= 0;]]>
+</Line>
+<Line Number="157">
+<![CDATA[	End_If;]]>
+</Line>
+<Line Number="158">
+<![CDATA[	]]>
+</Line>
+<Line Number="159">
+<![CDATA[	If CAM_Design.CfgIndex	 > 1 Then]]>
+</Line>
+<Line Number="160">
+<![CDATA[		CAM_Design.PrevSlope			:= (MIO_CAM_Interface.In.Cam[CAM_Design.CfgIndex].Slave - MIO_CAM_Interface.In.Cam[CAM_Design.CfgIndex-1].Slave) / (MIO_CAM_Interface.In.Cam[CAM_Design.CfgIndex].Master - MIO_CAM_Interface.In.Cam[CAM_Design.CfgIndex-1].Master);]]>
+</Line>
+<Line Number="161">
+<![CDATA[		CAM_Design.ActSlope				:= (MIO_CAM_Interface.In.Cam[CAM_Design.CfgIndex+1].Slave - MIO_CAM_Interface.In.Cam[CAM_Design.CfgIndex].Slave) / (MIO_CAM_Interface.In.Cam[CAM_Design.CfgIndex+1].Master - MIO_CAM_Interface.In.Cam[CAM_Design.CfgIndex].Master);]]>
+</Line>
+<Line Number="162">
+<![CDATA[	End_If;]]>
+</Line>
+<Line Number="163">
+<![CDATA[]]>
+</Line>
+<Line Number="164">
+<![CDATA[	CAM_Design.dM 					:= MIO_CAM_Interface.In.Cam[L_CAMIndex].Master - CAM_Design.M0;]]>
+</Line>
+<Line Number="165">
+<![CDATA[	CAM_Design.dS					:= MIO_CAM_Interface.In.Cam[L_CAMIndex].Slave - CAM_Design.S0;]]>
+</Line>
+<Line Number="166">
+<![CDATA[]]>
+</Line>
+<Line Number="167">
+<![CDATA[	If L_CAMIndex = 1 Then]]>
+</Line>
+<Line Number="168">
+<![CDATA[		CAM_Design.V0 				:= MIO_CAM_Interface.In.StartSlope;]]>
+</Line>
+<Line Number="169">
+<![CDATA[	End_If;]]>
+</Line>
+<Line Number="170">
+<![CDATA[]]>
+</Line>
+<Line Number="171">
+<![CDATA[	If (MIO_CAM_Interface.In.Cam[L_CAMIndex - 1].SegmentType = 0) Then]]>
+</Line>
+<Line Number="172">
+<![CDATA[		CAM_Design.CAM_Points[CAM_Design.No_Of_Points].Master				:= CAM_Design.CAM_Points[CAM_Design.No_Of_Points - 1].Master + CAM_Design.dM;]]>
+</Line>
+<Line Number="173">
+<![CDATA[		CAM_Design.CAM_Points[CAM_Design.No_Of_Points].Slave				:= CAM_Design.CAM_Points[CAM_Design.No_Of_Points - 1].Slave + CAM_Design.dS;]]>
+</Line>
+<Line Number="174">
+<![CDATA[		CAM_Design.CAM_Points[CAM_Design.No_Of_Points - 1].SegmentType		:= 0;]]>
+</Line>
+<Line Number="175">
+<![CDATA[		CAM_Design.CAM_Points[CAM_Design.No_Of_Points].SegmentType			:= 1;]]>
+</Line>
+<Line Number="176">
+<![CDATA[		CAM_Design.No_Of_Points 											:= CAM_Design.No_Of_Points + 1;]]>
+</Line>
+<Line Number="177">
+<![CDATA[		CAM_Design.MemoRiseReturnComp										:= 0;]]>
+</Line>
+<Line Number="178">
+<![CDATA[	Elsif (MIO_CAM_Interface.In.Cam[L_CAMIndex - 1].SegmentType = 1) And (MIO_CAM_Interface.In.Cfg_Segments[CAM_Design.CfgIndex].ProfilType <> 0) Then]]>
+</Line>
+<Line Number="179">
+<![CDATA[		AOI_PosComp_ST(L_AOI_CAM_PosComp,CAM_Design,MIO_CAM_Interface.In.Cfg_Segments);]]>
+</Line>
+<Line Number="180">
+<![CDATA[		If CAM_Design.Err Then]]>
+</Line>
+<Line Number="181">
+<![CDATA[				Sts_ERR					:= 191;]]>
+</Line>
+<Line Number="182">
+<![CDATA[				Sts_EXERR				:= 0;]]>
+</Line>
+<Line Number="183">
+<![CDATA[				Sts_ER					:= 1;]]>
+</Line>
+<Line Number="184">
+<![CDATA[				Sts_IP					:= 0;]]>
+</Line>
+<Line Number="185">
+<![CDATA[				TND(); ]]>
+</Line>
+<Line Number="186">
+<![CDATA[		End_If;]]>
+</Line>
+<Line Number="187">
+<![CDATA[	Elsif ((MIO_CAM_Interface.In.Cam[L_CAMIndex - 1].SegmentType = 1) And (MIO_CAM_Interface.In.Cfg_Segments[CAM_Design.CfgIndex].ProfilType = 0))  Then]]>
+</Line>
+<Line Number="188">
+<![CDATA[		CAM_Design.CAM_Points[CAM_Design.No_Of_Points].Master				:= CAM_Design.CAM_Points[CAM_Design.No_Of_Points - 1].Master + CAM_Design.dM;]]>
+</Line>
+<Line Number="189">
+<![CDATA[		CAM_Design.CAM_Points[CAM_Design.No_Of_Points].Slave				:= CAM_Design.CAM_Points[CAM_Design.No_Of_Points - 1].Slave + CAM_Design.dS;]]>
+</Line>
+<Line Number="190">
+<![CDATA[		CAM_Design.CAM_Points[CAM_Design.No_Of_Points - 1].SegmentType		:= 1;]]>
+</Line>
+<Line Number="191">
+<![CDATA[		CAM_Design.CAM_Points[CAM_Design.No_Of_Points].SegmentType			:= 1;]]>
+</Line>
+<Line Number="192">
+<![CDATA[		CAM_Design.No_Of_Points 											:= CAM_Design.No_Of_Points + 1;]]>
+</Line>
+<Line Number="193">
+<![CDATA[	End_If;]]>
+</Line>
+<Line Number="194">
+<![CDATA[End_For;]]>
+</Line>
+<Line Number="195">
+<![CDATA[]]>
+</Line>
+<Line Number="196">
+<![CDATA[L_MI_MCCP.FLAGS							:= 0;]]>
+</Line>
+<Line Number="197">
+<![CDATA[CAM_Design.MemoRiseReturnComp			:= 0;]]>
+</Line>
+<Line Number="198">
+<![CDATA[]]>
+</Line>
+<Line Number="199">
+<![CDATA[If Not MIO_CAM_Interface.Cmd.CamOrCamProfil Then]]>
+</Line>
+<Line Number="200">
+<![CDATA[	COP(CAM_Design.CAM_Points[0],MIO_CAM_Interface.Out.Cam[0],CAM_Design.No_Of_Points);]]>
+</Line>
+<Line Number="201">
+<![CDATA[	MIO_CAM_Interface.Out.NbrOfCamPoints	:= CAM_Design.No_Of_Points;]]>
+</Line>
+<Line Number="202">
+<![CDATA[	MIO_CAM_Interface.Out.StartSlope		:= MIO_CAM_Interface.In.StartSlope;]]>
+</Line>
+<Line Number="203">
+<![CDATA[	MIO_CAM_Interface.Out.EndSlope			:= CAM_Design.V2;]]>
+</Line>
+<Line Number="204">
+<![CDATA[	Sts_IP									:= 0;]]>
+</Line>
+<Line Number="205">
+<![CDATA[	Sts_PC 									:= 1;]]>
+</Line>
+<Line Number="206">
+<![CDATA[Else]]>
+</Line>
+<Line Number="207">
+<![CDATA[	MCCP(L_MI_MCCP,]]>
+</Line>
+<Line Number="208">
+<![CDATA[		CAM_Design.CAM_Points,]]>
+</Line>
+<Line Number="209">
+<![CDATA[		CAM_Design.No_Of_Points,]]>
+</Line>
+<Line Number="210">
+<![CDATA[		MIO_CAM_Interface.In.StartSlope,]]>
+</Line>
+<Line Number="211">
+<![CDATA[		CAM_Design.V2,]]>
+</Line>
+<Line Number="212">
+<![CDATA[		MIO_CAM_Interface.Out.CamProfil);	]]>
+</Line>
+<Line Number="213">
+<![CDATA[	If L_MI_MCCP.DN Then]]>
+</Line>
+<Line Number="214">
+<![CDATA[		Sts_IP								:= 0;]]>
+</Line>
+<Line Number="215">
+<![CDATA[		Sts_PC 								:= 1;]]>
+</Line>
+<Line Number="216">
+<![CDATA[	Elsif L_MI_MCCP.ER	Then]]>
+</Line>
+<Line Number="217">
+<![CDATA[		Sts_IP 								:= 0;]]>
+</Line>
+<Line Number="218">
+<![CDATA[		Sts_ER 								:= 1;]]>
+</Line>
+<Line Number="219">
+<![CDATA[		Sts_ERR 							:= L_MI_MCCP.ERR;]]>
+</Line>
+<Line Number="220">
+<![CDATA[		Sts_EXERR 							:= L_MI_MCCP.EXERR;]]>
+</Line>
+<Line Number="221">
+<![CDATA[	End_If;]]>
+</Line>
+<Line Number="222">
+<![CDATA[End_If;]]>
+</Line>
+<Line Number="223">
+<![CDATA[]]>
+</Line>
+<Line Number="224">
+<![CDATA[GSV(CST,,CurrentValue,CST[2]);]]>
+</Line>
+<Line Number="225">
+<![CDATA[CycleTime := CST[2]-CST[0];]]>
+</Line>
+</STContent>
+</Routine>
+<Routine Name="Prescan" Type="RLL">
+<RLLContent>
+<Rung Number="0" Type="N">
+<Text>
+<![CDATA[OTU(Sts_IP)OTU(Sts_PC)OTU(Sts_ER)CLR(Sts_ERR)CLR(Sts_EXERR)CLR(L_OldCheckSum)MOV(-1,MIO_CAM_Interface.In.DefaultProfilType);]]>
+</Text>
+</Rung>
+<Rung Number="1" Type="N">
+<Text>
+<![CDATA[SIZE(MIO_CAM_Interface.Out.Cam[0],0,L_CAMLength);]]>
+</Text>
+</Rung>
+<Rung Number="2" Type="N">
+<Text>
+<![CDATA[SIZE(MIO_CAM_Interface.Out.CamProfil[0],0,L_CAMPLength);]]>
+</Text>
+</Rung>
+<Rung Number="3" Type="N">
+<Text>
+<![CDATA[SIZE(MIO_CAM_Interface.In.Cam[0],0,L_InLength);]]>
+</Text>
+</Rung>
+</RLLContent>
+</Routine>
+</Routines>
+<Dependencies>
+<Dependency Type="DataType" Name="UDT_CamSegment"/>
+<Dependency Type="AddOnInstructionDefinition" Name="AOI_PosComp_ST"/>
+<Dependency Type="DataType" Name="UDT_CamGeneration"/>
+</Dependencies>
+</AddOnInstructionDefinition>
+</AddOnInstructionDefinitions>
+</Controller>
+</RSLogix5000Content>

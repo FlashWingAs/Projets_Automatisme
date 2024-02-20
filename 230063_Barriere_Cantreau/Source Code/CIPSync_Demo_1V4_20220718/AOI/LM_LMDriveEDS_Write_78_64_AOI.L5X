@@ -1,0 +1,365 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--Write LinMot Drive Output Assembly-->
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="34.00" TargetName="LM_LMDriveEDS_Write_78_64" TargetType="AddOnInstructionDefinition" TargetRevision="2.0 " TargetLastEdited="2019-03-14T15:40:54.575Z" TargetSignature="16#4f5b_1f59" ContainsContext="true" ExportDate="Tue Jun 28 13:32:33 2022" ExportOptions="References NoRawData L5KData DecoratedData Context Dependencies ForceProtectedEncoding AllProjDocTrans">
+<Controller Use="Context" Name="v34_CIPSync_Dev">
+<DataTypes Use="Context">
+<DataType Name="tstLM_Axis" Family="NoFamily" Class="User">
+<Description>
+<![CDATA[LinMot Axis Reference]]>
+</Description>
+<Members>
+<Member Name="ControlWord" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Drive Control Word]]>
+</Description>
+</Member>
+<Member Name="MCHeader" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Motion Command Header]]>
+</Description>
+</Member>
+<Member Name="MCParaWord0" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Motion Command Parameter Word 0]]>
+</Description>
+</Member>
+<Member Name="MCParaWord1" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Motion Command Parameter Word 1]]>
+</Description>
+</Member>
+<Member Name="MCParaWord2" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Motion Command Parameter Word 2]]>
+</Description>
+</Member>
+<Member Name="MCParaWord3" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Motion Command Parameter Word 3]]>
+</Description>
+</Member>
+<Member Name="MCParaWord4" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Motion Command Parameter Word 4]]>
+</Description>
+</Member>
+<Member Name="MCParaWord5" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Motion Command Parameter Word 5]]>
+</Description>
+</Member>
+<Member Name="MCParaWord6" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Motion Command Parameter Word 6]]>
+</Description>
+</Member>
+<Member Name="MCParaWord7" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Motion Command Parameter Word 7]]>
+</Description>
+</Member>
+<Member Name="MCParaWord8" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Motion Command Parameter Word 8]]>
+</Description>
+</Member>
+<Member Name="MCParaWord9" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Motion Command Parameter Word 9]]>
+</Description>
+</Member>
+<Member Name="MCParaWord10" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Motion Command Parameter Word 10]]>
+</Description>
+</Member>
+<Member Name="MCParaWord11" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Motion Command Parameter Word 11]]>
+</Description>
+</Member>
+<Member Name="MCParaWord12" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Motion Command Parameter Word 12]]>
+</Description>
+</Member>
+<Member Name="MCParaWord13" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Motion Command Parameter Word 13]]>
+</Description>
+</Member>
+<Member Name="MCParaWord14" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Motion Command Parameter Word 14]]>
+</Description>
+</Member>
+<Member Name="MCParaWord15" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Motion Command Parameter Word 15]]>
+</Description>
+</Member>
+<Member Name="StatusWord" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Drive Status Word]]>
+</Description>
+</Member>
+<Member Name="StateVar" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Drive State Var]]>
+</Description>
+</Member>
+<Member Name="WarnWord" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Drive Warn Word]]>
+</Description>
+</Member>
+<Member Name="CfgControl" DataType="INT" Dimension="0" Radix="Hex" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Drive Config Module Control Word]]>
+</Description>
+</Member>
+<Member Name="CfgIndexOut" DataType="INT" Dimension="0" Radix="Hex" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Drive Config Module Index Out]]>
+</Description>
+</Member>
+<Member Name="CfgValueOut" DataType="DINT" Dimension="0" Radix="Hex" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Drive Config Module Value Out]]>
+</Description>
+</Member>
+<Member Name="CfgStatus" DataType="INT" Dimension="0" Radix="Hex" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Drive Config Module Statur Word]]>
+</Description>
+</Member>
+<Member Name="CfgIndexIn" DataType="INT" Dimension="0" Radix="Hex" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Drive Config Module Index In]]>
+</Description>
+</Member>
+<Member Name="CfgValueIn" DataType="DINT" Dimension="0" Radix="Hex" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Drive Config Module Value In]]>
+</Description>
+</Member>
+<Member Name="ZZZZZZZZZZtstLM_Axis27" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="DriveConnectionFaulted" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZtstLM_Axis27" BitNumber="0" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Connection to drive faulted]]>
+</Description>
+</Member>
+<Member Name="AxisFault" DataType="DINT" Dimension="0" Radix="Hex" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Bits used: 0 = Physical Axis Fault]]>
+</Description>
+</Member>
+<Member Name="ZZZZZZZZZZtstLM_Axis30" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="PhysicalAxisFault" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZtstLM_Axis30" BitNumber="0" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[The Physical Axis Fault bit is set. Check ErrorID]]>
+</Description>
+</Member>
+<Member Name="AxisStatus" DataType="DINT" Dimension="0" Radix="Hex" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Bits used: 0 = Servo Action Status, 1 = Drive Enable Status]]>
+</Description>
+</Member>
+<Member Name="ZZZZZZZZZZtstLM_Axis33" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="ServoActionStatus" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZtstLM_Axis33" BitNumber="0" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[The ServoActionStatus bit attribute is set when the associated axis is
+under servo control. If the bit is not set, then servo action is disabled.]]>
+</Description>
+</Member>
+<Member Name="DriveEnableStatus" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZtstLM_Axis33" BitNumber="1" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[The DriveEnableStatus bit attribute is set when the Drive Enable output of
+the associated physical axis is currently enabled. If the bit is not set, then
+physical servo axis Drive Enable output is currently disabled.]]>
+</Description>
+</Member>
+<Member Name="MotionStatus" DataType="DINT" Dimension="0" Radix="Hex" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Motion Status]]>
+</Description>
+</Member>
+<Member Name="ZZZZZZZZZZtstLM_Axis37" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="JogStatus" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZtstLM_Axis37" BitNumber="0" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Jog Status]]>
+</Description>
+</Member>
+<Member Name="MoveStatus" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZtstLM_Axis37" BitNumber="1" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Move Status]]>
+</Description>
+</Member>
+<Member Name="HomingStatus" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZtstLM_Axis37" BitNumber="2" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Homing Status]]>
+</Description>
+</Member>
+<Member Name="StoppingStatus" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZtstLM_Axis37" BitNumber="3" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Stopping Status]]>
+</Description>
+</Member>
+<Member Name="AxisHomedStatus" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZtstLM_Axis37" BitNumber="4" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Axis Homed Status]]>
+</Description>
+</Member>
+<Member Name="PVAStatus" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZtstLM_Axis37" BitNumber="5" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[PVA Streaming Status]]>
+</Description>
+</Member>
+<Member Name="ActualPosition" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Actual Position in Position Units]]>
+</Description>
+</Member>
+<Member Name="CommandPosition" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Command Position in Position Units]]>
+</Description>
+</Member>
+<Member Name="PositionError" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[The error between commanded and actual position that is the output of the position loop-summing junction.]]>
+</Description>
+</Member>
+<Member Name="ActualVelocity" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Actual Velocity in Position Units / Sec]]>
+</Description>
+</Member>
+<Member Name="CurrentFeedback" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Actual current applied to the axis in Ampere]]>
+</Description>
+</Member>
+<Member Name="ErrorID" DataType="INT" Dimension="0" Radix="Hex" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Drive Error ID]]>
+</Description>
+</Member>
+<Member Name="TorqueLimitPositive" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" Max="100.0" Min="0.0" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Motor positive Torque/Force Limit [0..100% of max.]. If 0 the motor can not move]]>
+</Description>
+<EngineeringUnit>
+<![CDATA[%]]>
+</EngineeringUnit>
+</Member>
+<Member Name="TorqueLimitNegative" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" Max="0.0" Min="-100.0" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Motor negative Torque/Force Limit [0..-100% of max.]. If 0 the motor can not move]]>
+</Description>
+<EngineeringUnit>
+<![CDATA[%]]>
+</EngineeringUnit>
+</Member>
+<Member Name="PositionScalingNumerator" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Increments per motor rev]]>
+</Description>
+</Member>
+<Member Name="PositionScalingDenominator" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Units per motor rev]]>
+</Description>
+</Member>
+<Member Name="TimeStampDrvToCtrl" DataType="DINT" Dimension="2" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Time Stamp Drive to Controller]]>
+</Description>
+</Member>
+<Member Name="TimeStampCtrlToDrv" DataType="DINT" Dimension="2" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Time Stamp Controller to Drive]]>
+</Description>
+</Member>
+<Member Name="TimeOffsetDrvToCtrl" DataType="DINT" Dimension="2" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Time Offset Drive to Controller]]>
+</Description>
+</Member>
+<Member Name="TimeOffsetCtrlToDrv" DataType="DINT" Dimension="2" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Time Offset Controller to Drive]]>
+</Description>
+</Member>
+<Member Name="MonChannelConfigID" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Actual active monitoring configuration ID]]>
+</Description>
+</Member>
+<Member Name="ParChannelConfigID" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Actual active parameter configuration ID]]>
+</Description>
+</Member>
+<Member Name="ZZZZZZZZZZtstLM_Axis60" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="CfgRWActive" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZtstLM_Axis60" BitNumber="0" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: A configuration instruction is active]]>
+</Description>
+</Member>
+</Members>
+</DataType>
+</DataTypes>
+<AddOnInstructionDefinitions Use="Context">
+<EncodedData EncodedType="AddOnInstructionDefinition" Name="LM_LMDriveEDS_Write_78_64" Revision="2.0" Vendor="NTI AG LinMot" SignatureID="4F5B1F59" SignatureTimestamp="2019-03-14T15:40:54.575Z" EditedDate="2019-03-14T15:40:54.575Z" SoftwareRevision="v30.01" EncryptionConfig="9">
+<Description>
+<![CDATA[Write LinMot Drive Output Assembly]]>
+</Description>
+<RevisionNote>
+<![CDATA[Initial V2 version]]>
+</RevisionNote>
+<SignatureHistory>
+<HistoryEntry User="VMW10-ROCKWELL-\joerg" Timestamp="2019-03-14T15:40:54.575Z" SignatureID="16#4f5b_1f59">
+<Description>
+<![CDATA[Initial 2.0 Version]]>
+</Description>
+</HistoryEntry>
+</SignatureHistory>
+<AdditionalHelpText>
+<![CDATA[This AOI writes the LinMot drive communication.
+It writes the data in the axis data type (tstLM_Axis) to the outputs of the drive.
+
+Drive set up with: EDS -> LMDrive
+Axis data type: tstLM_Axis
+
+LinMot Drives: C1250-CM]]>
+</AdditionalHelpText>
+<Parameters>
+<Parameter Name="EnableIn" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Enable Input - System Defined Parameter]]>
+</Description>
+</Parameter>
+<Parameter Name="EnableOut" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Enable Output - System Defined Parameter]]>
+</Description>
+</Parameter>
+<Parameter Name="Axis" TagType="Base" DataType="tstLM_Axis" Usage="InOut" Required="true" Visible="true" Constant="false">
+<Description>
+<![CDATA[LinMot Axis Reference]]>
+</Description>
+</Parameter>
+<Parameter Name="AxisComOut" TagType="Base" DataType="_024D:LMDrive_AD451A70:O:0" Usage="InOut" Required="true" Visible="true" Constant="false">
+<Description>
+<![CDATA[LinMot Axis Output Assembly]]>
+</Description>
+</Parameter>
+</Parameters>
+<Dependencies>
+<Dependency Type="DataType" Name="tstLM_Axis"/>
+</Dependencies>
+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</EncodedData>
+</AddOnInstructionDefinitions>
+</Controller>
+</RSLogix5000Content>

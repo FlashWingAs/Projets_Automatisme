@@ -1,0 +1,1964 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="30.02" TargetName="AOI_CamDisplay_OCX_StdCAM" TargetType="AddOnInstructionDefinition" TargetRevision="1.2 " TargetLastEdited="2019-02-12T08:30:42.161Z" ContainsContext="true" ExportDate="Tue Dec 12 10:29:42 2023" ExportOptions="References NoRawData L5KData DecoratedData Context Dependencies ForceProtectedEncoding AllProjDocTrans">
+<Controller Use="Context" Name="Comas_L4">
+<DataTypes Use="Context">
+<DataType Name="Chart" Family="NoFamily" Class="User">
+<Description>
+<![CDATA[Chart Control Data Source]]>
+</Description>
+<Members>
+<Member Name="Title" DataType="STRING" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="NumberOfDataPoints" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="X_Axis_Label" DataType="STRING" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="X_Axis_Min" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="X_Axis_Max" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Y_Axis_Label" DataType="STRING" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Y_Axis_Min" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Y_Axis_Max" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="DataSeries_FixedAxis" DataType="DataSeries" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="DataSeries_1" DataType="DataSeries" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="DataSeries_2" DataType="DataSeries" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="DataSeries_3" DataType="DataSeries" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="DataSeries_4" DataType="DataSeries" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="DataSeries_5" DataType="DataSeries" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="DataSeries_6" DataType="DataSeries" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="DataSeries_7" DataType="DataSeries" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="DataSeries_8" DataType="DataSeries" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+<Dependencies>
+<Dependency Type="DataType" Name="DataSeries"/>
+<Dependency Type="DataType" Name="DataSeries"/>
+<Dependency Type="DataType" Name="DataSeries"/>
+<Dependency Type="DataType" Name="DataSeries"/>
+<Dependency Type="DataType" Name="DataSeries"/>
+<Dependency Type="DataType" Name="DataSeries"/>
+<Dependency Type="DataType" Name="DataSeries"/>
+<Dependency Type="DataType" Name="DataSeries"/>
+<Dependency Type="DataType" Name="DataSeries"/>
+</Dependencies>
+</DataType>
+<DataType Name="DataSeries" Family="NoFamily" Class="User">
+<Members>
+<Member Name="Label" DataType="STRING" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="ZZZZZZZZZZDataSeries1" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="Visible" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZDataSeries1" BitNumber="0" ExternalAccess="Read/Write"/>
+<Member Name="Data" DataType="REAL" Dimension="500" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+<DataType Name="UDT_Axis_Cam_Profil" Family="NoFamily" Class="User">
+<Members>
+<Member Name="Cam" DataType="CAM" Dimension="80" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="MasterPeriode" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="SlavePeriode" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="NbrOfCamPoints" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="StartSlope" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="EndSlope" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="MasterScaling" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="SlaveScaling" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+</DataTypes>
+<AddOnInstructionDefinitions Use="Context">
+<AddOnInstructionDefinition Use="Target" Name="AOI_CamDisplay_OCX_StdCAM" Revision="1.2" ExecutePrescan="true" ExecutePostscan="false" ExecuteEnableInFalse="true" CreatedDate="2011-03-07T09:10:37.734Z" CreatedBy="FLAMARCHE\Franck" EditedDate="2019-02-12T08:30:42.161Z" EditedBy="WIN-0GN4TD2Q8CH\FL" SoftwareRevision="v31.01"
+>
+<RevisionNote>
+<![CDATA[1.1 :
+- Review Scaling for velocity and acceleration chart
+1.2 :
+- Correct the checksum calculation]]>
+</RevisionNote>
+<Parameters>
+<Parameter Name="EnableIn" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Enable Input - System Defined Parameter]]>
+</Description>
+</Parameter>
+<Parameter Name="EnableOut" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Enable Output - System Defined Parameter]]>
+</Description>
+</Parameter>
+<Parameter Name="MIO_CAM" TagType="Base" DataType="UDT_Axis_Cam_Profil" Usage="InOut" Required="true" Visible="true" Constant="false"/>
+<Parameter Name="MIO_CAMDisplay" TagType="Base" DataType="Chart" Usage="InOut" Required="true" Visible="true" Constant="false"/>
+<Parameter Name="Sts_EN" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Sts_ER" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Sts_ERR" TagType="Base" DataType="DINT" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Sts_EXERR" TagType="Base" DataType="DINT" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="In_ClearFault" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+</Parameters>
+<LocalTags>
+<LocalTag Name="L_Sequence" DataType="DINT" Radix="Decimal" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_CAMIndex" DataType="DINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_MI_MCCP" DataType="MOTION_INSTRUCTION" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_CAMProfile" DataType="CAM_PROFILE" Dimensions="80" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[[[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0]]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Array DataType="CAM_PROFILE" Dimensions="80">
+<Element Index="[0]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[1]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[2]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[3]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[4]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[5]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[6]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[7]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[8]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[9]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[10]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[11]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[12]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[13]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[14]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[15]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[16]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[17]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[18]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[19]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[20]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[21]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[22]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[23]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[24]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[25]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[26]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[27]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[28]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[29]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[30]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[31]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[32]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[33]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[34]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[35]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[36]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[37]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[38]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[39]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[40]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[41]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[42]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[43]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[44]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[45]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[46]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[47]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[48]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[49]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[50]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[51]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[52]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[53]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[54]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[55]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[56]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[57]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[58]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[59]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[60]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[61]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[62]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[63]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[64]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[65]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[66]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[67]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[68]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[69]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[70]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[71]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[72]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[73]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[74]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[75]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[76]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[77]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[78]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[79]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+</Array>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_MI_MCSV" DataType="MOTION_INSTRUCTION" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_Inc" DataType="REAL" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_Master" DataType="REAL" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_OldNbPoints" DataType="DINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_OldProfDisplay" DataType="DINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_MaxPos" DataType="REAL" Radix="Float" ExternalAccess="Read Only">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_MinPos" DataType="REAL" Radix="Float" ExternalAccess="Read Only">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_MaxVel" DataType="REAL" Radix="Float" ExternalAccess="Read Only">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_MinVel" DataType="REAL" Radix="Float" ExternalAccess="Read Only">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_MaxAcc" DataType="REAL" Radix="Float" ExternalAccess="Read Only">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_MinAcc" DataType="REAL" Radix="Float" ExternalAccess="Read Only">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_StartVal" DataType="DINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_EndVal" DataType="DINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_ScaleVel" DataType="REAL" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_ScaleAcc" DataType="REAL" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Min1" DataType="REAL" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Min2" DataType="REAL" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_OldCheckSum" DataType="REAL" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_I" DataType="DINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_CheckSum" DataType="REAL" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Max1" DataType="REAL" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Max2" DataType="REAL" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_Array_Size" DataType="DINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_Cam_Visu" DataType="CAM" Dimensions="80" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[[[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0],[0.00000000e+000,0.00000000e+000,0]]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Array DataType="CAM" Dimensions="80">
+<Element Index="[0]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[1]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[2]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[3]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[4]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[5]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[6]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[7]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[8]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[9]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[10]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[11]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[12]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[13]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[14]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[15]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[16]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[17]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[18]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[19]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[20]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[21]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[22]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[23]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[24]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[25]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[26]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[27]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[28]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[29]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[30]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[31]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[32]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[33]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[34]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[35]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[36]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[37]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[38]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[39]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[40]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[41]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[42]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[43]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[44]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[45]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[46]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[47]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[48]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[49]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[50]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[51]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[52]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[53]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[54]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[55]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[56]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[57]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[58]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[59]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[60]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[61]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[62]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[63]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[64]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[65]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[66]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[67]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[68]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[69]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[70]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[71]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[72]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[73]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[74]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[75]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[76]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[77]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[78]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[79]">
+<Structure DataType="CAM">
+<DataValueMember Name="Master" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="Slave" DataType="REAL" Radix="Float" Value="0.0"/>
+<DataValueMember Name="SegmentType" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+</Array>
+</DefaultData>
+</LocalTag>
+</LocalTags>
+<Routines>
+<Routine Name="EnableInFalse" Type="ST">
+<STContent>
+<Line Number="0">
+<![CDATA[L_Sequence 					:= 0;]]>
+</Line>
+<Line Number="1">
+<![CDATA[Sts_EN 						:= 0;]]>
+</Line>
+<Line Number="2">
+<![CDATA[Sts_ER 						:= 0;]]>
+</Line>
+<Line Number="3">
+<![CDATA[L_Master					:= 0;]]>
+</Line>
+<Line Number="4">
+<![CDATA[L_MI_MCSV.FLAGS				:= 0;]]>
+</Line>
+<Line Number="5">
+<![CDATA[L_OldNbPoints				:= 0;]]>
+</Line>
+<Line Number="6">
+<![CDATA[L_OldProfDisplay			:= -1;]]>
+</Line>
+<Line Number="7">
+<![CDATA[]]>
+</Line>
+</STContent>
+</Routine>
+<Routine Name="Logic" Type="ST">
+<STContent>
+<Line Number="0">
+<![CDATA[]]>
+</Line>
+<Line Number="1">
+<![CDATA[Case L_Sequence of]]>
+</Line>
+<Line Number="2">
+<![CDATA[]]>
+</Line>
+<Line Number="3">
+<![CDATA[00: If (MIO_CAM.NbrOfCamPoints > 0) Then]]>
+</Line>
+<Line Number="4">
+<![CDATA[		L_CheckSum := 0 ;]]>
+</Line>
+<Line Number="5">
+<![CDATA[		For L_I := 0 To (MIO_CAM.NbrOfCamPoints-1) Do]]>
+</Line>
+<Line Number="6">
+<![CDATA[			L_CheckSum						:= MIO_CAM.Cam[L_I].Master ]]>
+</Line>
+<Line Number="7">
+<![CDATA[											+ MIO_CAM.Cam[L_I].Slave ]]>
+</Line>
+<Line Number="8">
+<![CDATA[											+ MIO_CAM.Cam[L_I].SegmentType]]>
+</Line>
+<Line Number="9">
+<![CDATA[											+ L_CheckSum;]]>
+</Line>
+<Line Number="10">
+<![CDATA[		End_For;]]>
+</Line>
+<Line Number="11">
+<![CDATA[		L_CheckSum := L_CheckSum + MIO_CAM.SlaveScaling + MIO_CAM.MasterScaling;]]>
+</Line>
+<Line Number="12">
+<![CDATA[		If (L_CheckSum <> L_OldCheckSum) Then]]>
+</Line>
+<Line Number="13">
+<![CDATA[			Sts_ER 								:= 0;]]>
+</Line>
+<Line Number="14">
+<![CDATA[			L_MI_MCCP.FLAGS						:= 0;]]>
+</Line>
+<Line Number="15">
+<![CDATA[			L_OldCheckSum						:= L_CheckSum;]]>
+</Line>
+<Line Number="16">
+<![CDATA[			L_OldNbPoints						:= MIO_CAM.NbrOfCamPoints;]]>
+</Line>
+<Line Number="17">
+<![CDATA[			L_MaxPos							:= -1000;]]>
+</Line>
+<Line Number="18">
+<![CDATA[			L_MinPos							:= 1000;]]>
+</Line>
+<Line Number="19">
+<![CDATA[			L_MaxVel							:= -1000;]]>
+</Line>
+<Line Number="20">
+<![CDATA[			L_MinVel							:= 1000;]]>
+</Line>
+<Line Number="21">
+<![CDATA[			L_MaxAcc							:= -1000;]]>
+</Line>
+<Line Number="22">
+<![CDATA[			L_MinAcc							:= 1000;]]>
+</Line>
+<Line Number="23">
+<![CDATA[			L_OldProfDisplay					:= 0;]]>
+</Line>
+<Line Number="24">
+<![CDATA[			MIO_CAMDisplay.NumberOfDataPoints	:= 130;]]>
+</Line>
+<Line Number="25">
+<![CDATA[			L_Sequence							:= 5;]]>
+</Line>
+<Line Number="26">
+<![CDATA[		End_If;]]>
+</Line>
+<Line Number="27">
+<![CDATA[	End_If;]]>
+</Line>
+<Line Number="28">
+<![CDATA[]]>
+</Line>
+<Line Number="29">
+<![CDATA[5:	For L_I := 0 To L_Array_Size-1 Do	]]>
+</Line>
+<Line Number="30">
+<![CDATA[			L_Cam_Visu[L_I].Slave			:= MIO_CAM.Cam[L_I].Slave *  MIO_CAM.SlaveScaling;]]>
+</Line>
+<Line Number="31">
+<![CDATA[			L_Cam_Visu[L_I].Master			:= MIO_CAM.Cam[L_I].Master * MIO_CAM.MasterScaling; ]]>
+</Line>
+<Line Number="32">
+<![CDATA[			L_Cam_Visu[L_I].SegmentType		:= MIO_CAM.Cam[L_I].SegmentType;								]]>
+</Line>
+<Line Number="33">
+<![CDATA[	End_For;]]>
+</Line>
+<Line Number="34">
+<![CDATA[	L_Sequence								:= 10;]]>
+</Line>
+<Line Number="35">
+<![CDATA[]]>
+</Line>
+<Line Number="36">
+<![CDATA[]]>
+</Line>
+<Line Number="37">
+<![CDATA[10: MCCP(L_MI_MCCP,L_Cam_Visu[0],L_OldNbPoints,MIO_CAM.StartSlope,MIO_CAM.EndSlope,L_CAMProfile);]]>
+</Line>
+<Line Number="38">
+<![CDATA[	If L_MI_MCCP.DN Then]]>
+</Line>
+<Line Number="39">
+<![CDATA[		MIO_CAMDisplay.X_Axis_Min			:= L_Cam_Visu[0].Master;]]>
+</Line>
+<Line Number="40">
+<![CDATA[		MIO_CAMDisplay.X_Axis_Max			:= L_Cam_Visu[L_OldNbPoints-1].Master;  ]]>
+</Line>
+<Line Number="41">
+<![CDATA[		L_Master							:= MIO_CAMDisplay.X_Axis_Min;]]>
+</Line>
+<Line Number="42">
+<![CDATA[		L_Inc								:= (MIO_CAMDisplay.X_Axis_Max - MIO_CAMDisplay.X_Axis_Min) / 130;]]>
+</Line>
+<Line Number="43">
+<![CDATA[		L_StartVal							:= 0;]]>
+</Line>
+<Line Number="44">
+<![CDATA[		L_EndVal							:= 25;]]>
+</Line>
+<Line Number="45">
+<![CDATA[		L_Sequence 							:= 20;]]>
+</Line>
+<Line Number="46">
+<![CDATA[	Elsif L_MI_MCCP.ER Then]]>
+</Line>
+<Line Number="47">
+<![CDATA[		Sts_ER 								:= 1;]]>
+</Line>
+<Line Number="48">
+<![CDATA[		Sts_ERR 							:= L_MI_MCCP.ERR;]]>
+</Line>
+<Line Number="49">
+<![CDATA[		Sts_EXERR 							:= L_MI_MCCP.EXERR;]]>
+</Line>
+<Line Number="50">
+<![CDATA[		L_Sequence 							:= 99;]]>
+</Line>
+<Line Number="51">
+<![CDATA[	End_if;]]>
+</Line>
+<Line Number="52">
+<![CDATA[]]>
+</Line>
+<Line Number="53">
+<![CDATA[20:	For L_CAMIndex := L_StartVal to L_EndVal Do]]>
+</Line>
+<Line Number="54">
+<![CDATA[		L_MI_MCSV.FLAGS						:= 0;]]>
+</Line>
+<Line Number="55">
+<![CDATA[		MCSV(L_MI_MCSV,L_CAMProfile,L_Master,MIO_CAMDisplay.DataSeries_1.Data[L_CAMIndex],MIO_CAMDisplay.DataSeries_2.Data[L_CAMIndex],MIO_CAMDisplay.DataSeries_3.Data[L_CAMIndex]);]]>
+</Line>
+<Line Number="56">
+<![CDATA[		MIO_CAMDisplay.DataSeries_FixedAxis.Data[L_CAMIndex] := L_Master;]]>
+</Line>
+<Line Number="57">
+<![CDATA[		If 	L_MI_MCSV.ER Then]]>
+</Line>
+<Line Number="58">
+<![CDATA[			Sts_ER 							:= 1;]]>
+</Line>
+<Line Number="59">
+<![CDATA[			Sts_ERR 						:= L_MI_MCSV.ERR;]]>
+</Line>
+<Line Number="60">
+<![CDATA[			Sts_EXERR						:= L_MI_MCSV.EXERR;]]>
+</Line>
+<Line Number="61">
+<![CDATA[			Exit;]]>
+</Line>
+<Line Number="62">
+<![CDATA[			L_Sequence 						:= 99;]]>
+</Line>
+<Line Number="63">
+<![CDATA[		Else]]>
+</Line>
+<Line Number="64">
+<![CDATA[			If L_CAMIndex < 128 Then]]>
+</Line>
+<Line Number="65">
+<![CDATA[				L_Master					:= L_Master + L_Inc;]]>
+</Line>
+<Line Number="66">
+<![CDATA[			Else]]>
+</Line>
+<Line Number="67">
+<![CDATA[				L_Master					:= MIO_CAMDisplay.X_Axis_Max;]]>
+</Line>
+<Line Number="68">
+<![CDATA[			End_If;]]>
+</Line>
+<Line Number="69">
+<![CDATA[			If MIO_CAMDisplay.DataSeries_1.Data[L_CAMIndex] > L_MaxPos Then]]>
+</Line>
+<Line Number="70">
+<![CDATA[				L_MaxPos					:= MIO_CAMDisplay.DataSeries_1.Data[L_CAMIndex];]]>
+</Line>
+<Line Number="71">
+<![CDATA[			End_If;]]>
+</Line>
+<Line Number="72">
+<![CDATA[			If MIO_CAMDisplay.DataSeries_1.Data[L_CAMIndex] < L_MinPos Then]]>
+</Line>
+<Line Number="73">
+<![CDATA[				L_MinPos					:= MIO_CAMDisplay.DataSeries_1.Data[L_CAMIndex];]]>
+</Line>
+<Line Number="74">
+<![CDATA[			End_If;]]>
+</Line>
+<Line Number="75">
+<![CDATA[			If MIO_CAMDisplay.DataSeries_2.Data[L_CAMIndex] > L_MaxVel Then]]>
+</Line>
+<Line Number="76">
+<![CDATA[				L_MaxVel					:= MIO_CAMDisplay.DataSeries_2.Data[L_CAMIndex];]]>
+</Line>
+<Line Number="77">
+<![CDATA[			End_If;]]>
+</Line>
+<Line Number="78">
+<![CDATA[			If MIO_CAMDisplay.DataSeries_2.Data[L_CAMIndex] < L_MinVel Then]]>
+</Line>
+<Line Number="79">
+<![CDATA[				L_MinVel					:= MIO_CAMDisplay.DataSeries_2.Data[L_CAMIndex];]]>
+</Line>
+<Line Number="80">
+<![CDATA[			End_If;]]>
+</Line>
+<Line Number="81">
+<![CDATA[			If MIO_CAMDisplay.DataSeries_3.Data[L_CAMIndex] > L_MaxAcc Then]]>
+</Line>
+<Line Number="82">
+<![CDATA[				L_MaxAcc					:= MIO_CAMDisplay.DataSeries_3.Data[L_CAMIndex];]]>
+</Line>
+<Line Number="83">
+<![CDATA[			End_If;]]>
+</Line>
+<Line Number="84">
+<![CDATA[			If MIO_CAMDisplay.DataSeries_3.Data[L_CAMIndex] < L_MinAcc Then]]>
+</Line>
+<Line Number="85">
+<![CDATA[				L_MinAcc					:= MIO_CAMDisplay.DataSeries_3.Data[L_CAMIndex];]]>
+</Line>
+<Line Number="86">
+<![CDATA[			End_If;]]>
+</Line>
+<Line Number="87">
+<![CDATA[		End_If;]]>
+</Line>
+<Line Number="88">
+<![CDATA[	End_For;]]>
+</Line>
+<Line Number="89">
+<![CDATA[	If Not L_MI_MCSV.ER Then]]>
+</Line>
+<Line Number="90">
+<![CDATA[		If L_CAMIndex >= 129 Then]]>
+</Line>
+<Line Number="91">
+<![CDATA[			L_Sequence						:= 30;]]>
+</Line>
+<Line Number="92">
+<![CDATA[		Else]]>
+</Line>
+<Line Number="93">
+<![CDATA[			L_Sequence						:= 25;]]>
+</Line>
+<Line Number="94">
+<![CDATA[		End_If;]]>
+</Line>
+<Line Number="95">
+<![CDATA[	End_If;]]>
+</Line>
+<Line Number="96">
+<![CDATA[]]>
+</Line>
+<Line Number="97">
+<![CDATA[25: L_StartVal								:= L_EndVal + 1;]]>
+</Line>
+<Line Number="98">
+<![CDATA[	L_EndVal								:= L_EndVal + 26;]]>
+</Line>
+<Line Number="99">
+<![CDATA[	L_Sequence								:= 20;]]>
+</Line>
+<Line Number="100">
+<![CDATA[]]>
+</Line>
+<Line Number="101">
+<![CDATA[30: If (L_MaxVel = 0) And (L_MinVel = L_MaxVel) Then]]>
+</Line>
+<Line Number="102">
+<![CDATA[		L_ScaleVel							:= 0;]]>
+</Line>
+<Line Number="103">
+<![CDATA[		L_ScaleAcc							:= 0;]]>
+</Line>
+<Line Number="104">
+<![CDATA[	Elsif (L_MaxVel <> 0) And (L_MinVel = L_MaxVel) Then]]>
+</Line>
+<Line Number="105">
+<![CDATA[		L_ScaleVel							:= ((L_MaxPos - L_MinPos) / 2)/L_MaxVel;]]>
+</Line>
+<Line Number="106">
+<![CDATA[		L_ScaleAcc							:= 0;]]>
+</Line>
+<Line Number="107">
+<![CDATA[	Else]]>
+</Line>
+<Line Number="108">
+<![CDATA[		L_ScaleVel							:= (L_MaxPos - L_MinPos) / (L_MaxVel - L_MinVel);]]>
+</Line>
+<Line Number="109">
+<![CDATA[		L_ScaleAcc							:= (L_MaxPos - L_MinPos) / (L_MaxAcc - L_MinAcc);]]>
+</Line>
+<Line Number="110">
+<![CDATA[	End_If;]]>
+</Line>
+<Line Number="111">
+<![CDATA[	L_StartVal								:= 0;]]>
+</Line>
+<Line Number="112">
+<![CDATA[	L_EndVal								:= 25;]]>
+</Line>
+<Line Number="113">
+<![CDATA[	L_Sequence 								:= 31;]]>
+</Line>
+<Line Number="114">
+<![CDATA[]]>
+</Line>
+<Line Number="115">
+<![CDATA[31: For L_CAMIndex := L_StartVal to L_EndVal Do]]>
+</Line>
+<Line Number="116">
+<![CDATA[		MIO_CAMDisplay.DataSeries_2.Data[L_CAMIndex]	:= MIO_CAMDisplay.DataSeries_2.Data[L_CAMIndex] * L_ScaleVel;]]>
+</Line>
+<Line Number="117">
+<![CDATA[		MIO_CAMDisplay.DataSeries_3.Data[L_CAMIndex]	:= MIO_CAMDisplay.DataSeries_3.Data[L_CAMIndex] * L_ScaleAcc;]]>
+</Line>
+<Line Number="118">
+<![CDATA[	End_For;]]>
+</Line>
+<Line Number="119">
+<![CDATA[	If L_CAMIndex >= 129 Then]]>
+</Line>
+<Line Number="120">
+<![CDATA[		L_Sequence							:= 40;]]>
+</Line>
+<Line Number="121">
+<![CDATA[	Else]]>
+</Line>
+<Line Number="122">
+<![CDATA[		L_Sequence							:= 32;]]>
+</Line>
+<Line Number="123">
+<![CDATA[	End_If;]]>
+</Line>
+<Line Number="124">
+<![CDATA[]]>
+</Line>
+<Line Number="125">
+<![CDATA[32:	L_StartVal								:= L_EndVal + 1;]]>
+</Line>
+<Line Number="126">
+<![CDATA[	L_EndVal								:= L_EndVal + 26;]]>
+</Line>
+<Line Number="127">
+<![CDATA[	L_Sequence								:= 31;]]>
+</Line>
+<Line Number="128">
+<![CDATA[]]>
+</Line>
+<Line Number="129">
+<![CDATA[40: Min1	:= L_MinVel*L_ScaleVel;]]>
+</Line>
+<Line Number="130">
+<![CDATA[	Min2	:= L_MinAcc*L_ScaleAcc;]]>
+</Line>
+<Line Number="131">
+<![CDATA[	//Calculate Minimum value to display]]>
+</Line>
+<Line Number="132">
+<![CDATA[	//If velocity value is the minimum]]>
+</Line>
+<Line Number="133">
+<![CDATA[	If Min1 < Min2 AND Min1 <= L_MinPos Then]]>
+</Line>
+<Line Number="134">
+<![CDATA[		MIO_CAMDisplay.Y_Axis_Min			:= Min1;]]>
+</Line>
+<Line Number="135">
+<![CDATA[	//If acceleration value is the minimum]]>
+</Line>
+<Line Number="136">
+<![CDATA[	Elsif Min2 < Min1 AND Min2 <= L_MinPos Then]]>
+</Line>
+<Line Number="137">
+<![CDATA[		MIO_CAMDisplay.Y_Axis_Min			:= Min2;]]>
+</Line>
+<Line Number="138">
+<![CDATA[	//If position value is the minimum]]>
+</Line>
+<Line Number="139">
+<![CDATA[	Elsif L_MinPos < Min1 AND L_MinPos < Min2 Then]]>
+</Line>
+<Line Number="140">
+<![CDATA[		MIO_CAMDisplay.Y_Axis_Min			:= L_MinPos;]]>
+</Line>
+<Line Number="141">
+<![CDATA[	Elsif Min1 = Min2 Then]]>
+</Line>
+<Line Number="142">
+<![CDATA[		MIO_CAMDisplay.Y_Axis_Min			:= -0.1;]]>
+</Line>
+<Line Number="143">
+<![CDATA[	End_If;]]>
+</Line>
+<Line Number="144">
+<![CDATA[]]>
+</Line>
+<Line Number="145">
+<![CDATA[	Max1	:= L_MaxVel*L_ScaleVel;]]>
+</Line>
+<Line Number="146">
+<![CDATA[	Max2	:= L_MaxAcc*L_ScaleAcc;]]>
+</Line>
+<Line Number="147">
+<![CDATA[	//Calculate Maximum value to display]]>
+</Line>
+<Line Number="148">
+<![CDATA[	//If velocity value is the maximum]]>
+</Line>
+<Line Number="149">
+<![CDATA[	If Max1 > Max2 AND Max1 >= L_MaxPos Then]]>
+</Line>
+<Line Number="150">
+<![CDATA[		MIO_CAMDisplay.Y_Axis_Max			:= Max1;]]>
+</Line>
+<Line Number="151">
+<![CDATA[	//If acceleration value is the maximum]]>
+</Line>
+<Line Number="152">
+<![CDATA[	Elsif Max2 > Max1 AND Max2 >= L_MaxPos Then]]>
+</Line>
+<Line Number="153">
+<![CDATA[		MIO_CAMDisplay.Y_Axis_Max			:= Max2;]]>
+</Line>
+<Line Number="154">
+<![CDATA[	//If position value is the maximum]]>
+</Line>
+<Line Number="155">
+<![CDATA[	Elsif L_MaxPos > Max1 AND L_MaxPos > Max2 Then]]>
+</Line>
+<Line Number="156">
+<![CDATA[		MIO_CAMDisplay.Y_Axis_Max			:= L_MaxPos;]]>
+</Line>
+<Line Number="157">
+<![CDATA[	Elsif Max1 = Max2 Then]]>
+</Line>
+<Line Number="158">
+<![CDATA[		MIO_CAMDisplay.Y_Axis_Max			:= 0.1;]]>
+</Line>
+<Line Number="159">
+<![CDATA[	End_If;]]>
+</Line>
+<Line Number="160">
+<![CDATA[]]>
+</Line>
+<Line Number="161">
+<![CDATA[]]>
+</Line>
+<Line Number="162">
+<![CDATA[	MIO_CAMDisplay.DataSeries_1.Visible		:= 1;]]>
+</Line>
+<Line Number="163">
+<![CDATA[	MIO_CAMDisplay.DataSeries_2.Visible		:= 1;]]>
+</Line>
+<Line Number="164">
+<![CDATA[	MIO_CAMDisplay.DataSeries_3.Visible		:= 1;]]>
+</Line>
+<Line Number="165">
+<![CDATA[]]>
+</Line>
+<Line Number="166">
+<![CDATA[	L_Sequence								:= 0;]]>
+</Line>
+<Line Number="167">
+<![CDATA[]]>
+</Line>
+<Line Number="168">
+<![CDATA[99: If In_ClearFault Then]]>
+</Line>
+<Line Number="169">
+<![CDATA[		Sts_ER 								:= 0;]]>
+</Line>
+<Line Number="170">
+<![CDATA[		L_MI_MCCP.FLAGS						:= 0;]]>
+</Line>
+<Line Number="171">
+<![CDATA[		L_MI_MCSV.FLAGS						:= 0;]]>
+</Line>
+<Line Number="172">
+<![CDATA[		Sts_ERR 							:= 0;]]>
+</Line>
+<Line Number="173">
+<![CDATA[		Sts_EXERR							:= 0;]]>
+</Line>
+<Line Number="174">
+<![CDATA[		L_Sequence							:= 0;]]>
+</Line>
+<Line Number="175">
+<![CDATA[	End_If;]]>
+</Line>
+<Line Number="176">
+<![CDATA[End_Case;]]>
+</Line>
+<Line Number="177">
+<![CDATA[]]>
+</Line>
+<Line Number="178">
+<![CDATA[Sts_EN	:= EnableIn;]]>
+</Line>
+</STContent>
+</Routine>
+<Routine Name="Prescan" Type="ST">
+<STContent>
+<Line Number="0">
+<![CDATA[L_Sequence 					:= 0;]]>
+</Line>
+<Line Number="1">
+<![CDATA[Sts_EN 						:= 0;]]>
+</Line>
+<Line Number="2">
+<![CDATA[Sts_ER 						:= 0;]]>
+</Line>
+<Line Number="3">
+<![CDATA[L_Master					:= 0;]]>
+</Line>
+<Line Number="4">
+<![CDATA[L_MI_MCSV.FLAGS				:= 0;]]>
+</Line>
+<Line Number="5">
+<![CDATA[L_OldNbPoints				:= 0;]]>
+</Line>
+<Line Number="6">
+<![CDATA[L_OldProfDisplay			:= -1;]]>
+</Line>
+<Line Number="7">
+<![CDATA[MIO_CAMDisplay.DataSeries_FixedAxis.Visible :=1;]]>
+</Line>
+<Line Number="8">
+<![CDATA[MIO_CAMDisplay.DataSeries_1.Label := 'Position';]]>
+</Line>
+<Line Number="9">
+<![CDATA[MIO_CAMDisplay.DataSeries_2.Label := 'Velocity';]]>
+</Line>
+<Line Number="10">
+<![CDATA[MIO_CAMDisplay.DataSeries_3.Label := 'Acceleration';]]>
+</Line>
+<Line Number="11">
+<![CDATA[Size(L_CAMProfile,0,L_Array_Size);]]>
+</Line>
+</STContent>
+</Routine>
+</Routines>
+<Dependencies>
+<Dependency Type="DataType" Name="UDT_Axis_Cam_Profil"/>
+<Dependency Type="DataType" Name="Chart"/>
+</Dependencies>
+</AddOnInstructionDefinition>
+</AddOnInstructionDefinitions>
+</Controller>
+</RSLogix5000Content>

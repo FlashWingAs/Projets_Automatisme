@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="35.00" TargetName="st_Machine" TargetType="DataType" ContainsContext="true" ExportDate="Tue Oct 17 11:24:24 2023" ExportOptions="References NoRawData L5KData DecoratedData Context Dependencies ForceProtectedEncoding AllProjDocTrans">
+<Controller Use="Context" Name="L5_GRA_13_10_23">
+<DataTypes Use="Context">
+<DataType Use="Target" Name="st_Machine" Family="NoFamily" Class="User">
+<Members>
+<Member Name="EM1" DataType="st_Machine_EM1" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+<Dependencies>
+<Dependency Type="DataType" Name="st_Machine_EM1"/>
+</Dependencies>
+</DataType>
+<DataType Name="st_Machine_EM1" Family="NoFamily" Class="User">
+<Members>
+<Member Name="I" DataType="st_Machine_EM1_I" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="O" DataType="st_Machine_EM1_O" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Param" DataType="st_Machine_EM1_Param" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+<Dependencies>
+<Dependency Type="DataType" Name="st_Machine_EM1_I"/>
+<Dependency Type="DataType" Name="st_Machine_EM1_O"/>
+<Dependency Type="DataType" Name="st_Machine_EM1_Param"/>
+</Dependencies>
+</DataType>
+<DataType Name="st_Machine_EM1_I" Family="NoFamily" Class="User">
+<Members>
+<Member Name="Bouton" DataType="st_Machine_EM1_I_Bouton" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="HMI" DataType="st_Machine_EM1_I_HMI" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Capteur" DataType="st_Machine_EM1_I_Capteur" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Ligne" DataType="st_Machine_EM1_I_Ligne" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="x_Reserve" DataType="BOOL" Dimension="32" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="di_Reserve" DataType="DINT" Dimension="16" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="r_Reserve" DataType="REAL" Dimension="8" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+<Dependencies>
+<Dependency Type="DataType" Name="st_Machine_EM1_I_Bouton"/>
+<Dependency Type="DataType" Name="st_Machine_EM1_I_HMI"/>
+<Dependency Type="DataType" Name="st_Machine_EM1_I_Capteur"/>
+<Dependency Type="DataType" Name="st_Machine_EM1_I_Ligne"/>
+</Dependencies>
+</DataType>
+<DataType Name="st_Machine_EM1_I_Bouton" Family="NoFamily" Class="User">
+<Members>
+<Member Name="ZZZZZZZZZZst_Machine0" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="x_BP_Marche" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine0" BitNumber="0" ExternalAccess="Read/Write"/>
+<Member Name="x_BP_Arret" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine0" BitNumber="1" ExternalAccess="Read/Write"/>
+<Member Name="x_BP_Coup_a_Coup" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine0" BitNumber="2" ExternalAccess="Read/Write"/>
+<Member Name="x_Commutateur_En_Service" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine0" BitNumber="3" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[0: Hors service
+1: En service]]>
+</Description>
+</Member>
+</Members>
+</DataType>
+<DataType Name="st_Machine_EM1_I_Capteur" Family="NoFamily" Class="User">
+<Members>
+<Member Name="ZZZZZZZZZZst_Machine0" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="x_Top_Cycle" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine0" BitNumber="0" ExternalAccess="Read/Write"/>
+<Member Name="x_Top_Vitesse" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine0" BitNumber="1" ExternalAccess="Read/Write"/>
+<Member Name="x_Top_Tempo_Rattrapage" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine0" BitNumber="2" ExternalAccess="Read/Write"/>
+<Member Name="x_Top_Spot_Rattrapage" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine0" BitNumber="3" ExternalAccess="Read/Write"/>
+<Member Name="x_Pressostat_Air_General" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine0" BitNumber="4" ExternalAccess="Read/Write"/>
+<Member Name="x_Pressostat_Huile" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine0" BitNumber="5" ExternalAccess="Read/Write"/>
+<Member Name="x_Disjoncteur_Transformateur" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine0" BitNumber="6" ExternalAccess="Read/Write"/>
+<Member Name="x_Disjoncteur_DPM" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine0" BitNumber="7" ExternalAccess="Read/Write"/>
+<Member Name="ZZZZZZZZZZst_Machine9" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="x_Disjoncteur_Pompe_Huile" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine9" BitNumber="0" ExternalAccess="Read/Write"/>
+<Member Name="x_Disjoncteur_Module_Chauffage" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine9" BitNumber="1" ExternalAccess="Read/Write"/>
+<Member Name="x_Disjoncteur_Chauffage" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine9" BitNumber="2" ExternalAccess="Read/Write"/>
+<Member Name="x_Disjoncteur_Ionisateur" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine9" BitNumber="3" ExternalAccess="Read/Write"/>
+<Member Name="x_Contacteur_Chauffage" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine9" BitNumber="4" ExternalAccess="Read/Write"/>
+<Member Name="x_Contacteur_Pompe_Huile" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine9" BitNumber="5" ExternalAccess="Read/Write"/>
+<Member Name="x_Contacteur_Marqueur" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine9" BitNumber="6" ExternalAccess="Read/Write"/>
+<Member Name="x_Carter_Chargeur_G" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine9" BitNumber="7" ExternalAccess="Read/Write"/>
+<Member Name="ZZZZZZZZZZst_Machine18" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="x_Carter_Chargeur_D" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine18" BitNumber="0" ExternalAccess="Read/Write"/>
+<Member Name="x_Carter_Sortie_G" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine18" BitNumber="1" ExternalAccess="Read/Write"/>
+<Member Name="x_Carter_Sortie_D" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine18" BitNumber="2" ExternalAccess="Read/Write"/>
+<Member Name="x_Carter_Ciseau" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine18" BitNumber="3" ExternalAccess="Read/Write"/>
+<Member Name="x_Carter_Volant" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine18" BitNumber="4" ExternalAccess="Read/Write"/>
+<Member Name="x_AU_Boite" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine18" BitNumber="5" ExternalAccess="Read/Write"/>
+<Member Name="x_AU_Entree" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine18" BitNumber="6" ExternalAccess="Read/Write"/>
+<Member Name="x_AU_Pupitre" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine18" BitNumber="7" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+<DataType Name="st_Machine_EM1_I_HMI" Family="NoFamily" Class="User">
+<Members>
+<Member Name="ZZZZZZZZZZst_Machine0" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="x_Selecteur_Consigne_Ligne" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine0" BitNumber="0" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[0: Consigne Locale
+1: Consigne en Ligne]]>
+</Description>
+</Member>
+<Member Name="x_Selecteur_Decrochage_Ligne" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine0" BitNumber="1" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[0: Avec sécurités de ligne
+1: Sans sécurités de ligne]]>
+</Description>
+</Member>
+<Member Name="x_Selecteur_Coup_a_Coup" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine0" BitNumber="2" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[0: Production Automatique
+1: Production Coup a Coup]]>
+</Description>
+</Member>
+<Member Name="x_Recette_Sauvegarder" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine0" BitNumber="3" ExternalAccess="Read/Write"/>
+<Member Name="x_Recette_Valider" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine0" BitNumber="4" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+<DataType Name="st_Machine_EM1_I_Ligne" Family="NoFamily" Class="User">
+<Members>
+<Member Name="ZZZZZZZZZZst_Machine0" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="x_DPM_Pret" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine0" BitNumber="0" ExternalAccess="Read/Write"/>
+<Member Name="x_Marqueur_Pret" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine0" BitNumber="1" ExternalAccess="Read/Write"/>
+<Member Name="r_Consigne_Vitesse" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+<DataType Name="st_Machine_EM1_O" Family="NoFamily" Class="User">
+<Members>
+<Member Name="Ligne" DataType="st_Machine_EM1_O_Ligne" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Voyants" DataType="st_Machine_EM1_O_Voyant" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Sorties" DataType="st_Machine_EM1_O_Sorties" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="x_Reserve" DataType="BOOL" Dimension="32" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="di_Reserve" DataType="DINT" Dimension="16" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="r_Reserve" DataType="REAL" Dimension="8" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+<Dependencies>
+<Dependency Type="DataType" Name="st_Machine_EM1_O_Ligne"/>
+<Dependency Type="DataType" Name="st_Machine_EM1_O_Voyant"/>
+<Dependency Type="DataType" Name="st_Machine_EM1_O_Sorties"/>
+</Dependencies>
+</DataType>
+<DataType Name="st_Machine_EM1_O_Ligne" Family="NoFamily" Class="User">
+<Members>
+<Member Name="ZZZZZZZZZZst_Machine0" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="x_Top_Marqueur" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine0" BitNumber="0" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+<DataType Name="st_Machine_EM1_O_Sorties" Family="NoFamily" Class="User">
+<Members>
+<Member Name="ZZZZZZZZZZst_Machine0" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="x_Contacteur_Pompe_Huile" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine0" BitNumber="0" ExternalAccess="Read/Write"/>
+<Member Name="x_Contacteur_Chauffage" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine0" BitNumber="1" ExternalAccess="Read/Write"/>
+<Member Name="x_Contacteur_Ionisateur" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine0" BitNumber="2" ExternalAccess="Read/Write"/>
+<Member Name="x_Electro_Aimant_Rattrapage" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine0" BitNumber="3" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+<DataType Name="st_Machine_EM1_O_Voyant" Family="NoFamily" Class="User">
+<Members>
+<Member Name="ZZZZZZZZZZst_Machine0" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="x_Colonne_Verte" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine0" BitNumber="0" ExternalAccess="Read/Write"/>
+<Member Name="x_Colonne_Rouge" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine0" BitNumber="1" ExternalAccess="Read/Write"/>
+<Member Name="x_Colonne_Orange" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine0" BitNumber="2" ExternalAccess="Read/Write"/>
+<Member Name="x_Colonne_Bleue" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine0" BitNumber="3" ExternalAccess="Read/Write"/>
+<Member Name="x_Colonne_Buzzer" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine0" BitNumber="4" ExternalAccess="Read/Write"/>
+<Member Name="x_BP_Marche" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine0" BitNumber="5" ExternalAccess="Read/Write"/>
+<Member Name="x_BP_Arret" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine0" BitNumber="6" ExternalAccess="Read/Write"/>
+<Member Name="x_BP_Rearmement" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Machine0" BitNumber="7" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+<DataType Name="st_Machine_EM1_Param" Family="NoFamily" Class="User">
+<Members>
+<Member Name="x_Reserve" DataType="BOOL" Dimension="64" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="di_Reserve" DataType="DINT" Dimension="32" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="r_Reserve" DataType="REAL" Dimension="16" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="r_Consigne_Prod_Auto_Locale" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="r_Consigne_Coup_a_Coup" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="r_Coef_ma2ppm" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="r_Coef_ppm2hz" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="di_Top_Marqueur_TON" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="di_Top_Marqueur_TOF" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="di_Timer_Buzzer_Prod_Start" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="di_Timer_Production_Start" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="di_Timer_Production_Stop" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="di_TimeOut_Pressostat_Air_General" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="di_TimeOut_Pressostat_Huile" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="di_Temp_Reg_G1" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="di_Temp_Reg_G2" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="di_Temp_Reg_D1" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="di_Temp_Reg_D2" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="di_Temp_Reg_Long" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="di_Hyst_Reg_G1" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="di_Hyst_Reg_G2" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="di_Hyst_Reg_D1" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="di_Hyst_Reg_D2" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="di_Hyst_Reg_Long" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+</DataTypes>
+</Controller>
+</RSLogix5000Content>

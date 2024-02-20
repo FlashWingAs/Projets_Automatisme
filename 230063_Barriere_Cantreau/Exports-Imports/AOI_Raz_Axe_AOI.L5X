@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="35.00" TargetName="AOI_Raz_Axe" TargetType="AddOnInstructionDefinition" TargetClass="Standard" TargetRevision="1.2 " TargetLastEdited="2022-12-07T14:12:16.801Z" ContainsContext="true" ExportDate="Tue Oct 17 15:20:44 2023" ExportOptions="References NoRawData L5KData DecoratedData Context Dependencies ForceProtectedEncoding AllProjDocTrans">
+<Controller Use="Context" Name="Robots_220189">
+<DataTypes Use="Context">
+</DataTypes>
+<AddOnInstructionDefinitions Use="Context">
+<AddOnInstructionDefinition Use="Target" Name="AOI_Raz_Axe" Class="Standard" Revision="1.2" ExecutePrescan="false" ExecutePostscan="false" ExecuteEnableInFalse="false" CreatedDate="2010-06-02T21:16:00.671Z" CreatedBy="AUTOMATISME\Rodolphe" EditedDate="2022-12-07T14:12:16.801Z" EditedBy="DESKTOP-QH05QM3\Bfr"
+ SoftwareRevision="v34.01">
+<Parameters>
+<Parameter Name="EnableIn" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Enable Input - System Defined Parameter]]>
+</Description>
+</Parameter>
+<Parameter Name="EnableOut" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Enable Output - System Defined Parameter]]>
+</Description>
+</Parameter>
+<Parameter Name="AXE" TagType="Base" DataType="AXIS_CIP_DRIVE" Usage="InOut" Required="true" Visible="true"/>
+<Parameter Name="RAZ" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="acc" TagType="Base" DataType="REAL" Usage="Input" Radix="Float" Required="true" Visible="true" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="dec" TagType="Base" DataType="REAL" Usage="Input" Radix="Float" Required="true" Visible="true" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="jerk" TagType="Base" DataType="REAL" Usage="Input" Radix="Float" Required="true" Visible="true" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="ERR" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+</Parameters>
+<LocalTags>
+<LocalTag Name="MASR_AXE" DataType="MOTION_INSTRUCTION" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="MAFR_AXE" DataType="MOTION_INSTRUCTION" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="MAS_AXE" DataType="MOTION_INSTRUCTION" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+</LocalTags>
+<Routines>
+<Routine Name="Logic" Type="RLL">
+<RLLContent>
+<Rung Number="0" Type="N">
+<Comment>
+<![CDATA[RAZ défaut axe]]>
+</Comment>
+<Text>
+<![CDATA[XIC(RAZ)[XIC(AXE.ShutdownStatus) MASR(AXE,MASR_AXE) ,XIO(AXE.ShutdownStatus) MAFR(AXE,MAFR_AXE) ,XIC(MAFR_AXE.DN) MAS(AXE,MAS_AXE,All,Yes,10000,Units per sec2,Yes,10000,% of Time) ];]]>
+</Text>
+</Rung>
+<Rung Number="1" Type="N">
+<Comment>
+<![CDATA[Etat de la fonction]]>
+</Comment>
+<Text>
+<![CDATA[[XIC(MASR_AXE.ER) ,XIC(MAFR_AXE.ER) ,XIC(MAS_AXE.ER) ]OTE(ERR);]]>
+</Text>
+</Rung>
+</RLLContent>
+</Routine>
+</Routines>
+</AddOnInstructionDefinition>
+</AddOnInstructionDefinitions>
+</Controller>
+</RSLogix5000Content>

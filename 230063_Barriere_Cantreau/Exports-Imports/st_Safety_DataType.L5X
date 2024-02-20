@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="35.00" TargetName="st_Safety" TargetType="DataType" ContainsContext="true" ExportDate="Tue Oct 17 11:24:28 2023" ExportOptions="References NoRawData L5KData DecoratedData Context Dependencies ForceProtectedEncoding AllProjDocTrans">
+<Controller Use="Context" Name="L5_GRA_13_10_23">
+<DataTypes Use="Context">
+<DataType Use="Target" Name="st_Safety" Family="NoFamily" Class="User">
+<Members>
+<Member Name="EM1" DataType="st_Safety_EM1" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+<Dependencies>
+<Dependency Type="DataType" Name="st_Safety_EM1"/>
+</Dependencies>
+</DataType>
+<DataType Name="st_Safety_EM1" Family="NoFamily" Class="User">
+<Members>
+<Member Name="I" DataType="st_Safety_EM1_I" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="O" DataType="st_Safety_EM1_O" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+<Dependencies>
+<Dependency Type="DataType" Name="st_Safety_EM1_I"/>
+<Dependency Type="DataType" Name="st_Safety_EM1_O"/>
+</Dependencies>
+</DataType>
+<DataType Name="st_Safety_EM1_I" Family="NoFamily" Class="User">
+<Members>
+<Member Name="ZZZZZZZZZZst_Safety_0" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="x_AU_C1" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Safety_0" BitNumber="0" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[01.0 - EN: 1 - EA: 0]]>
+</Description>
+</Member>
+<Member Name="x_AU_C2" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Safety_0" BitNumber="1" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[01.1 - EN: 1 - EA: 0]]>
+</Description>
+</Member>
+<Member Name="x_Carter_C1" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Safety_0" BitNumber="2" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[01.2 - EN: 1 - EA: 0]]>
+</Description>
+</Member>
+<Member Name="x_Carter_C2" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Safety_0" BitNumber="3" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[01.3 - EN: 1 - EA: 0]]>
+</Description>
+</Member>
+<Member Name="x_BP_Rearmement" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Safety_0" BitNumber="4" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[01.7 - Actif: 1]]>
+</Description>
+</Member>
+<Member Name="x_Badge_A" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Safety_0" BitNumber="5" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[02.0 - Actif: 1]]>
+</Description>
+</Member>
+<Member Name="x_Badge_B" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Safety_0" BitNumber="6" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[02.1 - Actif: 1]]>
+</Description>
+</Member>
+<Member Name="x_Badge_C" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Safety_0" BitNumber="7" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[02.2 - Actif: 1]]>
+</Description>
+</Member>
+<Member Name="ZZZZZZZZZZst_Safety_9" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="x_Badge_D" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Safety_9" BitNumber="0" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[02.3 - Actif: 1]]>
+</Description>
+</Member>
+<Member Name="x_Badge_C1" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Safety_9" BitNumber="1" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[02.4 - Actif: 1]]>
+</Description>
+</Member>
+<Member Name="x_Badge_C2" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Safety_9" BitNumber="2" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[02.5 - Actif: 1]]>
+</Description>
+</Member>
+<Member Name="x_Assentiment_C1" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Safety_9" BitNumber="3" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[02.6 - EN: 1 - EA: 0]]>
+</Description>
+</Member>
+<Member Name="x_Assentiment_C2" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Safety_9" BitNumber="4" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[02.7 - EN: 1 - EA: 0]]>
+</Description>
+</Member>
+</Members>
+</DataType>
+<DataType Name="st_Safety_EM1_O" Family="NoFamily" Class="User">
+<Members>
+<Member Name="ZZZZZZZZZZst_Safety_0" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="x_EV_Air_General" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Safety_0" BitNumber="0" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[03.0 - Actif: 1]]>
+</Description>
+</Member>
+<Member Name="x_Contact_Puissance" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Safety_0" BitNumber="1" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[03.2 - Actif: 1]]>
+</Description>
+</Member>
+<Member Name="x_Contact_Principal" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Safety_0" BitNumber="2" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[03.3 - Actif: 1]]>
+</Description>
+</Member>
+<Member Name="x_STO_Var_Master_C1" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Safety_0" BitNumber="3" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[03.4 - Actif: 1]]>
+</Description>
+</Member>
+<Member Name="x_STO_Var_Master_C2" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZst_Safety_0" BitNumber="4" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[03.5 - Actif: 1]]>
+</Description>
+</Member>
+</Members>
+</DataType>
+</DataTypes>
+</Controller>
+</RSLogix5000Content>

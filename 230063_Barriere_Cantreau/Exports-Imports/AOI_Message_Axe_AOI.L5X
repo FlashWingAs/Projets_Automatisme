@@ -1,0 +1,3572 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="35.00" TargetName="AOI_Message_Axe" TargetType="AddOnInstructionDefinition" TargetClass="Standard" TargetRevision="1.1 " TargetLastEdited="2022-04-26T12:13:23.841Z" ContainsContext="true" ExportDate="Tue Oct 17 15:20:41 2023" ExportOptions="References NoRawData L5KData DecoratedData Context Dependencies ForceProtectedEncoding AllProjDocTrans">
+<Controller Use="Context" Name="Robots_220189">
+<DataTypes Use="Context">
+</DataTypes>
+<AddOnInstructionDefinitions Use="Context">
+<AddOnInstructionDefinition Use="Target" Name="AOI_Message_Axe" Class="Standard" Revision="1.1" ExecutePrescan="false" ExecutePostscan="false" ExecuteEnableInFalse="false" CreatedDate="2008-11-28T07:56:37.833Z" CreatedBy="Not Available" EditedDate="2022-04-26T12:13:23.841Z" EditedBy="DESKTOP-QH05QM3\Bfr"
+ SoftwareRevision="v33.01">
+<Parameters>
+<Parameter Name="EnableIn" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only"/>
+<Parameter Name="EnableOut" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only"/>
+<Parameter Name="MIO_Axis" TagType="Base" DataType="AXIS_CIP_DRIVE" Usage="InOut" Required="true" Visible="true"/>
+<Parameter Name="Inf_Messages" TagType="Base" DataType="STRING" Dimensions="380" Usage="InOut" Required="true" Visible="true" Constant="false"/>
+<Parameter Name="ER" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Message_Defaut" TagType="Base" DataType="STRING" Usage="InOut" Required="true" Visible="true" Constant="false"/>
+<Parameter Name="L_Msg_Index" TagType="Base" DataType="DINT" Usage="InOut" Radix="Decimal" Required="true" Visible="true" Constant="false"/>
+</Parameters>
+<LocalTags>
+<LocalTag Name="TRUE" DataType="BOOL" Radix="Decimal" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[1]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="1"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="FALSE" DataType="BOOL" Radix="Decimal" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_MemoResultIndex" DataType="DINT" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Numero_Texte" DataType="DINT" Radix="Decimal" ExternalAccess="Read Only">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+</LocalTags>
+<Routines>
+<Routine Name="Logic" Type="ST">
+<STContent>
+<Line Number="0">
+<![CDATA[]]>
+</Line>
+<Line Number="1">
+<![CDATA[	(*----------------------------------------------------------------------------------------------------]]>
+</Line>
+<Line Number="2">
+<![CDATA[										Build Axis ResultText String Info]]>
+</Line>
+<Line Number="3">
+<![CDATA[	-----------------------------------------------------------------------------------------------------*)	]]>
+</Line>
+<Line Number="4">
+<![CDATA[		IF L_MemoResultIndex <> L_Msg_Index THEN]]>
+</Line>
+<Line Number="5">
+<![CDATA[			COP(Inf_Messages[L_Msg_Index],Message_Defaut,1);]]>
+</Line>
+<Line Number="6">
+<![CDATA[			L_MemoResultIndex					:= L_Msg_Index;]]>
+</Line>
+<Line Number="7">
+<![CDATA[		END_IF;	]]>
+</Line>
+<Line Number="8">
+<![CDATA[		]]>
+</Line>
+<Line Number="9">
+<![CDATA[		IF MIO_Axis.SafeTorqueOffInhibit THEN]]>
+</Line>
+<Line Number="10">
+<![CDATA[			L_Msg_Index													:= 224;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="11">
+<![CDATA[			Numero_Texte														:= 2000+ L_Msg_Index;			]]>
+</Line>
+<Line Number="12">
+<![CDATA[		END_IF;]]>
+</Line>
+<Line Number="13">
+<![CDATA[(*================================================================================================]]>
+</Line>
+<Line Number="14">
+<![CDATA[										CHECK FAULT 				 ]]>
+</Line>
+<Line Number="15">
+<![CDATA[==================================================================================================*)]]>
+</Line>
+<Line Number="16">
+<![CDATA[IF MIO_Axis.AxisFault <> 0 THEN]]>
+</Line>
+<Line Number="17">
+<![CDATA[	]]>
+</Line>
+<Line Number="18">
+<![CDATA[	(*================================================================================================]]>
+</Line>
+<Line Number="19">
+<![CDATA[									Physical Axis Fault]]>
+</Line>
+<Line Number="20">
+<![CDATA[	==================================================================================================*)]]>
+</Line>
+<Line Number="21">
+<![CDATA[	IF MIO_Axis.AxisFault.0 THEN]]>
+</Line>
+<Line Number="22">
+<![CDATA[		(*================================================================================================]]>
+</Line>
+<Line Number="23">
+<![CDATA[										MOTOR COMMUTATION FAULT]]>
+</Line>
+<Line Number="24">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="25">
+<![CDATA[			IF 		MIO_Axis.MotorCommutationFault THEN ]]>
+</Line>
+<Line Number="26">
+<![CDATA[			 		L_Msg_Index													:= 134;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="27">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Fault]]>
+</Line>
+<Line Number="28">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="29">
+<![CDATA[										MOTOR OVERSEPEED FL FAULT]]>
+</Line>
+<Line Number="30">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="31">
+<![CDATA[			ELSIF 	MIO_Axis.MotorOverspeedFLFault THEN ]]>
+</Line>
+<Line Number="32">
+<![CDATA[			 		L_Msg_Index													:= 135;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="33">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="34">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="35">
+<![CDATA[										MOTOR OVERSEPEED UL FAULT]]>
+</Line>
+<Line Number="36">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="37">
+<![CDATA[			ELSIF 	MIO_Axis.MotorOverspeedULFault THEN ]]>
+</Line>
+<Line Number="38">
+<![CDATA[			 		L_Msg_Index													:= 136;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="39">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="40">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="41">
+<![CDATA[										MOTOR OVERTEMPERATURE FL FAULT]]>
+</Line>
+<Line Number="42">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="43">
+<![CDATA[			ELSIF 	MIO_Axis.MotorOvertemperatureFLFault THEN ]]>
+</Line>
+<Line Number="44">
+<![CDATA[			 		L_Msg_Index													:= 137;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="45">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="46">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="47">
+<![CDATA[										MOTOR OVERTEMPERATURE UL FAULT]]>
+</Line>
+<Line Number="48">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="49">
+<![CDATA[			ELSIF 	MIO_Axis.MotorOvertemperatureULFault THEN ]]>
+</Line>
+<Line Number="50">
+<![CDATA[			 		L_Msg_Index													:= 138;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="51">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="52">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="53">
+<![CDATA[										MOTOR THERMAL OVERLOAD FL FAULT]]>
+</Line>
+<Line Number="54">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="55">
+<![CDATA[			ELSIF 	MIO_Axis.MotorThermalOverloadFLFault THEN ]]>
+</Line>
+<Line Number="56">
+<![CDATA[			 		L_Msg_Index													:= 139;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="57">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="58">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="59">
+<![CDATA[										MOTOR THERMAL OVERLOAD UL FAULT]]>
+</Line>
+<Line Number="60">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="61">
+<![CDATA[			ELSIF 	MIO_Axis.MotorThermalOverloadULFault THEN ]]>
+</Line>
+<Line Number="62">
+<![CDATA[			 		L_Msg_Index													:= 140;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="63">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="64">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="65">
+<![CDATA[										INVERTER OVERCURRENT FAULT]]>
+</Line>
+<Line Number="66">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="67">
+<![CDATA[			ELSIF 	MIO_Axis.InverterOvercurrentFault THEN ]]>
+</Line>
+<Line Number="68">
+<![CDATA[			 		L_Msg_Index													:= 141;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="69">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="70">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="71">
+<![CDATA[										INVERTER OVERTEMPERATURE FL FAULT]]>
+</Line>
+<Line Number="72">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="73">
+<![CDATA[			ELSIF 	MIO_Axis.InverterOvertemperatureFLFault THEN ]]>
+</Line>
+<Line Number="74">
+<![CDATA[			 		L_Msg_Index													:= 142;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="75">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="76">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="77">
+<![CDATA[										INVERTER OVERTEMPERATURE UL FAULT]]>
+</Line>
+<Line Number="78">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="79">
+<![CDATA[			ELSIF 	MIO_Axis.InverterOvertemperatureULFault THEN ]]>
+</Line>
+<Line Number="80">
+<![CDATA[			 		L_Msg_Index													:= 143;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="81">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="82">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="83">
+<![CDATA[										INVERTER THERMALOVERLOAD FL FAULT]]>
+</Line>
+<Line Number="84">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="85">
+<![CDATA[			ELSIF 	MIO_Axis.InverterThermalOverloadFLFault THEN ]]>
+</Line>
+<Line Number="86">
+<![CDATA[			 		L_Msg_Index													:= 144;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="87">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="88">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="89">
+<![CDATA[										INVERTER OVERTEMPERATURE UL FAULT]]>
+</Line>
+<Line Number="90">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="91">
+<![CDATA[			ELSIF 	MIO_Axis.InverterOvertemperatureULFault THEN ]]>
+</Line>
+<Line Number="92">
+<![CDATA[			 		L_Msg_Index													:= 145;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="93">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="94">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="95">
+<![CDATA[										CONVERTER GROUND CURRENT FL FAULT]]>
+</Line>
+<Line Number="96">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="97">
+<![CDATA[			ELSIF 	MIO_Axis.ConverterGroundCurrentFLFault THEN ]]>
+</Line>
+<Line Number="98">
+<![CDATA[			 		L_Msg_Index													:= 146;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="99">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="100">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="101">
+<![CDATA[										CONVERTER GROUND CURRENT UL FAULT]]>
+</Line>
+<Line Number="102">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="103">
+<![CDATA[			ELSIF 	MIO_Axis.ConverterGroundCurrentULFault THEN ]]>
+</Line>
+<Line Number="104">
+<![CDATA[			 		L_Msg_Index													:= 147;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="105">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="106">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="107">
+<![CDATA[										CONVERTER OVERTEMPERATURE FL FAULT]]>
+</Line>
+<Line Number="108">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="109">
+<![CDATA[			ELSIF 	MIO_Axis.ConverterOvertemperatureFLFault THEN ]]>
+</Line>
+<Line Number="110">
+<![CDATA[			 		L_Msg_Index													:= 148;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="111">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="112">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="113">
+<![CDATA[										CONVERTER OVERTEMPERATURE UL FAULT]]>
+</Line>
+<Line Number="114">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="115">
+<![CDATA[			ELSIF 	MIO_Axis.ConverterOvertemperatureULFault THEN ]]>
+</Line>
+<Line Number="116">
+<![CDATA[			 		L_Msg_Index													:= 149;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="117">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="118">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="119">
+<![CDATA[										CONVERTER THERMAL OVERLOAD FL FAULT]]>
+</Line>
+<Line Number="120">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="121">
+<![CDATA[			ELSIF 	MIO_Axis.ConverterThermalOverloadFLFault THEN ]]>
+</Line>
+<Line Number="122">
+<![CDATA[			 		L_Msg_Index													:= 150;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="123">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="124">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="125">
+<![CDATA[										CONVERTER THERMAL OVERLOAD UL FAULT]]>
+</Line>
+<Line Number="126">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="127">
+<![CDATA[			ELSIF 	MIO_Axis.ConverterThermalOverloadULFault THEN ]]>
+</Line>
+<Line Number="128">
+<![CDATA[			 		L_Msg_Index													:= 151;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="129">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="130">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="131">
+<![CDATA[										CONVERTER AC POWER LOSS FAULT]]>
+</Line>
+<Line Number="132">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="133">
+<![CDATA[			ELSIF 	MIO_Axis.ConverterACPowerLossFault THEN ]]>
+</Line>
+<Line Number="134">
+<![CDATA[			 		L_Msg_Index													:= 152;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="135">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="136">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="137">
+<![CDATA[										CONVERTER AC SINGLE PHASE LOSS FAULT]]>
+</Line>
+<Line Number="138">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="139">
+<![CDATA[			ELSIF 	MIO_Axis.ConverterACSinglePhaseLossFault THEN ]]>
+</Line>
+<Line Number="140">
+<![CDATA[			 		L_Msg_Index													:= 153;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="141">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="142">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="143">
+<![CDATA[										CONVERTER AC PHASE SHORT FAULT]]>
+</Line>
+<Line Number="144">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="145">
+<![CDATA[			ELSIF 	MIO_Axis.ConverterACPhaseShortFault THEN ]]>
+</Line>
+<Line Number="146">
+<![CDATA[			 		L_Msg_Index													:= 154;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="147">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="148">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="149">
+<![CDATA[										CONVERTER PRE CHARGE FAULT]]>
+</Line>
+<Line Number="150">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="151">
+<![CDATA[			ELSIF 	MIO_Axis.ConverterACSinglePhaseLossFault THEN ]]>
+</Line>
+<Line Number="152">
+<![CDATA[			 		L_Msg_Index													:= 155;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="153">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="154">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="155">
+<![CDATA[										BUS REGULATOR OVERTEMPERATURE FL FAULT]]>
+</Line>
+<Line Number="156">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="157">
+<![CDATA[			ELSIF 	MIO_Axis.BusRegulatorOvertemperatureFLFault THEN ]]>
+</Line>
+<Line Number="158">
+<![CDATA[			 		L_Msg_Index													:= 156;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="159">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="160">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="161">
+<![CDATA[										BUS REGULATOR OVERTEMPERATURE UL FAULT]]>
+</Line>
+<Line Number="162">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="163">
+<![CDATA[			ELSIF 	MIO_Axis.BusRegulatorOvertemperatureULFault THEN ]]>
+</Line>
+<Line Number="164">
+<![CDATA[			 		L_Msg_Index													:= 157;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="165">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="166">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="167">
+<![CDATA[										BUS REGULATOR THERMAL OVERLOAD FL FAULT]]>
+</Line>
+<Line Number="168">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="169">
+<![CDATA[			ELSIF 	MIO_Axis.BusRegulatorThermalOverloadFLFault THEN ]]>
+</Line>
+<Line Number="170">
+<![CDATA[			 		L_Msg_Index													:= 158;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="171">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="172">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="173">
+<![CDATA[										BUS REGULATOR THERMAL OVERLOAD UL FAULT]]>
+</Line>
+<Line Number="174">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="175">
+<![CDATA[			ELSIF 	MIO_Axis.BusRegulatorThermalOverloadULFault THEN ]]>
+</Line>
+<Line Number="176">
+<![CDATA[			 		L_Msg_Index													:= 159;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="177">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="178">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="179">
+<![CDATA[										BUS UNDERVOLTAGE FL FAULT]]>
+</Line>
+<Line Number="180">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="181">
+<![CDATA[			ELSIF 	MIO_Axis.BusUndervoltageFLFault THEN ]]>
+</Line>
+<Line Number="182">
+<![CDATA[			 		L_Msg_Index													:= 160;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="183">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="184">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="185">
+<![CDATA[										BUS UNDERVOLTAGE UL FAULT]]>
+</Line>
+<Line Number="186">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="187">
+<![CDATA[			ELSIF 	MIO_Axis.BusUndervoltageULFault THEN ]]>
+</Line>
+<Line Number="188">
+<![CDATA[			 		L_Msg_Index													:= 161;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="189">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="190">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="191">
+<![CDATA[										BUS OVERVOLTAGE FL FAULT]]>
+</Line>
+<Line Number="192">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="193">
+<![CDATA[			ELSIF 	MIO_Axis.BusOvervoltageFLFault THEN ]]>
+</Line>
+<Line Number="194">
+<![CDATA[			 		L_Msg_Index													:= 162;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="195">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="196">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="197">
+<![CDATA[										BUS OVERVOLTAGE UL FAULT]]>
+</Line>
+<Line Number="198">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="199">
+<![CDATA[			ELSIF 	MIO_Axis.BusOvervoltageULFault THEN ]]>
+</Line>
+<Line Number="200">
+<![CDATA[			 		L_Msg_Index													:= 163;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="201">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="202">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="203">
+<![CDATA[										BUS POWER LOSS FAULT]]>
+</Line>
+<Line Number="204">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="205">
+<![CDATA[			ELSIF 	MIO_Axis.BusPowerLossFault THEN ]]>
+</Line>
+<Line Number="206">
+<![CDATA[			 		L_Msg_Index													:= 164;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="207">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="208">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="209">
+<![CDATA[										BUS POWER BLOWN FUSE FAULT]]>
+</Line>
+<Line Number="210">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="211">
+<![CDATA[			ELSIF 	MIO_Axis.BusPowerBlownFuseFault THEN ]]>
+</Line>
+<Line Number="212">
+<![CDATA[			 		L_Msg_Index													:= 165;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="213">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="214">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="215">
+<![CDATA[										FEEDBACK SIGNAL NOISE FL FAULT]]>
+</Line>
+<Line Number="216">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="217">
+<![CDATA[			ELSIF 	MIO_Axis.FeedbackSignalNoiseFLFault THEN ]]>
+</Line>
+<Line Number="218">
+<![CDATA[			 		L_Msg_Index													:= 166;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="219">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="220">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="221">
+<![CDATA[										FEEDBACK SIGNAL NOISE UL FAULT]]>
+</Line>
+<Line Number="222">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="223">
+<![CDATA[			ELSIF 	MIO_Axis.FeedbackSignalNoiseULFault THEN ]]>
+</Line>
+<Line Number="224">
+<![CDATA[			 		L_Msg_Index													:= 167;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="225">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="226">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="227">
+<![CDATA[										FEEDBACK SIGNAL LOSS FL FAULT]]>
+</Line>
+<Line Number="228">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="229">
+<![CDATA[			ELSIF 	MIO_Axis.FeedbackSignalLossFLFault THEN ]]>
+</Line>
+<Line Number="230">
+<![CDATA[			 		L_Msg_Index													:= 168;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="231">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="232">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="233">
+<![CDATA[										FEEDBACK SIGNAL LOSS UL FAULT]]>
+</Line>
+<Line Number="234">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="235">
+<![CDATA[			ELSIF 	MIO_Axis.FeedbackSignalLossULFault THEN ]]>
+</Line>
+<Line Number="236">
+<![CDATA[			 		L_Msg_Index													:= 169;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="237">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="238">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="239">
+<![CDATA[										FEEDBACK DATA LOSS FL FAULT]]>
+</Line>
+<Line Number="240">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="241">
+<![CDATA[			ELSIF 	MIO_Axis.FeedbackDataLossFLFault THEN ]]>
+</Line>
+<Line Number="242">
+<![CDATA[			 		L_Msg_Index													:= 170;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="243">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="244">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="245">
+<![CDATA[										FEEDBACK DATA LOSS UL FAULT]]>
+</Line>
+<Line Number="246">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="247">
+<![CDATA[			ELSIF 	MIO_Axis.FeedbackDataLossULFault THEN ]]>
+</Line>
+<Line Number="248">
+<![CDATA[			 		L_Msg_Index													:= 171;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="249">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="250">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="251">
+<![CDATA[										FEEDBACK DEVICE FAULT]]>
+</Line>
+<Line Number="252">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="253">
+<![CDATA[			ELSIF 	MIO_Axis.FeedbackDeviceFault THEN ]]>
+</Line>
+<Line Number="254">
+<![CDATA[			 		L_Msg_Index													:= 172;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="255">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="256">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="257">
+<![CDATA[										HARDWARE OVERTRAVEL POSITIVE FAULT]]>
+</Line>
+<Line Number="258">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="259">
+<![CDATA[			ELSIF 	MIO_Axis.HardwareOvertravelPositiveFault THEN ]]>
+</Line>
+<Line Number="260">
+<![CDATA[			 		L_Msg_Index													:= 173;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="261">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="262">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="263">
+<![CDATA[										HARDWARE OVERTRAVEL NEGATIVE FAULT]]>
+</Line>
+<Line Number="264">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="265">
+<![CDATA[			ELSIF 	MIO_Axis.HardwareOvertravelNegativeFault THEN ]]>
+</Line>
+<Line Number="266">
+<![CDATA[			 		L_Msg_Index													:= 174;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="267">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="268">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="269">
+<![CDATA[										EXCESSIVE POSITION ERROR FAULT]]>
+</Line>
+<Line Number="270">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="271">
+<![CDATA[			ELSIF 	MIO_Axis.ExcessivePositionErrorFault	THEN ]]>
+</Line>
+<Line Number="272">
+<![CDATA[			 		L_Msg_Index													:= 175;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="273">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="274">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="275">
+<![CDATA[										EXCESSIVE VELOCITY ERROR FAULT]]>
+</Line>
+<Line Number="276">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="277">
+<![CDATA[			ELSIF 	MIO_Axis.ExcessiveVelocityErrorFault	THEN ]]>
+</Line>
+<Line Number="278">
+<![CDATA[			 		L_Msg_Index													:= 176;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="279">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="280">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="281">
+<![CDATA[										OVERTORQUE LIMIT FAULT]]>
+</Line>
+<Line Number="282">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="283">
+<![CDATA[			ELSIF 	MIO_Axis.OvertorqueLimitFault	THEN ]]>
+</Line>
+<Line Number="284">
+<![CDATA[			 		L_Msg_Index													:= 177;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="285">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="286">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="287">
+<![CDATA[										UNDERTORQUE LIMIT FAULT]]>
+</Line>
+<Line Number="288">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="289">
+<![CDATA[			ELSIF 	MIO_Axis.UndertorqueLimitFault	THEN ]]>
+</Line>
+<Line Number="290">
+<![CDATA[			 		L_Msg_Index													:= 178;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="291">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="292">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="293">
+<![CDATA[										ILLEGAL CONTROL MODE FAULT]]>
+</Line>
+<Line Number="294">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="295">
+<![CDATA[			ELSIF 	MIO_Axis.IllegalControlModeFault	THEN ]]>
+</Line>
+<Line Number="296">
+<![CDATA[			 		L_Msg_Index													:= 179;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="297">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="298">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="299">
+<![CDATA[										ENABLE INPUT DEACTIVATED FAULT]]>
+</Line>
+<Line Number="300">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="301">
+<![CDATA[			ELSIF 	MIO_Axis.EnableInputDeactivatedFault	THEN ]]>
+</Line>
+<Line Number="302">
+<![CDATA[			 		L_Msg_Index													:= 180;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="303">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="304">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="305">
+<![CDATA[										CONTROLLER INITIATED FAULT]]>
+</Line>
+<Line Number="306">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="307">
+<![CDATA[			ELSIF 	MIO_Axis.ControllerInitiatedFault	THEN ]]>
+</Line>
+<Line Number="308">
+<![CDATA[			 		L_Msg_Index													:= 181;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="309">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="310">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="311">
+<![CDATA[										EXTERNAL INPUT FAULT]]>
+</Line>
+<Line Number="312">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="313">
+<![CDATA[			ELSIF 	MIO_Axis.ExternalInputFault	THEN ]]>
+</Line>
+<Line Number="314">
+<![CDATA[			 		L_Msg_Index													:= 182;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="315">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="316">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="317">
+<![CDATA[										COMMUTATION STARTUP FAULT]]>
+</Line>
+<Line Number="318">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="319">
+<![CDATA[			ELSIF	MIO_Axis.CommutationStartupFault THEN]]>
+</Line>
+<Line Number="320">
+<![CDATA[					L_Msg_Index													:= 183;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="321">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="322">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="323">
+<![CDATA[										MOTOR VOLTAGE FAULT]]>
+</Line>
+<Line Number="324">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="325">
+<![CDATA[			ELSIF	MIO_Axis.MotorVoltageMismatchFault THEN]]>
+</Line>
+<Line Number="326">
+<![CDATA[					L_Msg_Index													:= 184;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="327">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="328">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="329">
+<![CDATA[										FEEDBACK FILTER FAULT]]>
+</Line>
+<Line Number="330">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="331">
+<![CDATA[			ELSIF	MIO_Axis.FeedbackFilterNoiseFault THEN]]>
+</Line>
+<Line Number="332">
+<![CDATA[					L_Msg_Index													:= 185;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="333">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="334">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="335">
+<![CDATA[										FEEDBACK BATTERY LOSS FAULT]]>
+</Line>
+<Line Number="336">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="337">
+<![CDATA[			ELSIF	MIO_Axis.FeedbackBatteryLossFault THEN]]>
+</Line>
+<Line Number="338">
+<![CDATA[					L_Msg_Index													:= 186;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="339">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="340">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="341">
+<![CDATA[										FEEDBACK BATTERY LOW FAULT]]>
+</Line>
+<Line Number="342">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="343">
+<![CDATA[			ELSIF	MIO_Axis.FeedbackBatteryLowFault THEN]]>
+</Line>
+<Line Number="344">
+<![CDATA[					L_Msg_Index													:= 187;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="345">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="346">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="347">
+<![CDATA[										FEEDBACK INCREMENTAL COUNT FAULT]]>
+</Line>
+<Line Number="348">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="349">
+<![CDATA[			ELSIF	MIO_Axis.FeedbackIncrementalCountErrorFault THEN]]>
+</Line>
+<Line Number="350">
+<![CDATA[					L_Msg_Index													:= 188;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="351">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="352">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="353">
+<![CDATA[										CONTROL MODULE OVT FACTORY FAULT]]>
+</Line>
+<Line Number="354">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="355">
+<![CDATA[			ELSIF	MIO_Axis.ControlModuleOvertemperatureFLFault THEN]]>
+</Line>
+<Line Number="356">
+<![CDATA[					L_Msg_Index													:= 189;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="357">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="358">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="359">
+<![CDATA[										CONTROL MODULE OVT USER FAULT]]>
+</Line>
+<Line Number="360">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="361">
+<![CDATA[			ELSIF	MIO_Axis.ControlModuleOvertemperatureULFault THEN]]>
+</Line>
+<Line Number="362">
+<![CDATA[					L_Msg_Index													:= 190;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="363">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="364">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="365">
+<![CDATA[										CONVERTER PRECHARGE OVERLOAD FACTORY FAULT]]>
+</Line>
+<Line Number="366">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="367">
+<![CDATA[			ELSIF	MIO_Axis.ConverterPreChargeOverloadFLFault THEN]]>
+</Line>
+<Line Number="368">
+<![CDATA[					L_Msg_Index													:= 191;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="369">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="370">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="371">
+<![CDATA[										CONVERTER PRECHARGE OVERLOAD USER FAULT]]>
+</Line>
+<Line Number="372">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="373">
+<![CDATA[			ELSIF	MIO_Axis.ConverterPreChargeOverloadULFault THEN]]>
+</Line>
+<Line Number="374">
+<![CDATA[					L_Msg_Index													:= 192;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="375">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="376">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="377">
+<![CDATA[										CURRENT FEEDBACK FAULT]]>
+</Line>
+<Line Number="378">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="379">
+<![CDATA[			ELSIF	MIO_Axis.ExcessiveCurrentFeedbackOffsetFault THEN]]>
+</Line>
+<Line Number="380">
+<![CDATA[					L_Msg_Index													:= 193;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="381">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="382">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="383">
+<![CDATA[										REGENERATIVE POWER SUPPLY FAULT]]>
+</Line>
+<Line Number="384">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="385">
+<![CDATA[			ELSIF	MIO_Axis.RegenerativePowerSupplyFault THEN]]>
+</Line>
+<Line Number="386">
+<![CDATA[					L_Msg_Index													:= 194;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="387">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="388">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="389">
+<![CDATA[										PWR FREQUENCY REDUCED FAULT]]>
+</Line>
+<Line Number="390">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="391">
+<![CDATA[			ELSIF	MIO_Axis.PWMFrequencyReducedFault THEN]]>
+</Line>
+<Line Number="392">
+<![CDATA[					L_Msg_Index													:= 195;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="393">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="394">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="395">
+<![CDATA[										CURRENT LIMIT REDUCED FAULT]]>
+</Line>
+<Line Number="396">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="397">
+<![CDATA[			ELSIF	MIO_Axis.CurrentLimitReducedFault THEN]]>
+</Line>
+<Line Number="398">
+<![CDATA[					L_Msg_Index													:= 196;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="399">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="400">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="401">
+<![CDATA[										TORQUE PROVE FAULT]]>
+</Line>
+<Line Number="402">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="403">
+<![CDATA[			ELSIF	MIO_Axis.TorqueProveFault THEN]]>
+</Line>
+<Line Number="404">
+<![CDATA[					L_Msg_Index													:= 197;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="405">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="406">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="407">
+<![CDATA[										DECEL OVERRIDE FAULT]]>
+</Line>
+<Line Number="408">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="409">
+<![CDATA[			ELSIF	MIO_Axis.DecelOverrideFault THEN]]>
+</Line>
+<Line Number="410">
+<![CDATA[					L_Msg_Index													:= 198;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="411">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="412">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="413">
+<![CDATA[										PREVENTIVE MAINTENANCE FAULT]]>
+</Line>
+<Line Number="414">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="415">
+<![CDATA[			ELSIF	MIO_Axis.PreventativeMaintenanceFault THEN]]>
+</Line>
+<Line Number="416">
+<![CDATA[					L_Msg_Index													:= 199;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="417">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="418">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="419">
+<![CDATA[										MOTOR TEST FAULT]]>
+</Line>
+<Line Number="420">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="421">
+<![CDATA[			ELSIF	MIO_Axis.MotorTestFault THEN]]>
+</Line>
+<Line Number="422">
+<![CDATA[					L_Msg_Index													:= 240;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="423">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="424">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="425">
+<![CDATA[										HARDWARE CONFIGURATION FAULT]]>
+</Line>
+<Line Number="426">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="427">
+<![CDATA[			ELSIF	MIO_Axis.HardwareConfigurationFault THEN]]>
+</Line>
+<Line Number="428">
+<![CDATA[					L_Msg_Index													:= 241;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="429">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="430">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="431">
+<![CDATA[										FIRMWARE CONFIGURATION FAULT]]>
+</Line>
+<Line Number="432">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="433">
+<![CDATA[			ELSIF	MIO_Axis.FirmwareChangeFault THEN]]>
+</Line>
+<Line Number="434">
+<![CDATA[					L_Msg_Index													:= 242;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="435">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="436">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="437">
+<![CDATA[										DC COMMON BUS FAULT]]>
+</Line>
+<Line Number="438">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="439">
+<![CDATA[			ELSIF	MIO_Axis.DCCommonBusFault THEN]]>
+</Line>
+<Line Number="440">
+<![CDATA[					L_Msg_Index													:= 243;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="441">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="442">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="443">
+<![CDATA[										RUNTIME ERROR FAULT]]>
+</Line>
+<Line Number="444">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="445">
+<![CDATA[			ELSIF	MIO_Axis.RuntimeErrorFault THEN]]>
+</Line>
+<Line Number="446">
+<![CDATA[					L_Msg_Index													:= 244;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="447">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="448">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="449">
+<![CDATA[										BACKPLANE COMMUNICATION ERROR FAULT]]>
+</Line>
+<Line Number="450">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="451">
+<![CDATA[			ELSIF	MIO_Axis.BackplaneCommunicationErrorFault THEN]]>
+</Line>
+<Line Number="452">
+<![CDATA[					L_Msg_Index													:= 245;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="453">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="454">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="455">
+<![CDATA[										SAFETY MODULE COMMUNICATION ERROR FAULT]]>
+</Line>
+<Line Number="456">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="457">
+<![CDATA[			ELSIF	MIO_Axis.SafetyModuleCommunicationErrorFault THEN]]>
+</Line>
+<Line Number="458">
+<![CDATA[					L_Msg_Index													:= 246;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="459">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="460">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="461">
+<![CDATA[										PRODUCT SPECIFIC FAULT]]>
+</Line>
+<Line Number="462">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="463">
+<![CDATA[			ELSIF	MIO_Axis.ProductSpecificFault THEN]]>
+</Line>
+<Line Number="464">
+<![CDATA[					L_Msg_Index													:= 247;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="465">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt															]]>
+</Line>
+<Line Number="466">
+<![CDATA[			END_IF;			]]>
+</Line>
+<Line Number="467">
+<![CDATA[]]>
+</Line>
+<Line Number="468">
+<![CDATA[	(*================================================================================================]]>
+</Line>
+<Line Number="469">
+<![CDATA[									Module Fault]]>
+</Line>
+<Line Number="470">
+<![CDATA[	==================================================================================================*)]]>
+</Line>
+<Line Number="471">
+<![CDATA[	ELSIF MIO_Axis.AxisFault.1 THEN ]]>
+</Line>
+<Line Number="472">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="473">
+<![CDATA[										CONTROL SYNC FAULT]]>
+</Line>
+<Line Number="474">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="475">
+<![CDATA[			IF 		MIO_Axis.ControlSyncFault THEN]]>
+</Line>
+<Line Number="476">
+<![CDATA[					L_Msg_Index													:= 250;]]>
+</Line>
+<Line Number="477">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="478">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="479">
+<![CDATA[										MODULE SYNC FAULT]]>
+</Line>
+<Line Number="480">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="481">
+<![CDATA[			ELSIF 	MIO_Axis.ModuleSyncFault THEN]]>
+</Line>
+<Line Number="482">
+<![CDATA[					L_Msg_Index													:= 251;]]>
+</Line>
+<Line Number="483">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="484">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="485">
+<![CDATA[										TIMER EVENT FAULT]]>
+</Line>
+<Line Number="486">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="487">
+<![CDATA[			ELSIF 	MIO_Axis.TimerEventFault THEN]]>
+</Line>
+<Line Number="488">
+<![CDATA[					L_Msg_Index													:= 252;]]>
+</Line>
+<Line Number="489">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="490">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="491">
+<![CDATA[										MODULE HARDWARE FAULT]]>
+</Line>
+<Line Number="492">
+<![CDATA[			==================================================================================================*)	]]>
+</Line>
+<Line Number="493">
+<![CDATA[			ELSIF 	MIO_Axis.ModuleHardwareFault THEN]]>
+</Line>
+<Line Number="494">
+<![CDATA[					L_Msg_Index													:= 253;]]>
+</Line>
+<Line Number="495">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="496">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="497">
+<![CDATA[										MODULE CONNECTION FAULT]]>
+</Line>
+<Line Number="498">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="499">
+<![CDATA[			ELSIF 	MIO_Axis.ModuleConnFault THEN]]>
+</Line>
+<Line Number="500">
+<![CDATA[					L_Msg_Index													:= 254;]]>
+</Line>
+<Line Number="501">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="502">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="503">
+<![CDATA[										CONNEXION FORMAT FAULT]]>
+</Line>
+<Line Number="504">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="505">
+<![CDATA[			ELSIF	MIO_Axis.ConnFormatFault THEN]]>
+</Line>
+<Line Number="506">
+<![CDATA[					L_Msg_Index													:= 255;]]>
+</Line>
+<Line Number="507">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="508">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="509">
+<![CDATA[										LOCAL MODE FAULT]]>
+</Line>
+<Line Number="510">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="511">
+<![CDATA[			ELSIF 	MIO_Axis.LocalModeFault THEN]]>
+</Line>
+<Line Number="512">
+<![CDATA[					L_Msg_Index													:= 256;]]>
+</Line>
+<Line Number="513">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="514">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="515">
+<![CDATA[										CPU WATCHDOG FAULT]]>
+</Line>
+<Line Number="516">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="517">
+<![CDATA[			ELSIF 	MIO_Axis.CPUWatchdogFault THEN]]>
+</Line>
+<Line Number="518">
+<![CDATA[					L_Msg_Index													:= 257;]]>
+</Line>
+<Line Number="519">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="520">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="521">
+<![CDATA[										CLOCK JITTER FAULT]]>
+</Line>
+<Line Number="522">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="523">
+<![CDATA[			ELSIF 	MIO_Axis.ClockJitterFault THEN]]>
+</Line>
+<Line Number="524">
+<![CDATA[					L_Msg_Index													:= 258;]]>
+</Line>
+<Line Number="525">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="526">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="527">
+<![CDATA[										CYCLIC READ FAULT]]>
+</Line>
+<Line Number="528">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="529">
+<![CDATA[			ELSIF 	MIO_Axis.CyclicReadFault THEN]]>
+</Line>
+<Line Number="530">
+<![CDATA[					L_Msg_Index													:= 259;]]>
+</Line>
+<Line Number="531">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="532">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="533">
+<![CDATA[										CYCLIC WRITE FAULT]]>
+</Line>
+<Line Number="534">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="535">
+<![CDATA[			ELSIF 	MIO_Axis.CyclicWriteFault THEN]]>
+</Line>
+<Line Number="536">
+<![CDATA[					L_Msg_Index													:= 260;]]>
+</Line>
+<Line Number="537">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="538">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="539">
+<![CDATA[										CLOCK SKEW FAULT]]>
+</Line>
+<Line Number="540">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="541">
+<![CDATA[			ELSIF 	MIO_Axis.ClockSkewFault THEN]]>
+</Line>
+<Line Number="542">
+<![CDATA[					L_Msg_Index													:= 261;]]>
+</Line>
+<Line Number="543">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="544">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="545">
+<![CDATA[										CONTROL CONNEXION FAULT]]>
+</Line>
+<Line Number="546">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="547">
+<![CDATA[			ELSIF 	MIO_Axis.ControlConnFault THEN]]>
+</Line>
+<Line Number="548">
+<![CDATA[					L_Msg_Index													:= 262;]]>
+</Line>
+<Line Number="549">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="550">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="551">
+<![CDATA[										CONTROL CLOCK SYNC FAULT]]>
+</Line>
+<Line Number="552">
+<![CDATA[										Correction CLG ]]>
+</Line>
+<Line Number="553">
+<![CDATA[										MIO_Axis.ControlClockSyncFault -> MIO_Axis.ClockSyncFault]]>
+</Line>
+<Line Number="554">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="555">
+<![CDATA[			ELSIF 	MIO_Axis.ClockSyncFault THEN]]>
+</Line>
+<Line Number="556">
+<![CDATA[					L_Msg_Index													:= 263;]]>
+</Line>
+<Line Number="557">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="558">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="559">
+<![CDATA[										MODULE CLOCK SYNC FAULT]]>
+</Line>
+<Line Number="560">
+<![CDATA[										Correction CLG ]]>
+</Line>
+<Line Number="561">
+<![CDATA[										Deleted]]>
+</Line>
+<Line Number="562">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="563">
+<![CDATA[			(*ELSIF 	MIO_Axis.ModuleClockSyncFault THEN]]>
+</Line>
+<Line Number="564">
+<![CDATA[					L_ResultIndex													:= 264;]]>
+</Line>
+<Line Number="565">
+<![CDATA[					Sts_Result														:= 1000 + L_ResultIndex;		// Class 1 Fault]]>
+</Line>
+<Line Number="566">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="567">
+<![CDATA[										LOGIC WATCHDOG FAULT]]>
+</Line>
+<Line Number="568">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="569">
+<![CDATA[			ELSIF 	MIO_Axis.LogicWatchdogFault THEN]]>
+</Line>
+<Line Number="570">
+<![CDATA[					L_Msg_Index													:= 265;]]>
+</Line>
+<Line Number="571">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="572">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="573">
+<![CDATA[										DUPLICATE ADRESS FAULT]]>
+</Line>
+<Line Number="574">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="575">
+<![CDATA[			ELSIF 	MIO_Axis.DuplicateAddressFault THEN]]>
+</Line>
+<Line Number="576">
+<![CDATA[					L_Msg_Index													:= 266;]]>
+</Line>
+<Line Number="577">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="578">
+<![CDATA[			END_IF;]]>
+</Line>
+<Line Number="579">
+<![CDATA[]]>
+</Line>
+<Line Number="580">
+<![CDATA[	(*================================================================================================]]>
+</Line>
+<Line Number="581">
+<![CDATA[									Configuration Fault]]>
+</Line>
+<Line Number="582">
+<![CDATA[	==================================================================================================*)]]>
+</Line>
+<Line Number="583">
+<![CDATA[	ELSIF MIO_Axis.AxisFault.2 THEN ]]>
+</Line>
+<Line Number="584">
+<![CDATA[]]>
+</Line>
+<Line Number="585">
+<![CDATA[		 	CASE MIO_Axis.AttributeErrorCode OF]]>
+</Line>
+<Line Number="586">
+<![CDATA[]]>
+</Line>
+<Line Number="587">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="588">
+<![CDATA[										Connection failure]]>
+</Line>
+<Line Number="589">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="590">
+<![CDATA[			1 :		L_Msg_Index													:= 270;]]>
+</Line>
+<Line Number="591">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="592">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="593">
+<![CDATA[										Ressource unavalaible]]>
+</Line>
+<Line Number="594">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="595">
+<![CDATA[			2 :		L_Msg_Index													:= 271;]]>
+</Line>
+<Line Number="596">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="597">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="598">
+<![CDATA[										Invalid value in object specific datab parameter of a service request.]]>
+</Line>
+<Line Number="599">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="600">
+<![CDATA[			3 :		L_Msg_Index													:= 272;]]>
+</Line>
+<Line Number="601">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="602">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="603">
+<![CDATA[										IOI segment error.]]>
+</Line>
+<Line Number="604">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="605">
+<![CDATA[			4 :		L_Msg_Index													:= 273;]]>
+</Line>
+<Line Number="606">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="607">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="608">
+<![CDATA[										IOI destination unknown.]]>
+</Line>
+<Line Number="609">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="610">
+<![CDATA[			5 :		L_Msg_Index													:= 274;]]>
+</Line>
+<Line Number="611">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="612">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="613">
+<![CDATA[										Partial transfer.]]>
+</Line>
+<Line Number="614">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="615">
+<![CDATA[			6 :		L_Msg_Index													:= 275;]]>
+</Line>
+<Line Number="616">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="617">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="618">
+<![CDATA[										Connection lost.]]>
+</Line>
+<Line Number="619">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="620">
+<![CDATA[			7 :		L_Msg_Index													:= 276;]]>
+</Line>
+<Line Number="621">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="622">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="623">
+<![CDATA[										Unimplemented service.]]>
+</Line>
+<Line Number="624">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="625">
+<![CDATA[			8 :		L_Msg_Index													:= 277;]]>
+</Line>
+<Line Number="626">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="627">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="628">
+<![CDATA[										Invalid attribute value.]]>
+</Line>
+<Line Number="629">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="630">
+<![CDATA[			9 :		L_Msg_Index													:= 278;]]>
+</Line>
+<Line Number="631">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="632">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="633">
+<![CDATA[										Attribute list error.]]>
+</Line>
+<Line Number="634">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="635">
+<![CDATA[			10 :	L_Msg_Index													:= 279;]]>
+</Line>
+<Line Number="636">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="637">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="638">
+<![CDATA[										Already in requested mode/state.]]>
+</Line>
+<Line Number="639">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="640">
+<![CDATA[			11 :	L_Msg_Index													:= 280;]]>
+</Line>
+<Line Number="641">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="642">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="643">
+<![CDATA[										Object can not perform service in its current mode/state.]]>
+</Line>
+<Line Number="644">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="645">
+<![CDATA[			12 :	L_Msg_Index													:= 281;]]>
+</Line>
+<Line Number="646">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="647">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="648">
+<![CDATA[										Object already exists.]]>
+</Line>
+<Line Number="649">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="650">
+<![CDATA[			13 :	L_Msg_Index													:= 282;]]>
+</Line>
+<Line Number="651">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="652">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="653">
+<![CDATA[										Attribute value not settable.]]>
+</Line>
+<Line Number="654">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="655">
+<![CDATA[			14 :	L_Msg_Index													:= 283;]]>
+</Line>
+<Line Number="656">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="657">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="658">
+<![CDATA[										Access permission does not allow service.]]>
+</Line>
+<Line Number="659">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="660">
+<![CDATA[			15 :	L_Msg_Index													:= 284;]]>
+</Line>
+<Line Number="661">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="662">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="663">
+<![CDATA[										Device’s mode/state does not allow object to perform service.]]>
+</Line>
+<Line Number="664">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="665">
+<![CDATA[			16 :	L_Msg_Index													:= 285;]]>
+</Line>
+<Line Number="666">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="667">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="668">
+<![CDATA[										Reply data too large.]]>
+</Line>
+<Line Number="669">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="670">
+<![CDATA[			17 :	L_Msg_Index													:= 286;]]>
+</Line>
+<Line Number="671">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="672">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="673">
+<![CDATA[										Fragmentation of a primitive value.]]>
+</Line>
+<Line Number="674">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="675">
+<![CDATA[			18 :	L_Msg_Index													:= 287;]]>
+</Line>
+<Line Number="676">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="677">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="678">
+<![CDATA[										Not enough data.]]>
+</Line>
+<Line Number="679">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="680">
+<![CDATA[			19 :	L_Msg_Index													:= 288;]]>
+</Line>
+<Line Number="681">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="682">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="683">
+<![CDATA[										Undefined attribute.]]>
+</Line>
+<Line Number="684">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="685">
+<![CDATA[			20 :	L_Msg_Index													:= 289;]]>
+</Line>
+<Line Number="686">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="687">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="688">
+<![CDATA[										Too much data.]]>
+</Line>
+<Line Number="689">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="690">
+<![CDATA[			21 :	L_Msg_Index													:= 290;]]>
+</Line>
+<Line Number="691">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="692">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="693">
+<![CDATA[										Object does not exist.]]>
+</Line>
+<Line Number="694">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="695">
+<![CDATA[			22 :	L_Msg_Index													:= 291;]]>
+</Line>
+<Line Number="696">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="697">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="698">
+<![CDATA[										Service fragmentation sequence not]]>
+</Line>
+<Line Number="699">
+<![CDATA[										currently in progress.]]>
+</Line>
+<Line Number="700">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="701">
+<![CDATA[			23 :	L_Msg_Index													:= 292;]]>
+</Line>
+<Line Number="702">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="703">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="704">
+<![CDATA[										No stored attribute data.]]>
+</Line>
+<Line Number="705">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="706">
+<![CDATA[			24 :	L_Msg_Index													:= 293;]]>
+</Line>
+<Line Number="707">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="708">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="709">
+<![CDATA[										Store operation failure.]]>
+</Line>
+<Line Number="710">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="711">
+<![CDATA[			25 :	L_Msg_Index													:= 294;]]>
+</Line>
+<Line Number="712">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="713">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="714">
+<![CDATA[										Bridging failure, request packet too large for network.]]>
+</Line>
+<Line Number="715">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="716">
+<![CDATA[			26 :	L_Msg_Index													:= 295;]]>
+</Line>
+<Line Number="717">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="718">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="719">
+<![CDATA[										Bridging failure, response packet too large for network.]]>
+</Line>
+<Line Number="720">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="721">
+<![CDATA[			27 :	L_Msg_Index													:= 296;]]>
+</Line>
+<Line Number="722">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="723">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="724">
+<![CDATA[										Missing attribute list entry data.]]>
+</Line>
+<Line Number="725">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="726">
+<![CDATA[			28 :	L_Msg_Index													:= 297;]]>
+</Line>
+<Line Number="727">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="728">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="729">
+<![CDATA[										Invalid attribute value list.]]>
+</Line>
+<Line Number="730">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="731">
+<![CDATA[			29 :	L_Msg_Index													:= 298;]]>
+</Line>
+<Line Number="732">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="733">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="734">
+<![CDATA[										Embedded service error.]]>
+</Line>
+<Line Number="735">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="736">
+<![CDATA[			30 :	L_Msg_Index													:= 299;]]>
+</Line>
+<Line Number="737">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="738">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="739">
+<![CDATA[										Connection Related Failure.]]>
+</Line>
+<Line Number="740">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="741">
+<![CDATA[			31 :	L_Msg_Index													:= 300;]]>
+</Line>
+<Line Number="742">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="743">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="744">
+<![CDATA[										Invalid Parameter.]]>
+</Line>
+<Line Number="745">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="746">
+<![CDATA[			32 :	L_Msg_Index													:= 301;]]>
+</Line>
+<Line Number="747">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="748">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="749">
+<![CDATA[										Write–once value or medium already written.]]>
+</Line>
+<Line Number="750">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="751">
+<![CDATA[			33 :	L_Msg_Index													:= 302;]]>
+</Line>
+<Line Number="752">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="753">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="754">
+<![CDATA[										Invalid Reply Received.]]>
+</Line>
+<Line Number="755">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="756">
+<![CDATA[			34 :	L_Msg_Index													:= 303;]]>
+</Line>
+<Line Number="757">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Faul]]>
+</Line>
+<Line Number="758">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="759">
+<![CDATA[										CST not coordinated.]]>
+</Line>
+<Line Number="760">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="761">
+<![CDATA[			35 :	L_Msg_Index													:= 304;]]>
+</Line>
+<Line Number="762">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="763">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="764">
+<![CDATA[										Connection Scheduling Error.]]>
+</Line>
+<Line Number="765">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="766">
+<![CDATA[			36 :	L_Msg_Index													:= 305;]]>
+</Line>
+<Line Number="767">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="768">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="769">
+<![CDATA[										Key Failure in IOI.]]>
+</Line>
+<Line Number="770">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="771">
+<![CDATA[			37 :	L_Msg_Index													:= 306;]]>
+</Line>
+<Line Number="772">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="773">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="774">
+<![CDATA[										IOI Size Invalid.]]>
+</Line>
+<Line Number="775">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="776">
+<![CDATA[			38 :	L_Msg_Index													:= 307;]]>
+</Line>
+<Line Number="777">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="778">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="779">
+<![CDATA[										Unexpected attribute in list.]]>
+</Line>
+<Line Number="780">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="781">
+<![CDATA[			39 :	L_Msg_Index													:= 308;]]>
+</Line>
+<Line Number="782">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="783">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="784">
+<![CDATA[										DNet Invalid Member ID.]]>
+</Line>
+<Line Number="785">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="786">
+<![CDATA[			40 :	L_Msg_Index													:= 309;]]>
+</Line>
+<Line Number="787">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="788">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="789">
+<![CDATA[										DNet Member not settable.]]>
+</Line>
+<Line Number="790">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="791">
+<![CDATA[			41 :	L_Msg_Index													:= 310;]]>
+</Line>
+<Line Number="792">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="793">
+<![CDATA[			END_CASE;			]]>
+</Line>
+<Line Number="794">
+<![CDATA[]]>
+</Line>
+<Line Number="795">
+<![CDATA[	(*================================================================================================]]>
+</Line>
+<Line Number="796">
+<![CDATA[									Group Fault]]>
+</Line>
+<Line Number="797">
+<![CDATA[	==================================================================================================*)]]>
+</Line>
+<Line Number="798">
+<![CDATA[	ELSIF MIO_Axis.AxisFault.3 THEN 																																																																																																	]]>
+</Line>
+<Line Number="799">
+<![CDATA[					]]>
+</Line>
+<Line Number="800">
+<![CDATA[					L_Msg_Index													:= 311;]]>
+</Line>
+<Line Number="801">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="802">
+<![CDATA[]]>
+</Line>
+<Line Number="803">
+<![CDATA[	(*================================================================================================]]>
+</Line>
+<Line Number="804">
+<![CDATA[									Motion Fault]]>
+</Line>
+<Line Number="805">
+<![CDATA[	==================================================================================================*)]]>
+</Line>
+<Line Number="806">
+<![CDATA[	ELSIF MIO_Axis.AxisFault.4 THEN ]]>
+</Line>
+<Line Number="807">
+<![CDATA[]]>
+</Line>
+<Line Number="808">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="809">
+<![CDATA[										POSITIVE SOFT TRAVEL LIMIT FAULT]]>
+</Line>
+<Line Number="810">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="811">
+<![CDATA[			IF 		MIO_Axis.SoftTravelLimitPositiveFault THEN ]]>
+</Line>
+<Line Number="812">
+<![CDATA[			 		L_Msg_Index													:= 100;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="813">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="814">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="815">
+<![CDATA[										NEGATIVE SOFT TRAVEL LIMIT FAULT]]>
+</Line>
+<Line Number="816">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="817">
+<![CDATA[			ELSIF 	MIO_Axis.SoftTravelLimitNegativeFault THEN ]]>
+</Line>
+<Line Number="818">
+<![CDATA[			 		L_Msg_Index													:= 101;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="819">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="820">
+<![CDATA[			END_IF;]]>
+</Line>
+<Line Number="821">
+<![CDATA[]]>
+</Line>
+<Line Number="822">
+<![CDATA[	(*================================================================================================]]>
+</Line>
+<Line Number="823">
+<![CDATA[									Guard Fault]]>
+</Line>
+<Line Number="824">
+<![CDATA[	==================================================================================================*)]]>
+</Line>
+<Line Number="825">
+<![CDATA[	ELSIF MIO_Axis.AxisFault.5 THEN ]]>
+</Line>
+<Line Number="826">
+<![CDATA[]]>
+</Line>
+<Line Number="827">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="828">
+<![CDATA[										GUARD INTERNAL FAULT]]>
+</Line>
+<Line Number="829">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="830">
+<![CDATA[			IF 		MIO_Axis.GuardInternalFault THEN ]]>
+</Line>
+<Line Number="831">
+<![CDATA[			 		L_Msg_Index													:= 312;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="832">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="833">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="834">
+<![CDATA[										GUARD CONFIGURATION FAULT]]>
+</Line>
+<Line Number="835">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="836">
+<![CDATA[			ELSIF 	MIO_Axis.GuardConfigurationFault THEN ]]>
+</Line>
+<Line Number="837">
+<![CDATA[			 		L_Msg_Index													:= 313;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="838">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="839">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="840">
+<![CDATA[										GUARD GATE DRIVE FAULT]]>
+</Line>
+<Line Number="841">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="842">
+<![CDATA[			ELSIF 	MIO_Axis.GuardGateDriveFault THEN ]]>
+</Line>
+<Line Number="843">
+<![CDATA[			 		L_Msg_Index													:= 314;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="844">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="845">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="846">
+<![CDATA[										GUARD RESET FAULT]]>
+</Line>
+<Line Number="847">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="848">
+<![CDATA[			ELSIF 	MIO_Axis.GuardResetFault THEN ]]>
+</Line>
+<Line Number="849">
+<![CDATA[			 		L_Msg_Index													:= 315;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="850">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="851">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="852">
+<![CDATA[										GUARD FEEDBACK 1 FAULT]]>
+</Line>
+<Line Number="853">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="854">
+<![CDATA[			ELSIF 	MIO_Axis.GuardFeedback1Fault THEN ]]>
+</Line>
+<Line Number="855">
+<![CDATA[			 		L_Msg_Index													:= 316;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="856">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="857">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="858">
+<![CDATA[										GUARD FEEDBACK 2 FAULT]]>
+</Line>
+<Line Number="859">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="860">
+<![CDATA[			ELSIF 	MIO_Axis.GuardFeedback2Fault THEN ]]>
+</Line>
+<Line Number="861">
+<![CDATA[			 		L_Msg_Index													:= 317;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="862">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="863">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="864">
+<![CDATA[										GUARD FEEDBACK SPEED COMP FAULT]]>
+</Line>
+<Line Number="865">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="866">
+<![CDATA[			ELSIF 	MIO_Axis.GuardFeedbackSpeedCompareFault THEN ]]>
+</Line>
+<Line Number="867">
+<![CDATA[			 		L_Msg_Index													:= 318;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="868">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="869">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="870">
+<![CDATA[										GUARD FEEDBACK POSITION COMP FAULT]]>
+</Line>
+<Line Number="871">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="872">
+<![CDATA[			ELSIF 	MIO_Axis.GuardFeedbackPositionCompareFault THEN ]]>
+</Line>
+<Line Number="873">
+<![CDATA[			 		L_Msg_Index													:= 319;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="874">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="875">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="876">
+<![CDATA[										GUARD STOP INPUT FAULT]]>
+</Line>
+<Line Number="877">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="878">
+<![CDATA[			ELSIF 	MIO_Axis.GuardStopInputFault THEN ]]>
+</Line>
+<Line Number="879">
+<![CDATA[			 		L_Msg_Index													:= 320;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="880">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="881">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="882">
+<![CDATA[										GUARD STOP OUTPUT FAULT]]>
+</Line>
+<Line Number="883">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="884">
+<![CDATA[			ELSIF 	MIO_Axis.GuardStopOutputFault THEN ]]>
+</Line>
+<Line Number="885">
+<![CDATA[			 		L_Msg_Index													:= 321;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="886">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="887">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="888">
+<![CDATA[										GUARD STOP DECEL FAULT]]>
+</Line>
+<Line Number="889">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="890">
+<![CDATA[			ELSIF 	MIO_Axis.GuardStopDecelFault THEN ]]>
+</Line>
+<Line Number="891">
+<![CDATA[			 		L_Msg_Index													:= 322;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="892">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="893">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="894">
+<![CDATA[										GUARD STOP STANDSTILL FAULT]]>
+</Line>
+<Line Number="895">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="896">
+<![CDATA[			ELSIF 	MIO_Axis.GuardStopStandstillFault THEN ]]>
+</Line>
+<Line Number="897">
+<![CDATA[			 		L_Msg_Index													:= 323;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="898">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="899">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="900">
+<![CDATA[										GUARD STOP MOTION FAULT]]>
+</Line>
+<Line Number="901">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="902">
+<![CDATA[			ELSIF 	MIO_Axis.GuardStopMotionFault THEN ]]>
+</Line>
+<Line Number="903">
+<![CDATA[			 		L_Msg_Index													:= 324;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="904">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="905">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="906">
+<![CDATA[										GUARD LIMITED SPEED INPUT FAULT]]>
+</Line>
+<Line Number="907">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="908">
+<![CDATA[			ELSIF 	MIO_Axis.GuardLimitedSpeedInputFault THEN ]]>
+</Line>
+<Line Number="909">
+<![CDATA[			 		L_Msg_Index													:= 325;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="910">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="911">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="912">
+<![CDATA[										GUARD LIMITED SPEED OUTPUT FAULT]]>
+</Line>
+<Line Number="913">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="914">
+<![CDATA[			ELSIF 	MIO_Axis.GuardLimitedSpeedOutputFault THEN ]]>
+</Line>
+<Line Number="915">
+<![CDATA[			 		L_Msg_Index													:= 326;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="916">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="917">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="918">
+<![CDATA[										GUARD LIMITED SPEED MONITOR FAULT]]>
+</Line>
+<Line Number="919">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="920">
+<![CDATA[			ELSIF 	MIO_Axis.GuardLimitedSpeedMonitorFault THEN ]]>
+</Line>
+<Line Number="921">
+<![CDATA[			 		L_Msg_Index													:= 327;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="922">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="923">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="924">
+<![CDATA[										GUARD MAX SPEED FAULT]]>
+</Line>
+<Line Number="925">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="926">
+<![CDATA[			ELSIF 	MIO_Axis.GuardMaxSpeedMonitorFault THEN ]]>
+</Line>
+<Line Number="927">
+<![CDATA[			 		L_Msg_Index													:= 328;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="928">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="929">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="930">
+<![CDATA[										GUARD MAX ACCEL FAULT]]>
+</Line>
+<Line Number="931">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="932">
+<![CDATA[			ELSIF 	MIO_Axis.GuardMaxAccelMonitorFault THEN ]]>
+</Line>
+<Line Number="933">
+<![CDATA[			 		L_Msg_Index													:= 329;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="934">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="935">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="936">
+<![CDATA[										GUARD DIRECTION MONITOR FAULT]]>
+</Line>
+<Line Number="937">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="938">
+<![CDATA[			ELSIF 	MIO_Axis.GuardDirectionMonitorFault THEN ]]>
+</Line>
+<Line Number="939">
+<![CDATA[			 		L_Msg_Index													:= 330;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="940">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="941">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="942">
+<![CDATA[										GUARD DOOR MONITOR INPUT FAULT]]>
+</Line>
+<Line Number="943">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="944">
+<![CDATA[			ELSIF 	MIO_Axis.GuardDoorMonitorInputFault THEN ]]>
+</Line>
+<Line Number="945">
+<![CDATA[			 		L_Msg_Index													:= 331;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="946">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="947">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="948">
+<![CDATA[										GUARD DOOR MONITOR FAULT]]>
+</Line>
+<Line Number="949">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="950">
+<![CDATA[			ELSIF 	MIO_Axis.GuardDoorMonitorFault THEN ]]>
+</Line>
+<Line Number="951">
+<![CDATA[			 		L_Msg_Index													:= 332;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="952">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="953">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="954">
+<![CDATA[										GUARD DOOR CONTROL OUTPUT FAULT]]>
+</Line>
+<Line Number="955">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="956">
+<![CDATA[			ELSIF 	MIO_Axis.GuardDoorControlOutputFault THEN ]]>
+</Line>
+<Line Number="957">
+<![CDATA[			 		L_Msg_Index													:= 333;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="958">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="959">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="960">
+<![CDATA[										GUARD LOCK MONITOR INPUT FAULT]]>
+</Line>
+<Line Number="961">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="962">
+<![CDATA[			ELSIF 	MIO_Axis.GuardLockMonitorInputFault THEN ]]>
+</Line>
+<Line Number="963">
+<![CDATA[			 		L_Msg_Index													:= 334;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="964">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="965">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="966">
+<![CDATA[										GUARD LOCK MONITOR FAULT]]>
+</Line>
+<Line Number="967">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="968">
+<![CDATA[			ELSIF 	MIO_Axis.GuardLockMonitorFault THEN ]]>
+</Line>
+<Line Number="969">
+<![CDATA[			 		L_Msg_Index													:= 335;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="970">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="971">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="972">
+<![CDATA[										GUARD SWITCH MONITOR INPUT FAULT]]>
+</Line>
+<Line Number="973">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="974">
+<![CDATA[			ELSIF 	MIO_Axis.GuardEnablingSwitchMonitorInputFault THEN ]]>
+</Line>
+<Line Number="975">
+<![CDATA[			 		L_Msg_Index													:= 336;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="976">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="977">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="978">
+<![CDATA[										GUARD SWITCH MONITOR FAULT]]>
+</Line>
+<Line Number="979">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="980">
+<![CDATA[			ELSIF 	MIO_Axis.GuardEnablingSwitchMonitorFault THEN ]]>
+</Line>
+<Line Number="981">
+<![CDATA[			 		L_Msg_Index													:= 337;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="982">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="983">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="984">
+<![CDATA[										GUARD FEEDBACK 1 VOLTAGE MONITOR FAULT]]>
+</Line>
+<Line Number="985">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="986">
+<![CDATA[			ELSIF 	MIO_Axis.GuardFeedback1VoltageMonitorFault THEN ]]>
+</Line>
+<Line Number="987">
+<![CDATA[			 		L_Msg_Index													:= 338;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="988">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="989">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="990">
+<![CDATA[										GUARD FEEDBACK 2 VOLTAGE MONITOR FAULT]]>
+</Line>
+<Line Number="991">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="992">
+<![CDATA[			ELSIF 	MIO_Axis.GuardFeedback2VoltageMonitorFault THEN ]]>
+</Line>
+<Line Number="993">
+<![CDATA[			 		L_Msg_Index													:= 339;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="994">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="995">
+<![CDATA[			END_IF;]]>
+</Line>
+<Line Number="996">
+<![CDATA[]]>
+</Line>
+<Line Number="997">
+<![CDATA[	(*================================================================================================]]>
+</Line>
+<Line Number="998">
+<![CDATA[									Initialisation Fault]]>
+</Line>
+<Line Number="999">
+<![CDATA[	==================================================================================================*)]]>
+</Line>
+<Line Number="1000">
+<![CDATA[	ELSIF MIO_Axis.AxisFault.5 THEN]]>
+</Line>
+<Line Number="1001">
+<![CDATA[]]>
+</Line>
+<Line Number="1002">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="1003">
+<![CDATA[										Boot Block Checksum Fault]]>
+</Line>
+<Line Number="1004">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="1005">
+<![CDATA[			IF 		MIO_Axis.BootBlockChecksumFault THEN ]]>
+</Line>
+<Line Number="1006">
+<![CDATA[			 		L_Msg_Index													:= 340;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="1007">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="1008">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="1009">
+<![CDATA[										Main Block Checksum Fault]]>
+</Line>
+<Line Number="1010">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="1011">
+<![CDATA[			ELSIF 	MIO_Axis.MainBlockChecksumFault THEN ]]>
+</Line>
+<Line Number="1012">
+<![CDATA[			 		L_Msg_Index													:= 341;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="1013">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="1014">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="1015">
+<![CDATA[										Nonvolatile Memory Checksum Fault]]>
+</Line>
+<Line Number="1016">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="1017">
+<![CDATA[			ELSIF 	MIO_Axis.NonvolatileMemoryChecksumFault THEN ]]>
+</Line>
+<Line Number="1018">
+<![CDATA[			 		L_Msg_Index													:= 342;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="1019">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="1020">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="1021">
+<![CDATA[										Commutation Not Configured]]>
+</Line>
+<Line Number="1022">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="1023">
+<![CDATA[			ELSIF 	MIO_Axis.CommutationNotConfigured THEN ]]>
+</Line>
+<Line Number="1024">
+<![CDATA[			 		L_Msg_Index													:= 343;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="1025">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="1026">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="1027">
+<![CDATA[										Feedback Data Corruption ]]>
+</Line>
+<Line Number="1028">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="1029">
+<![CDATA[			ELSIF 	MIO_Axis.FeedbackDataCorruptionFault THEN ]]>
+</Line>
+<Line Number="1030">
+<![CDATA[			 		L_Msg_Index													:= 344;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="1031">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="1032">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="1033">
+<![CDATA[										Feedback Data Range ]]>
+</Line>
+<Line Number="1034">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="1035">
+<![CDATA[			ELSIF 	MIO_Axis.FeedbackDataRangeFault THEN ]]>
+</Line>
+<Line Number="1036">
+<![CDATA[			 		L_Msg_Index													:= 345;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="1037">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="1038">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="1039">
+<![CDATA[										Feedback Communication Startup]]>
+</Line>
+<Line Number="1040">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="1041">
+<![CDATA[			ELSIF 	MIO_Axis.FeedbackCommunicationStartupFault THEN ]]>
+</Line>
+<Line Number="1042">
+<![CDATA[			 		L_Msg_Index													:= 346;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="1043">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="1044">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="1045">
+<![CDATA[										Feedback Absolute Overspeed]]>
+</Line>
+<Line Number="1046">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="1047">
+<![CDATA[			ELSIF 	MIO_Axis.FeedbackAbsoluteOverspeedFault THEN ]]>
+</Line>
+<Line Number="1048">
+<![CDATA[			 		L_Msg_Index													:= 347;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="1049">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="1050">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="1051">
+<![CDATA[										Feedback Absolute Power Off Travel]]>
+</Line>
+<Line Number="1052">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="1053">
+<![CDATA[			ELSIF 	MIO_Axis.FeedbackAbsolutePowerOffTravelFault THEN ]]>
+</Line>
+<Line Number="1054">
+<![CDATA[			 		L_Msg_Index													:= 348;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="1055">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="1056">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="1057">
+<![CDATA[										Feedback Absolute Startup Speed]]>
+</Line>
+<Line Number="1058">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="1059">
+<![CDATA[			ELSIF 	MIO_Axis.FeedbackAbsoluteStartupSpeedFault THEN ]]>
+</Line>
+<Line Number="1060">
+<![CDATA[			 		L_Msg_Index													:= 349;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="1061">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="1062">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="1063">
+<![CDATA[										Commutation Offset Uninitialized]]>
+</Line>
+<Line Number="1064">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="1065">
+<![CDATA[			ELSIF 	MIO_Axis.CommutationOffsetUninitializedFault THEN ]]>
+</Line>
+<Line Number="1066">
+<![CDATA[			 		L_Msg_Index													:= 350;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="1067">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="1068">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="1069">
+<![CDATA[										Invalid FPGA Image]]>
+</Line>
+<Line Number="1070">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="1071">
+<![CDATA[			ELSIF 	MIO_Axis.InvalidFPGAImageFault THEN ]]>
+</Line>
+<Line Number="1072">
+<![CDATA[			 		L_Msg_Index													:= 351;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="1073">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="1074">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="1075">
+<![CDATA[										Invalid Board Support Package]]>
+</Line>
+<Line Number="1076">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="1077">
+<![CDATA[			ELSIF 	MIO_Axis.InvalidBoardSupportPackageFault THEN ]]>
+</Line>
+<Line Number="1078">
+<![CDATA[			 		L_Msg_Index													:= 352;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="1079">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="1080">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="1081">
+<![CDATA[										Invalid Safety Firmware]]>
+</Line>
+<Line Number="1082">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="1083">
+<![CDATA[			ELSIF 	MIO_Axis.InvalidSafetyFirmwareFault THEN ]]>
+</Line>
+<Line Number="1084">
+<![CDATA[			 		L_Msg_Index													:= 353;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="1085">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="1086">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="1087">
+<![CDATA[										Power Board]]>
+</Line>
+<Line Number="1088">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="1089">
+<![CDATA[			ELSIF 	MIO_Axis.PowerBoardFault THEN ]]>
+</Line>
+<Line Number="1090">
+<![CDATA[			 		L_Msg_Index													:= 354;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="1091">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="1092">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="1093">
+<![CDATA[										Illegal Option Card]]>
+</Line>
+<Line Number="1094">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="1095">
+<![CDATA[			ELSIF 	MIO_Axis.IllegalOptionCardFault THEN ]]>
+</Line>
+<Line Number="1096">
+<![CDATA[			 		L_Msg_Index													:= 355;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="1097">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="1098">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="1099">
+<![CDATA[										Option Storage Checksum]]>
+</Line>
+<Line Number="1100">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="1101">
+<![CDATA[			ELSIF 	MIO_Axis.OptionStorageChecksumFault THEN ]]>
+</Line>
+<Line Number="1102">
+<![CDATA[			 		L_Msg_Index													:= 356;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="1103">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="1104">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="1105">
+<![CDATA[										Module Voltage Mismatch]]>
+</Line>
+<Line Number="1106">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="1107">
+<![CDATA[			ELSIF 	MIO_Axis.ModuleVoltageMismatchFault THEN ]]>
+</Line>
+<Line Number="1108">
+<![CDATA[			 		L_Msg_Index													:= 357;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="1109">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="1110">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="1111">
+<![CDATA[										Unknown Module]]>
+</Line>
+<Line Number="1112">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="1113">
+<![CDATA[			ELSIF 	MIO_Axis.UnknownModuleFault THEN ]]>
+</Line>
+<Line Number="1114">
+<![CDATA[			 		L_Msg_Index													:= 358;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="1115">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="1116">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="1117">
+<![CDATA[										Factory Configuration Error]]>
+</Line>
+<Line Number="1118">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="1119">
+<![CDATA[			ELSIF 	MIO_Axis.FactoryConfigurationErrorFault THEN ]]>
+</Line>
+<Line Number="1120">
+<![CDATA[			 		L_Msg_Index													:= 359;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="1121">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="1122">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="1123">
+<![CDATA[										Illegal Address]]>
+</Line>
+<Line Number="1124">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="1125">
+<![CDATA[			ELSIF 	MIO_Axis.IllegalAddressFault THEN ]]>
+</Line>
+<Line Number="1126">
+<![CDATA[			 		L_Msg_Index													:= 360;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="1127">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="1128">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="1129">
+<![CDATA[										Series Mismatch]]>
+</Line>
+<Line Number="1130">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="1131">
+<![CDATA[			ELSIF 	MIO_Axis.SeriesMismatchFault THEN ]]>
+</Line>
+<Line Number="1132">
+<![CDATA[			 		L_Msg_Index													:= 361;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="1133">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="1134">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="1135">
+<![CDATA[										Open Slot]]>
+</Line>
+<Line Number="1136">
+<![CDATA[			==================================================================================================*)		]]>
+</Line>
+<Line Number="1137">
+<![CDATA[			ELSIF 	MIO_Axis.OpenSlotFault THEN ]]>
+</Line>
+<Line Number="1138">
+<![CDATA[			 		L_Msg_Index													:= 362;							// Convert INT_To_DINT]]>
+</Line>
+<Line Number="1139">
+<![CDATA[					Numero_Texte														:= 2000+ L_Msg_Index;			// Class 2 Faultt]]>
+</Line>
+<Line Number="1140">
+<![CDATA[			END_IF;]]>
+</Line>
+<Line Number="1141">
+<![CDATA[]]>
+</Line>
+<Line Number="1142">
+<![CDATA[	(*================================================================================================]]>
+</Line>
+<Line Number="1143">
+<![CDATA[									APR Fault]]>
+</Line>
+<Line Number="1144">
+<![CDATA[	==================================================================================================*)]]>
+</Line>
+<Line Number="1145">
+<![CDATA[	ELSIF MIO_Axis.AxisFault.6 THEN]]>
+</Line>
+<Line Number="1146">
+<![CDATA[]]>
+</Line>
+<Line Number="1147">
+<![CDATA[			(*================================================================================================]]>
+</Line>
+<Line Number="1148">
+<![CDATA[										APR FAULT]]>
+</Line>
+<Line Number="1149">
+<![CDATA[			==================================================================================================*)]]>
+</Line>
+<Line Number="1150">
+<![CDATA[					L_Msg_Index													:= 363;]]>
+</Line>
+<Line Number="1151">
+<![CDATA[					Numero_Texte														:= 1000 + L_Msg_Index;		// Class 1 Fault]]>
+</Line>
+<Line Number="1152">
+<![CDATA[	END_IF;]]>
+</Line>
+<Line Number="1153">
+<![CDATA[]]>
+</Line>
+<Line Number="1154">
+<![CDATA[	ER		:= TRUE;]]>
+</Line>
+<Line Number="1155">
+<![CDATA[]]>
+</Line>
+<Line Number="1156">
+<![CDATA[END_IF;]]>
+</Line>
+<Line Number="1157">
+<![CDATA[]]>
+</Line>
+<Line Number="1158">
+<![CDATA[IF MIO_Axis.AxisFault = 0 ]]>
+</Line>
+<Line Number="1159">
+<![CDATA[	AND NOT MIO_Axis.SafeTorqueOffInhibit]]>
+</Line>
+<Line Number="1160">
+<![CDATA[THEN]]>
+</Line>
+<Line Number="1161">
+<![CDATA[	L_Msg_Index	:=0;]]>
+</Line>
+<Line Number="1162">
+<![CDATA[	ER		:= FALSE;]]>
+</Line>
+<Line Number="1163">
+<![CDATA[END_IF;]]>
+</Line>
+<Line Number="1164">
+<![CDATA[(*================================================================================================]]>
+</Line>
+<Line Number="1165">
+<![CDATA[										No Error Pending 				 ]]>
+</Line>
+<Line Number="1166">
+<![CDATA[==================================================================================================*)]]>
+</Line>
+<Line Number="1167">
+<![CDATA[]]>
+</Line>
+</STContent>
+</Routine>
+</Routines>
+</AddOnInstructionDefinition>
+</AddOnInstructionDefinitions>
+</Controller>
+</RSLogix5000Content>

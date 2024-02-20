@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="35.00" TargetName="Module_linmot_AE1_Conv13_1" TargetType="Module" ContainsContext="true" ExportDate="Mon Oct 30 11:50:43 2023" ExportOptions="References NoRawData L5KData DecoratedData Context Dependencies ForceProtectedEncoding AllProjDocTrans">
+<Controller Use="Context" Name="Convoyage_989">
+<Modules Use="Context">
+<Module Use="Target" Name="Module_linmot_AE1_Conv13_1" CatalogNumber="LMDrive" Vendor="589" ProductType="43" ProductCode="2346" Major="1" Minor="1" ParentModule="Local" ParentModPortId="2" Inhibited="false"
+ MajorFault="false" SafetyEnabled="false">
+<EKey State="CompatibleModule"/>
+<Ports>
+<Port Id="1" Address="192.168.2.124" Type="Ethernet" Upstream="true"/>
+</Ports>
+<Communications>
+<Connections>
+<Connection Name="_200424012C282C18" RPI="20000" Type="StandardDataDriven" OutputSize="32" InputSize="30" EventID="0" ProgrammaticallySendEventTrigger="false" Priority="High" InputConnectionType="Unicast" InputProductionTrigger="Cyclic" ConnectionPath="20 04 24 01 2c 28 2c 18"
+ InputTagSuffix="I1" OutputTagSuffix="O1">
+<InputTag ExternalAccess="Read/Write">
+<Data Format="Decorated">
+<Structure DataType="_024D:LMDrive_F8CE6F45:I:0">
+<DataValueMember Name="ConnectionFaulted" DataType="BOOL" Value="0"/>
+<ArrayMember Name="Data" DataType="INT" Dimensions="13" Radix="Decimal">
+<Element Index="[0]" Value="2242"/>
+<Element Index="[1]" Value="3127"/>
+<Element Index="[2]" Value="0"/>
+<Element Index="[3]" Value="-6784"/>
+<Element Index="[4]" Value="-7"/>
+<Element Index="[5]" Value="-6999"/>
+<Element Index="[6]" Value="-7"/>
+<Element Index="[7]" Value="39"/>
+<Element Index="[8]" Value="0"/>
+<Element Index="[9]" Value="0"/>
+<Element Index="[10]" Value="0"/>
+<Element Index="[11]" Value="0"/>
+<Element Index="[12]" Value="0"/>
+</ArrayMember>
+</Structure>
+</Data>
+</InputTag>
+<OutputTag ExternalAccess="Read/Write">
+<Data Format="L5K">
+<![CDATA[[[1,261,7328,-23,-27680,4,6784,6,6784,6,0,0,0,0,0,0]]]]>
+</Data>
+<Data Format="Decorated">
+<Structure DataType="_024D:LMDrive_8769D2C2:O:0">
+<ArrayMember Name="Data" DataType="INT" Dimensions="16" Radix="Decimal">
+<Element Index="[0]" Value="1"/>
+<Element Index="[1]" Value="261"/>
+<Element Index="[2]" Value="7328"/>
+<Element Index="[3]" Value="-23"/>
+<Element Index="[4]" Value="-27680"/>
+<Element Index="[5]" Value="4"/>
+<Element Index="[6]" Value="6784"/>
+<Element Index="[7]" Value="6"/>
+<Element Index="[8]" Value="6784"/>
+<Element Index="[9]" Value="6"/>
+<Element Index="[10]" Value="0"/>
+<Element Index="[11]" Value="0"/>
+<Element Index="[12]" Value="0"/>
+<Element Index="[13]" Value="0"/>
+<Element Index="[14]" Value="0"/>
+<Element Index="[15]" Value="0"/>
+</ArrayMember>
+</Structure>
+</Data>
+</OutputTag>
+</Connection>
+</Connections>
+</Communications>
+<ExtendedProperties>
+<public><PL>01<Version Name="1.0"/><Connection Name="_200424012C282C18" Format="1"/></PL></public>
+</ExtendedProperties>
+</Module>
+</Modules>
+</Controller>
+</RSLogix5000Content>

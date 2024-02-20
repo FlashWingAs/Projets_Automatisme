@@ -1,0 +1,461 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--Get LinMot Drive Error Text as String-->
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="34.00" TargetName="LM_CFG_GetErrorText" TargetType="AddOnInstructionDefinition" TargetRevision="2.0 " TargetLastEdited="2019-03-18T06:28:56.627Z" TargetSignature="16#fdc7_0ad9" ContainsContext="true" ExportDate="Tue Jun 28 13:30:59 2022" ExportOptions="References NoRawData L5KData DecoratedData Context Dependencies ForceProtectedEncoding AllProjDocTrans">
+<Controller Use="Context" Name="v34_CIPSync_Dev">
+<DataTypes Use="Context">
+<DataType Name="tstLM_Axis" Family="NoFamily" Class="User">
+<Description>
+<![CDATA[LinMot Axis Reference]]>
+</Description>
+<Members>
+<Member Name="ControlWord" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Drive Control Word]]>
+</Description>
+</Member>
+<Member Name="MCHeader" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Motion Command Header]]>
+</Description>
+</Member>
+<Member Name="MCParaWord0" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Motion Command Parameter Word 0]]>
+</Description>
+</Member>
+<Member Name="MCParaWord1" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Motion Command Parameter Word 1]]>
+</Description>
+</Member>
+<Member Name="MCParaWord2" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Motion Command Parameter Word 2]]>
+</Description>
+</Member>
+<Member Name="MCParaWord3" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Motion Command Parameter Word 3]]>
+</Description>
+</Member>
+<Member Name="MCParaWord4" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Motion Command Parameter Word 4]]>
+</Description>
+</Member>
+<Member Name="MCParaWord5" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Motion Command Parameter Word 5]]>
+</Description>
+</Member>
+<Member Name="MCParaWord6" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Motion Command Parameter Word 6]]>
+</Description>
+</Member>
+<Member Name="MCParaWord7" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Motion Command Parameter Word 7]]>
+</Description>
+</Member>
+<Member Name="MCParaWord8" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Motion Command Parameter Word 8]]>
+</Description>
+</Member>
+<Member Name="MCParaWord9" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Motion Command Parameter Word 9]]>
+</Description>
+</Member>
+<Member Name="MCParaWord10" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Motion Command Parameter Word 10]]>
+</Description>
+</Member>
+<Member Name="MCParaWord11" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Motion Command Parameter Word 11]]>
+</Description>
+</Member>
+<Member Name="MCParaWord12" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Motion Command Parameter Word 12]]>
+</Description>
+</Member>
+<Member Name="MCParaWord13" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Motion Command Parameter Word 13]]>
+</Description>
+</Member>
+<Member Name="MCParaWord14" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Motion Command Parameter Word 14]]>
+</Description>
+</Member>
+<Member Name="MCParaWord15" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Motion Command Parameter Word 15]]>
+</Description>
+</Member>
+<Member Name="StatusWord" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Drive Status Word]]>
+</Description>
+</Member>
+<Member Name="StateVar" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Drive State Var]]>
+</Description>
+</Member>
+<Member Name="WarnWord" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Drive Warn Word]]>
+</Description>
+</Member>
+<Member Name="CfgControl" DataType="INT" Dimension="0" Radix="Hex" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Drive Config Module Control Word]]>
+</Description>
+</Member>
+<Member Name="CfgIndexOut" DataType="INT" Dimension="0" Radix="Hex" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Drive Config Module Index Out]]>
+</Description>
+</Member>
+<Member Name="CfgValueOut" DataType="DINT" Dimension="0" Radix="Hex" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Drive Config Module Value Out]]>
+</Description>
+</Member>
+<Member Name="CfgStatus" DataType="INT" Dimension="0" Radix="Hex" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Drive Config Module Statur Word]]>
+</Description>
+</Member>
+<Member Name="CfgIndexIn" DataType="INT" Dimension="0" Radix="Hex" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Drive Config Module Index In]]>
+</Description>
+</Member>
+<Member Name="CfgValueIn" DataType="DINT" Dimension="0" Radix="Hex" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Drive Config Module Value In]]>
+</Description>
+</Member>
+<Member Name="ZZZZZZZZZZtstLM_Axis27" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="DriveConnectionFaulted" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZtstLM_Axis27" BitNumber="0" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Connection to drive faulted]]>
+</Description>
+</Member>
+<Member Name="AxisFault" DataType="DINT" Dimension="0" Radix="Hex" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Bits used: 0 = Physical Axis Fault]]>
+</Description>
+</Member>
+<Member Name="ZZZZZZZZZZtstLM_Axis30" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="PhysicalAxisFault" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZtstLM_Axis30" BitNumber="0" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[The Physical Axis Fault bit is set. Check ErrorID]]>
+</Description>
+</Member>
+<Member Name="AxisStatus" DataType="DINT" Dimension="0" Radix="Hex" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Bits used: 0 = Servo Action Status, 1 = Drive Enable Status]]>
+</Description>
+</Member>
+<Member Name="ZZZZZZZZZZtstLM_Axis33" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="ServoActionStatus" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZtstLM_Axis33" BitNumber="0" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[The ServoActionStatus bit attribute is set when the associated axis is
+under servo control. If the bit is not set, then servo action is disabled.]]>
+</Description>
+</Member>
+<Member Name="DriveEnableStatus" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZtstLM_Axis33" BitNumber="1" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[The DriveEnableStatus bit attribute is set when the Drive Enable output of
+the associated physical axis is currently enabled. If the bit is not set, then
+physical servo axis Drive Enable output is currently disabled.]]>
+</Description>
+</Member>
+<Member Name="MotionStatus" DataType="DINT" Dimension="0" Radix="Hex" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Motion Status]]>
+</Description>
+</Member>
+<Member Name="ZZZZZZZZZZtstLM_Axis37" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="JogStatus" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZtstLM_Axis37" BitNumber="0" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Jog Status]]>
+</Description>
+</Member>
+<Member Name="MoveStatus" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZtstLM_Axis37" BitNumber="1" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Move Status]]>
+</Description>
+</Member>
+<Member Name="HomingStatus" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZtstLM_Axis37" BitNumber="2" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Homing Status]]>
+</Description>
+</Member>
+<Member Name="StoppingStatus" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZtstLM_Axis37" BitNumber="3" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Stopping Status]]>
+</Description>
+</Member>
+<Member Name="AxisHomedStatus" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZtstLM_Axis37" BitNumber="4" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Axis Homed Status]]>
+</Description>
+</Member>
+<Member Name="PVAStatus" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZtstLM_Axis37" BitNumber="5" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[PVA Streaming Status]]>
+</Description>
+</Member>
+<Member Name="ActualPosition" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Actual Position in Position Units]]>
+</Description>
+</Member>
+<Member Name="CommandPosition" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Command Position in Position Units]]>
+</Description>
+</Member>
+<Member Name="PositionError" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[The error between commanded and actual position that is the output of the position loop-summing junction.]]>
+</Description>
+</Member>
+<Member Name="ActualVelocity" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Actual Velocity in Position Units / Sec]]>
+</Description>
+</Member>
+<Member Name="CurrentFeedback" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Actual current applied to the axis in Ampere]]>
+</Description>
+</Member>
+<Member Name="ErrorID" DataType="INT" Dimension="0" Radix="Hex" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Drive Error ID]]>
+</Description>
+</Member>
+<Member Name="TorqueLimitPositive" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" Max="100.0" Min="0.0" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Motor positive Torque/Force Limit [0..100% of max.]. If 0 the motor can not move]]>
+</Description>
+<EngineeringUnit>
+<![CDATA[%]]>
+</EngineeringUnit>
+</Member>
+<Member Name="TorqueLimitNegative" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" Max="0.0" Min="-100.0" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Motor negative Torque/Force Limit [0..-100% of max.]. If 0 the motor can not move]]>
+</Description>
+<EngineeringUnit>
+<![CDATA[%]]>
+</EngineeringUnit>
+</Member>
+<Member Name="PositionScalingNumerator" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Increments per motor rev]]>
+</Description>
+</Member>
+<Member Name="PositionScalingDenominator" DataType="REAL" Dimension="0" Radix="Float" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Units per motor rev]]>
+</Description>
+</Member>
+<Member Name="TimeStampDrvToCtrl" DataType="DINT" Dimension="2" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Time Stamp Drive to Controller]]>
+</Description>
+</Member>
+<Member Name="TimeStampCtrlToDrv" DataType="DINT" Dimension="2" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Time Stamp Controller to Drive]]>
+</Description>
+</Member>
+<Member Name="TimeOffsetDrvToCtrl" DataType="DINT" Dimension="2" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Time Offset Drive to Controller]]>
+</Description>
+</Member>
+<Member Name="TimeOffsetCtrlToDrv" DataType="DINT" Dimension="2" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Time Offset Controller to Drive]]>
+</Description>
+</Member>
+<Member Name="MonChannelConfigID" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Actual active monitoring configuration ID]]>
+</Description>
+</Member>
+<Member Name="ParChannelConfigID" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: Actual active parameter configuration ID]]>
+</Description>
+</Member>
+<Member Name="ZZZZZZZZZZtstLM_Axis60" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="CfgRWActive" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZtstLM_Axis60" BitNumber="0" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Internal: A configuration instruction is active]]>
+</Description>
+</Member>
+</Members>
+</DataType>
+</DataTypes>
+<AddOnInstructionDefinitions Use="Context">
+<EncodedData EncodedType="AddOnInstructionDefinition" Name="LM_CFG_GetErrorText" Revision="2.0" Vendor="NTI AG LinMot" SignatureID="FDC70AD9" SignatureTimestamp="2019-03-18T06:28:56.627Z" EditedDate="2019-03-18T06:28:56.627Z" SoftwareRevision="v30.01" EncryptionConfig="9">
+<Description>
+<![CDATA[Get LinMot Drive Error Text as String]]>
+</Description>
+<RevisionNote>
+<![CDATA[Initial V2 version]]>
+</RevisionNote>
+<SignatureHistory>
+<HistoryEntry User="VMW10-ROCKWELL-\joerg" Timestamp="2019-03-18T06:28:56.627Z" SignatureID="16#fdc7_0ad9">
+<Description>
+<![CDATA[Initial version 2.0]]>
+</Description>
+</HistoryEntry>
+</SignatureHistory>
+<AdditionalHelpText>
+<![CDATA[This AOI returns a string that contains the error text of the LinMot drive corresponding to the number at the input ErrorCode.
+The actual error code of the drive can be found either in the axis data struct (tstLM_axis.ErrorID) or as ErrorCode output of the LM_DriveStatus instruction.
+
+ErrorID (All LM_CFG_... AOI):
+16#01: TimeOut (no response from drive)
+16#02: Config Channel already busy (an other LM_CFG_.. AOI may be running)
+16#03: Invalid Mode select
+16#C0: UPID error
+16#C1: Parameter Type Error
+16#C2: Range Error
+16#C3: Address Usage Error
+16#D0: Odd Address
+16#D1: Size Error (CurveAccess)
+16#D4: Curve already defined / Curve or CT line not present
+16#D7: MC Software is still running, should be stopped
+other: Contact LinMot Technical Support
+
+===
+For more information regarding the command used in this AOI please refer to the following LinMot user manual: Drive Configuration over Fieldbus
+
+The manual can be found within LinMot-Talk]]>
+</AdditionalHelpText>
+<Parameters>
+<Parameter Name="EnableIn" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Enable Input - System Defined Parameter]]>
+</Description>
+</Parameter>
+<Parameter Name="EnableOut" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Enable Output - System Defined Parameter]]>
+</Description>
+</Parameter>
+<Parameter Name="Axis" TagType="Base" DataType="tstLM_Axis" Usage="InOut" Required="true" Visible="true" Constant="false">
+<Description>
+<![CDATA[LinMot Axis Reference]]>
+</Description>
+<Maxes>
+<Max Operand=".TORQUELIMITPOSITIVE">100.0</Max>
+<Max Operand=".TORQUELIMITNEGATIVE">0.0</Max>
+</Maxes>
+<Mins>
+<Min Operand=".TORQUELIMITPOSITIVE">0.0</Min>
+<Min Operand=".TORQUELIMITNEGATIVE">-100.0</Min>
+</Mins>
+</Parameter>
+<Parameter Name="ErrorCode" TagType="Base" DataType="INT" Usage="Input" Radix="Decimal" Required="true" Visible="true" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Error Code To Get String From]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="INT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="EN" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Enabled]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="DN" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Done]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="ER" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Error]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="IP" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+<Description>
+<![CDATA[In Process]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="PC" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Process Complete]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="ErrorText" TagType="Base" DataType="STRING" Usage="InOut" Required="true" Visible="true" Constant="false">
+<Description>
+<![CDATA[Drive Error Text As String]]>
+</Description>
+</Parameter>
+<Parameter Name="ErrorID" TagType="Base" DataType="INT" Usage="Output" Radix="Hex" Required="false" Visible="true" ExternalAccess="Read Only">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="INT" Radix="Hex" Value="16#0000"/>
+</DefaultData>
+</Parameter>
+</Parameters>
+<Dependencies>
+<Dependency Type="DataType" Name="tstLM_Axis"/>
+</Dependencies>
+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</EncodedData>
+</AddOnInstructionDefinitions>
+</Controller>
+</RSLogix5000Content>

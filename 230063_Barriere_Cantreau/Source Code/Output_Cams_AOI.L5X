@@ -1,0 +1,299 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="35.00" TargetName="Output_Cams" TargetType="AddOnInstructionDefinition" TargetClass="Standard" TargetRevision="1.1 " TargetLastEdited="2020-03-23T13:47:56.983Z" ContainsContext="true" ExportDate="Thu Dec 07 12:31:12 2023" ExportOptions="References NoRawData L5KData DecoratedData Context Dependencies ForceProtectedEncoding AllProjDocTrans">
+<Controller Use="Context" Name="_230024_FlowPack_PANDA">
+<DataTypes Use="Context">
+</DataTypes>
+<AddOnInstructionDefinitions Use="Context">
+<AddOnInstructionDefinition Use="Target" Name="Output_Cams" Class="Standard" Revision="1.1" Vendor="Rockwell Automation" ExecutePrescan="false" ExecutePostscan="false" ExecuteEnableInFalse="false" CreatedDate="2008-12-02T12:18:23.224Z" CreatedBy="EMEA\PLemigno" EditedDate="2020-03-23T13:47:56.983Z"
+ EditedBy="WIN-JG1HQ4KSF7D\Admin" SoftwareRevision="v32.02">
+<AdditionalHelpText>
+<![CDATA[Cet Add-On permet la gestion d'une sortie commandée en fonction de la position d'un axe.
+Entre autre, la gestion des temps de réaction est prise en compte pour  le On/Off de la sortie.( Compensation du temps mort).
+
+La OutputCam est commandée quelque soit le sens de rotation de l'axe.( Bidirectionnal)
+
+Les entrées :
+In_ServoPosAxe_02.CommandPosition
+
+]]>
+</AdditionalHelpText>
+<Parameters>
+<Parameter Name="EnableIn" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Enable Input - System Defined Parameter]]>
+</Description>
+</Parameter>
+<Parameter Name="EnableOut" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Enable Output - System Defined Parameter]]>
+</Description>
+</Parameter>
+<Parameter Name="Cmd_Enable_AOI" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="true" Visible="true" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Entrée de Validation Du Fonctionnement De Output_Cam]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="In_ServoPos" TagType="Base" DataType="REAL" Usage="Input" Radix="Float" Required="true" Visible="true" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Entrée de la Position de l'axe, préferez la Position Commandée]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="In_ServoVel" TagType="Base" DataType="REAL" Usage="Input" Radix="Float" Required="true" Visible="true" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Entrée de la Vitesse de l'axe, Préferez la vitesse commandée]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Set_Period" TagType="Base" DataType="REAL" Usage="Input" Radix="Float" Required="true" Visible="true" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Entrée pour la Période de l'axe (Unwind Position) pour un axe rotatif. Pour un Axe Linéaire, Entrez ZERO comme valeur]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Set_OnPos" TagType="Base" DataType="REAL" Usage="Input" Radix="Float" Required="true" Visible="true" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Entrée pour la position de mise à UN de OuputCam]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Set_OffPos" TagType="Base" DataType="REAL" Usage="Input" Radix="Float" Required="true" Visible="true" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Entrée pour la position de mise à ZERO de OuputCam]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Set_TCompOn" TagType="Base" DataType="DINT" Usage="Input" Radix="Decimal" Required="true" Visible="true" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Entrée pour le temps de réaction de mise à UN des Actionneur/Pré-actionneur. ( en ms)]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Set_TCompOff" TagType="Base" DataType="DINT" Usage="Input" Radix="Decimal" Required="true" Visible="true" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Entrée pour le temps de réaction de mise à ZERO des Actionneur/Pré-actionneur.( en ms)]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Out_Cam" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="true" Visible="true" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Sotrie de la OutputCam]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+</Parameters>
+<LocalTags>
+<LocalTag Name="L_OffPos" DataType="REAL" Radix="Float" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Pour Calcul de la position On avec Compensation du temps Mort]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="L_OnPos" DataType="REAL" Radix="Float" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Pour Calcul de la position Off avec Compensation du temps Mort]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+</LocalTags>
+<Routines>
+<Routine Name="Logic" Type="ST">
+<STContent>
+<Line Number="0">
+<![CDATA[(* ]]>
+</Line>
+<Line Number="1">
+<![CDATA[	]]>
+</Line>
+<Line Number="2">
+<![CDATA[		Historic :]]>
+</Line>
+<Line Number="3">
+<![CDATA[					]]>
+</Line>
+<Line Number="4">
+<![CDATA[					02.11.2008	PLM		Creation]]>
+</Line>
+<Line Number="5">
+<![CDATA[					]]>
+</Line>
+<Line Number="6">
+<![CDATA[		Topic : This Add_On allows to switch On and Off anOutput and this related to the position of an Axis.]]>
+</Line>
+<Line Number="7">
+<![CDATA[				The deadTime compesation is taken into account ;]]>
+</Line>
+<Line Number="8">
+<![CDATA[*)]]>
+</Line>
+<Line Number="9">
+<![CDATA[]]>
+</Line>
+<Line Number="10">
+<![CDATA[]]>
+</Line>
+<Line Number="11">
+<![CDATA[]]>
+</Line>
+<Line Number="12">
+<![CDATA[	IF Cmd_Enable_AOI THEN]]>
+</Line>
+<Line Number="13">
+<![CDATA[		]]>
+</Line>
+<Line Number="14">
+<![CDATA[		L_OnPos			:= Set_OnPos - (Set_TCompOn*In_ServoVel/1000);]]>
+</Line>
+<Line Number="15">
+<![CDATA[		IF L_OnPos < 0 THEN]]>
+</Line>
+<Line Number="16">
+<![CDATA[			L_OnPos			:= L_OnPos+Set_Period;]]>
+</Line>
+<Line Number="17">
+<![CDATA[		ELSIF L_OnPos > Set_Period THEN]]>
+</Line>
+<Line Number="18">
+<![CDATA[			L_OnPos			:= L_OnPos-Set_Period;]]>
+</Line>
+<Line Number="19">
+<![CDATA[		END_IF;]]>
+</Line>
+<Line Number="20">
+<![CDATA[]]>
+</Line>
+<Line Number="21">
+<![CDATA[]]>
+</Line>
+<Line Number="22">
+<![CDATA[		L_OffPos			:= Set_OffPos - (Set_TCompOff*In_ServoVel/1000);]]>
+</Line>
+<Line Number="23">
+<![CDATA[			IF L_OffPos < 0 THEN]]>
+</Line>
+<Line Number="24">
+<![CDATA[			L_OffPos		:= L_OffPos+Set_Period;]]>
+</Line>
+<Line Number="25">
+<![CDATA[		ELSIF L_OffPos > Set_Period THEN]]>
+</Line>
+<Line Number="26">
+<![CDATA[			L_OffPos		:= L_OffPos-Set_Period;]]>
+</Line>
+<Line Number="27">
+<![CDATA[		END_IF;]]>
+</Line>
+<Line Number="28">
+<![CDATA[]]>
+</Line>
+<Line Number="29">
+<![CDATA[		IF L_OnPos > L_OffPos THEN]]>
+</Line>
+<Line Number="30">
+<![CDATA[			IF In_ServoPos > L_OnPos OR In_ServoPos < L_OffPos THEN]]>
+</Line>
+<Line Number="31">
+<![CDATA[				Out_Cam		:= 1;]]>
+</Line>
+<Line Number="32">
+<![CDATA[			ELSE]]>
+</Line>
+<Line Number="33">
+<![CDATA[				Out_Cam		:= 0;]]>
+</Line>
+<Line Number="34">
+<![CDATA[			END_IF ;]]>
+</Line>
+<Line Number="35">
+<![CDATA[		ELSE]]>
+</Line>
+<Line Number="36">
+<![CDATA[			IF In_ServoPos > L_OnPos AND In_ServoPos < L_OffPos THEN]]>
+</Line>
+<Line Number="37">
+<![CDATA[				Out_Cam		:= 1;]]>
+</Line>
+<Line Number="38">
+<![CDATA[			ELSE]]>
+</Line>
+<Line Number="39">
+<![CDATA[				Out_Cam		:= 0;]]>
+</Line>
+<Line Number="40">
+<![CDATA[			END_IF ; ]]>
+</Line>
+<Line Number="41">
+<![CDATA[		END_IF;]]>
+</Line>
+<Line Number="42">
+<![CDATA[	ELSE]]>
+</Line>
+<Line Number="43">
+<![CDATA[		Out_Cam				:= 0;]]>
+</Line>
+<Line Number="44">
+<![CDATA[	END_IF;]]>
+</Line>
+</STContent>
+</Routine>
+</Routines>
+</AddOnInstructionDefinition>
+</AddOnInstructionDefinitions>
+</Controller>
+</RSLogix5000Content>

@@ -1,0 +1,257 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="35.00" TargetName="st_HMI" TargetType="DataType" ContainsContext="true" ExportDate="Tue Oct 17 11:24:18 2023" ExportOptions="References NoRawData L5KData DecoratedData Context Dependencies ForceProtectedEncoding AllProjDocTrans">
+<Controller Use="Context" Name="L5_GRA_13_10_23">
+<DataTypes Use="Context">
+<DataType Use="Target" Name="st_HMI" Family="NoFamily" Class="User">
+<Members>
+<Member Name="EM1" DataType="st_HMI_EM" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Page_EC" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Page" DataType="DINT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+<Dependencies>
+<Dependency Type="DataType" Name="st_HMI_EM"/>
+</Dependencies>
+</DataType>
+<DataType Name="st_HMI_EM" Family="NoFamily" Class="User">
+<Members>
+<Member Name="Blue_Pack" DataType="stBluePack" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Button" DataType="st_HMI_EM_Button" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Lamp" DataType="st_HMI_EM_Lamp" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Alarm" DataType="st_HMI_EM_Alarms" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Info" DataType="st_HMI_EM_Info" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Manuel" DataType="st_HMI_EM_Manuel" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Param" DataType="st_HMI_EM_Params" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Statistics" DataType="st_HMI_EM_Statistics" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="User" DataType="st_HMI_EM_User" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="IO" DataType="st_HMI_EM_IO" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+<Dependencies>
+<Dependency Type="DataType" Name="stBluePack"/>
+<Dependency Type="DataType" Name="st_HMI_EM_Button"/>
+<Dependency Type="DataType" Name="st_HMI_EM_Lamp"/>
+<Dependency Type="DataType" Name="st_HMI_EM_Alarms"/>
+<Dependency Type="DataType" Name="st_HMI_EM_Info"/>
+<Dependency Type="DataType" Name="st_HMI_EM_Manuel"/>
+<Dependency Type="DataType" Name="st_HMI_EM_Params"/>
+<Dependency Type="DataType" Name="st_HMI_EM_Statistics"/>
+<Dependency Type="DataType" Name="st_HMI_EM_User"/>
+<Dependency Type="DataType" Name="st_HMI_EM_IO"/>
+</Dependencies>
+</DataType>
+<DataType Name="st_HMI_EM_Alarms" Family="NoFamily" Class="User">
+<Members>
+<Member Name="adi_FaultCode" DataType="DINT" Dimension="64" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="adi_WarningCode" DataType="DINT" Dimension="64" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+<DataType Name="st_HMI_EM_Button" Family="NoFamily" Class="User">
+<Members>
+<Member Name="ax_Value" DataType="BOOL" Dimension="64" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="ax_Lock" DataType="BOOL" Dimension="64" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="ax_Hide" DataType="BOOL" Dimension="64" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="adi_State" DataType="DINT" Dimension="64" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+<DataType Name="st_HMI_EM_Info" Family="NoFamily" Class="User">
+<Members>
+<Member Name="ax_Data" DataType="BOOL" Dimension="64" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="ar_Data" DataType="REAL" Dimension="64" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="adi_State" DataType="DINT" Dimension="64" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="as_Text" DataType="STRING" Dimension="64" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="as_ID" DataType="STRING" Dimension="64" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+<DataType Name="st_HMI_EM_IO" Family="NoFamily" Class="User">
+<Members>
+<Member Name="ax_Input" DataType="BOOL" Dimension="64" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="ax_Output" DataType="BOOL" Dimension="64" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="ax_SAF_Input" DataType="BOOL" Dimension="32" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="ax_SAF_Output" DataType="BOOL" Dimension="32" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="adi_Input" DataType="DINT" Dimension="16" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="adi_Output" DataType="DINT" Dimension="16" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="ar_Input" DataType="REAL" Dimension="16" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="ar_Output" DataType="REAL" Dimension="16" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+<DataType Name="st_HMI_EM_Lamp" Family="NoFamily" Class="User">
+<Members>
+<Member Name="ax_Value" DataType="BOOL" Dimension="64" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="ax_Hide" DataType="BOOL" Dimension="64" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="adi_State" DataType="DINT" Dimension="64" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+<DataType Name="st_HMI_EM_Manuel" Family="NoFamily" Class="User">
+<Members>
+<Member Name="ax_Value" DataType="BOOL" Dimension="64" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="ax_Button" DataType="BOOL" Dimension="64" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="ax_Lock" DataType="BOOL" Dimension="64" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="ax_Hide" DataType="BOOL" Dimension="64" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="adi_State" DataType="DINT" Dimension="64" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="ar_Data" DataType="REAL" Dimension="64" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+<DataType Name="st_HMI_EM_Params" Family="NoFamily" Class="User">
+<Members>
+<Member Name="as_Name" DataType="STRING" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="ar_Data" DataType="REAL" Dimension="64" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+<DataType Name="st_HMI_EM_Statistics" Family="NoFamily" Class="User">
+<Members>
+<Member Name="ar_Data" DataType="REAL" Dimension="64" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="adi_Data" DataType="DINT" Dimension="64" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="ax_Data" DataType="BOOL" Dimension="64" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+<DataType Name="st_HMI_EM_User" Family="NoFamily" Class="User">
+<Members>
+<Member Name="ax_Data" DataType="BOOL" Dimension="64" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="adi_Data" DataType="DINT" Dimension="64" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="ar_Data" DataType="REAL" Dimension="64" Radix="Float" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+<DataType Name="stBluePack" Family="NoFamily" Class="User">
+<Members>
+<Member Name="I" DataType="stBluePack_I" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="O" DataType="stBluePack_O" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Config" DataType="stBluePack_Config" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+<Dependencies>
+<Dependency Type="DataType" Name="stBluePack_I"/>
+<Dependency Type="DataType" Name="stBluePack_O"/>
+<Dependency Type="DataType" Name="stBluePack_Config"/>
+</Dependencies>
+</DataType>
+<DataType Name="stBluePack_Config" Family="NoFamily" Class="User">
+<Members>
+<Member Name="ZZZZZZZZZZstBluePack0" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="x_DisableHoming" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="0" ExternalAccess="Read/Write"/>
+<Member Name="x_DisableCalibration" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="1" ExternalAccess="Read/Write"/>
+<Member Name="x_DisableProduction" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="2" ExternalAccess="Read/Write"/>
+<Member Name="x_DisableCleaning" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="3" ExternalAccess="Read/Write"/>
+<Member Name="x_DisableManual" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="4" ExternalAccess="Read/Write"/>
+<Member Name="x_DisableMaintenance" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="5" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+<DataType Name="stBluePack_I" Family="NoFamily" Class="User">
+<Members>
+<Member Name="Cmd" DataType="stBluePack_I_Cmd" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="PackTags" DataType="stBluePack_I_PackTags" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Req" DataType="stBluePack_I_Req" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+<Dependencies>
+<Dependency Type="DataType" Name="stBluePack_I_Cmd"/>
+<Dependency Type="DataType" Name="stBluePack_I_PackTags"/>
+<Dependency Type="DataType" Name="stBluePack_I_Req"/>
+</Dependencies>
+</DataType>
+<DataType Name="stBluePack_I_Cmd" Family="NoFamily" Class="User">
+<Members>
+<Member Name="eMode" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="ZZZZZZZZZZstBluePack1" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="x_Reset" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack1" BitNumber="0" ExternalAccess="Read/Write"/>
+<Member Name="x_RunRequested" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack1" BitNumber="1" ExternalAccess="Read/Write"/>
+<Member Name="x_RunPermited" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack1" BitNumber="2" ExternalAccess="Read/Write"/>
+<Member Name="x_Run" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack1" BitNumber="3" ExternalAccess="Read/Write"/>
+<Member Name="xDelayRun" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack1" BitNumber="4" ExternalAccess="Read/Write"/>
+<Member Name="x_RetainRun" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack1" BitNumber="5" ExternalAccess="Read/Write"/>
+<Member Name="x_StopRequested" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack1" BitNumber="6" ExternalAccess="Read/Write"/>
+<Member Name="x_StopPermited" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack1" BitNumber="7" ExternalAccess="Read/Write"/>
+<Member Name="ZZZZZZZZZZstBluePack10" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="x_Stop" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack10" BitNumber="0" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+<DataType Name="stBluePack_I_PackTags" Family="NoFamily" Class="User">
+<Members>
+<Member Name="ZZZZZZZZZZstBluePack0" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="x_StateEntry" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="0" ExternalAccess="Read/Write"/>
+<Member Name="x_Homing" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="1" ExternalAccess="Read/Write"/>
+<Member Name="x_Calibration" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="2" ExternalAccess="Read/Write"/>
+<Member Name="x_Production" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="3" ExternalAccess="Read/Write"/>
+<Member Name="x_Manual" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="4" ExternalAccess="Read/Write"/>
+<Member Name="x_Cleaning" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="5" ExternalAccess="Read/Write"/>
+<Member Name="x_Maintenance" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="6" ExternalAccess="Read/Write"/>
+<Member Name="x_HomingSC" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="7" ExternalAccess="Read/Write"/>
+<Member Name="ZZZZZZZZZZstBluePack9" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="x_CalibrationSC" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack9" BitNumber="0" ExternalAccess="Read/Write"/>
+<Member Name="x_StartingProductionSC" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack9" BitNumber="1" ExternalAccess="Read/Write"/>
+<Member Name="x_ProductionSC" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack9" BitNumber="2" ExternalAccess="Read/Write"/>
+<Member Name="x_StartingCleaningSC" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack9" BitNumber="3" ExternalAccess="Read/Write"/>
+<Member Name="x_CleaningSC" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack9" BitNumber="4" ExternalAccess="Read/Write"/>
+<Member Name="x_ManualSC" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack9" BitNumber="5" ExternalAccess="Read/Write"/>
+<Member Name="x_ResettingSC" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack9" BitNumber="6" ExternalAccess="Read/Write"/>
+<Member Name="x_MaintenanceSC" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack9" BitNumber="7" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+<DataType Name="stBluePack_I_Req" Family="NoFamily" Class="User">
+<Members>
+<Member Name="ZZZZZZZZZZstBluePack0" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="x_Homing" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="0" ExternalAccess="Read/Write"/>
+<Member Name="x_Calibration" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="1" ExternalAccess="Read/Write"/>
+<Member Name="x_Production" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="2" ExternalAccess="Read/Write"/>
+<Member Name="x_Manual" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="3" ExternalAccess="Read/Write"/>
+<Member Name="x_Cleaning" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="4" ExternalAccess="Read/Write"/>
+<Member Name="x_Maintenance" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="5" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+<DataType Name="stBluePack_O" Family="NoFamily" Class="User">
+<Members>
+<Member Name="StateCurrent" DataType="stBluePack_O_StateCurrent" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="Status" DataType="stBluePack_O_Status" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+<Member Name="FisrtScan" DataType="stBluePack_O_First_Scan" Dimension="0" Radix="NullType" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+<Dependencies>
+<Dependency Type="DataType" Name="stBluePack_O_StateCurrent"/>
+<Dependency Type="DataType" Name="stBluePack_O_Status"/>
+<Dependency Type="DataType" Name="stBluePack_O_First_Scan"/>
+</Dependencies>
+</DataType>
+<DataType Name="stBluePack_O_First_Scan" Family="NoFamily" Class="User">
+<Members>
+<Member Name="ZZZZZZZZZZstBluePack0" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="x_Calibration" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="0" ExternalAccess="Read/Write"/>
+<Member Name="x_Resetting" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="1" ExternalAccess="Read/Write"/>
+<Member Name="xWaiting" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="2" ExternalAccess="Read/Write"/>
+<Member Name="x_StartingProduction" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="3" ExternalAccess="Read/Write"/>
+<Member Name="x_Production" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="4" ExternalAccess="Read/Write"/>
+<Member Name="x_StartingCleaning" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="5" ExternalAccess="Read/Write"/>
+<Member Name="x_Cleaning" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="6" ExternalAccess="Read/Write"/>
+<Member Name="x_Manual" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="7" ExternalAccess="Read/Write"/>
+<Member Name="ZZZZZZZZZZstBluePack9" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="x_Homing" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack9" BitNumber="0" ExternalAccess="Read/Write"/>
+<Member Name="x_Maintenance" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack9" BitNumber="1" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+<DataType Name="stBluePack_O_StateCurrent" Family="NoFamily" Class="User">
+<Members>
+<Member Name="ZZZZZZZZZZstBluePack0" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="x_Calibration" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="0" ExternalAccess="Read/Write"/>
+<Member Name="x_Resetting" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="1" ExternalAccess="Read/Write"/>
+<Member Name="x_Waiting" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="2" ExternalAccess="Read/Write"/>
+<Member Name="x_StartingProduction" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="3" ExternalAccess="Read/Write"/>
+<Member Name="x_Production" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="4" ExternalAccess="Read/Write"/>
+<Member Name="x_StartingCleaning" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="5" ExternalAccess="Read/Write"/>
+<Member Name="x_Cleaning" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="6" ExternalAccess="Read/Write"/>
+<Member Name="x_Manual" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="7" ExternalAccess="Read/Write"/>
+<Member Name="ZZZZZZZZZZstBluePack9" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="x_Homing" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack9" BitNumber="0" ExternalAccess="Read/Write"/>
+<Member Name="x_Maintenance" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack9" BitNumber="1" ExternalAccess="Read/Write"/>
+<Member Name="iState" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+<DataType Name="stBluePack_O_Status" Family="NoFamily" Class="User">
+<Members>
+<Member Name="ZZZZZZZZZZstBluePack0" DataType="SINT" Dimension="0" Radix="Decimal" Hidden="true" ExternalAccess="Read/Write"/>
+<Member Name="x_Stopped" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="0" ExternalAccess="Read/Write"/>
+<Member Name="x_Fault" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="1" ExternalAccess="Read/Write"/>
+<Member Name="x_Running" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="2" ExternalAccess="Read/Write"/>
+<Member Name="x_Warning" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="3" ExternalAccess="Read/Write"/>
+<Member Name="x_Resetted" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="4" ExternalAccess="Read/Write"/>
+<Member Name="x_Powered" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="5" ExternalAccess="Read/Write"/>
+<Member Name="x_Enabled" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="6" ExternalAccess="Read/Write"/>
+<Member Name="x_Referenced" DataType="BIT" Dimension="0" Radix="Decimal" Hidden="false" Target="ZZZZZZZZZZstBluePack0" BitNumber="7" ExternalAccess="Read/Write"/>
+</Members>
+</DataType>
+</DataTypes>
+</Controller>
+</RSLogix5000Content>

@@ -1,0 +1,2280 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="30.02" TargetName="Engage_Axe_Virtuel" TargetType="AddOnInstructionDefinition" TargetRevision="1.11 " TargetLastEdited="2019-04-10T08:44:58.007Z" ContainsContext="true" ExportDate="Wed Dec 13 11:41:49 2023" ExportOptions="References NoRawData L5KData DecoratedData Context Dependencies ForceProtectedEncoding AllProjDocTrans">
+<Controller Use="Context" Name="Comas_L4">
+<DataTypes Use="Context">
+</DataTypes>
+<AddOnInstructionDefinitions Use="Context">
+<AddOnInstructionDefinition Use="Target" Name="Engage_Axe_Virtuel" Revision="1.11" ExecutePrescan="false" ExecutePostscan="false" ExecuteEnableInFalse="false" CreatedDate="2010-06-02T21:52:50.515Z" CreatedBy="AUTOMATISME\Rodolphe" EditedDate="2019-04-10T08:44:58.007Z" EditedBy="WIN-JG1HQ4KSF7D\Admin" SoftwareRevision="v30.00"
+>
+<RevisionNote>
+<![CDATA[v1.11: Modification Changement de Came en Synchro
+v1.10: Ajout des zones de changement de came
+           Mode Vnul optimisé
+v1.9: Correction Bug maitre à l'arret dans zone d'embrayage: (L16)
+   - Optimisation avec pending status
+   - Forward Only / Bi direc sur MAPC
+   - Command pos au lieu de actual pos sur MAPC
+v1.8: Lancement de came en mode Once (L17)
+v1.7: Degagemennt en position sur front (L8)
+v1.6: Retour cam engage Correct
+v1.5: Ajout modulo esclave]]>
+</RevisionNote>
+<Parameters>
+<Parameter Name="EnableIn" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Enable Input - System Defined Parameter]]>
+</Description>
+</Parameter>
+<Parameter Name="EnableOut" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Enable Output - System Defined Parameter]]>
+</Description>
+</Parameter>
+<Parameter Name="Axe" TagType="Base" DataType="AXIS_VIRTUAL" Usage="InOut" Required="true" Visible="true">
+<Description>
+<![CDATA[Axe esclave a controler]]>
+</Description>
+</Parameter>
+<Parameter Name="Axe_Maitre" TagType="Base" DataType="AXIS_VIRTUAL" Usage="InOut" Required="true" Visible="true">
+<Description>
+<![CDATA[Axe maitre de la came]]>
+</Description>
+</Parameter>
+<Parameter Name="Activation" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="true" Visible="true" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Activation puissance
+A Activer avant d'engager]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Engagement" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="true" Visible="true" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Engagement de l'axe sur profil de came]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Maitre_V_Nul" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="true" Visible="true" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Engagement avec Maitre vitesse nul
+(positionnement à l'arret)]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Engagement_Decalage" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="true" Visible="true" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Activation du decalage en marche]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Degagement_en_pos" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="true" Visible="true" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Attente position pour degagement]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Val_Vitesse" TagType="Base" DataType="REAL" Usage="Input" Radix="Float" Required="true" Visible="true" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Valeur de vitesse global de l'axe]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Val_Acc" TagType="Base" DataType="REAL" Usage="Input" Radix="Float" Required="true" Visible="true" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Valeur d accel gloable de laxe]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Val_Dec" TagType="Base" DataType="REAL" Usage="Input" Radix="Float" Required="true" Visible="true" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Valeur de decel]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Val_Jerk" TagType="Base" DataType="REAL" Usage="Input" Radix="Float" Required="true" Visible="true" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Valeur de jerk]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Val_Engagement" TagType="Base" DataType="REAL" Usage="Input" Radix="Float" Required="true" Visible="true" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Valeur Absolu d'engagement (0 ou 1 pour axe rotatif)]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Val_Degagement" TagType="Base" DataType="REAL" Usage="Input" Radix="Float" Required="true" Visible="true" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Valeur de degagement de l'axe (0 ou 1 pour axe rotatif)]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Val_Phase" TagType="Base" DataType="REAL" Usage="Input" Radix="Float" Required="true" Visible="true" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Valeur de Phase]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Val_Decalage" TagType="Base" DataType="REAL" Usage="Input" Radix="Float" Required="true" Visible="true" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Valeur de decalage
+(actif si bit d'activation a 1)]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Came" TagType="Base" DataType="CAM" Dimensions="100" Usage="InOut" Required="true" Visible="true" Constant="false">
+<Description>
+<![CDATA[Came modifiable a la volée
+(tableau de la came)]]>
+</Description>
+</Parameter>
+<Parameter Name="Longeur_Cam" TagType="Base" DataType="DINT" Usage="Input" Radix="Decimal" Required="true" Visible="true" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Longeur de la came
+(doit etre sup a 3)]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Modulo_Maitre" TagType="Base" DataType="REAL" Usage="Input" Radix="Float" Required="true" Visible="true" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Longeur du maitre pour calcul de la phase
+(modulo maitre)]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Mode_Rotatif" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="true" Visible="true" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Activation mode rotatif
+(MAM type 2 au lieu de 0 pour le pre positionnement)]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Modulo_Esclave" TagType="Base" DataType="DINT" Usage="Input" Radix="Decimal" Required="true" Visible="true" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Utilise seulement pour engagement a vnul et rotatif
+(valeur du modulo
+de l'axe rotatif)]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Axe_Engage" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Axe engage sur came]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Axe_Degage" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Axe Degage]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="ER" TagType="Base" DataType="BOOL" Usage="Output" Radix="Decimal" Required="false" Visible="true" ExternalAccess="Read Only">
+<Description>
+<![CDATA[Erreur dans le module
+(retour des blocs fonction)]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Num_Cam_Vnul" TagType="Base" DataType="DINT" Usage="Input" Radix="Decimal" Required="false" Visible="false" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="ModeCamOnce" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="true" Visible="true" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Came en mode once
+(actif = 1)]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+<Parameter Name="Top_Once" TagType="Base" DataType="BOOL" Usage="Input" Radix="Decimal" Required="true" Visible="true" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[Top de lancement en mode once]]>
+</Description>
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</Parameter>
+</Parameters>
+<LocalTags>
+<LocalTag Name="MAS_degagement" DataType="MOTION_INSTRUCTION" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="MAS_Engagement" DataType="MOTION_INSTRUCTION" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="MCCP_1" DataType="MOTION_INSTRUCTION" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Came_Prof_1" DataType="CAM_PROFILE" Dimensions="20" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0]]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Array DataType="CAM_PROFILE" Dimensions="20">
+<Element Index="[0]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[1]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[2]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[3]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[4]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[5]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[6]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[7]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[8]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[9]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[10]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[11]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[12]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[13]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[14]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[15]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[16]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[17]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[18]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[19]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+</Array>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="MAPC_1" DataType="MOTION_INSTRUCTION" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Front" DataType="BOOL" Radix="Decimal" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Val_Phase_Sauve" DataType="REAL" Radix="Float" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Val_Phase_Modifie" DataType="REAL" Radix="Float" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="MAM_Phase" DataType="MOTION_INSTRUCTION" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Engagement_came" DataType="BOOL" Radix="Decimal" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="MAM_decalage" DataType="MOTION_INSTRUCTION" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="MCCP_2" DataType="MOTION_INSTRUCTION" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="MCCP_First" DataType="MOTION_INSTRUCTION" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="MAPC_First" DataType="MOTION_INSTRUCTION" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Came_Prof_2" DataType="CAM_PROFILE" Dimensions="20" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0]]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Array DataType="CAM_PROFILE" Dimensions="20">
+<Element Index="[0]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[1]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[2]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[3]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[4]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[5]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[6]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[7]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[8]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[9]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[10]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[11]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[12]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[13]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[14]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[15]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[16]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[17]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[18]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[19]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+</Array>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Came_Prof_First" DataType="CAM_PROFILE" Dimensions="20" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0]]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Array DataType="CAM_PROFILE" Dimensions="20">
+<Element Index="[0]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[1]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[2]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[3]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[4]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[5]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[6]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[7]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[8]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[9]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[10]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[11]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[12]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[13]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[14]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[15]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[16]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[17]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[18]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[19]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+</Array>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="MAPC_2" DataType="MOTION_INSTRUCTION" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Top_Calage0" DataType="BOOL" Radix="Decimal" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="TEMP_0" DataType="BOOL" Radix="Decimal" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="TEMP_1" DataType="BOOL" Radix="Decimal" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Top_Calage1" DataType="BOOL" Radix="Decimal" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Axe_Active" DataType="BOOL" Radix="Decimal" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Num_Cam" DataType="DINT" Radix="Decimal" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="DINT" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Val_phase_modulo" DataType="REAL" Radix="Float" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Erreur_1" DataType="BOOL" Radix="Decimal" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Erreur_2" DataType="BOOL" Radix="Decimal" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="MAS_degagement_enpos" DataType="MOTION_INSTRUCTION" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="DEGagement_En_Pos_ok" DataType="BOOL" Radix="Decimal" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Top_Calage2" DataType="BOOL" Radix="Decimal" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="TEMP_2" DataType="BOOL" Radix="Decimal" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="TEMP_3" DataType="BOOL" Radix="Decimal" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Top_Calage3" DataType="BOOL" Radix="Decimal" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Val_Engagement_plus" DataType="REAL" Radix="Float" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="MAM_degagement_rotatif" DataType="MOTION_INSTRUCTION" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="MAM_degagement_lineaire" DataType="MOTION_INSTRUCTION" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="MAM_degagement_enpos_lineaire" DataType="MOTION_INSTRUCTION" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="MAM_degagement_enpos_rotatif" DataType="MOTION_INSTRUCTION" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="MAM_engagement_rotatif" DataType="MOTION_INSTRUCTION" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="MAM_engagement_lineaire" DataType="MOTION_INSTRUCTION" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Degagement_en_pos_demande" DataType="BOOL" Radix="Decimal" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="MAS_degagement_maitreVnul" DataType="MOTION_INSTRUCTION" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Engagement_came_VNul" DataType="BOOL" Radix="Decimal" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="MCCP_First_Vnul" DataType="MOTION_INSTRUCTION" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="MCSV_Slave_Value" DataType="REAL" Radix="Float" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="MCSV_Slope_Value" DataType="REAL" Radix="Float" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="MCSV_SlopeD_Value" DataType="REAL" Radix="Float" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="MCSV" DataType="MOTION_INSTRUCTION" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="MAM_engagement_lineaire_vnul" DataType="MOTION_INSTRUCTION" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="MAM_engagement_rotatifvnul" DataType="MOTION_INSTRUCTION" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Val_MAitre" DataType="REAL" Radix="Float" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="MAPC_First_Vnul" DataType="MOTION_INSTRUCTION" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Front_vnul" DataType="BOOL" Radix="Decimal" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Val_Phase_Modulo2" DataType="REAL" Radix="Float" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="MCCP_1_vnul" DataType="MOTION_INSTRUCTION" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Came_Prof_1_vnul" DataType="CAM_PROFILE" Dimensions="20" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0]]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Array DataType="CAM_PROFILE" Dimensions="20">
+<Element Index="[0]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[1]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[2]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[3]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[4]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[5]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[6]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[7]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[8]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[9]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[10]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[11]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[12]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[13]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[14]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[15]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[16]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[17]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[18]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[19]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+</Array>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="MAPC_1_vnul" DataType="MOTION_INSTRUCTION" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="MCCP_2_vnul" DataType="MOTION_INSTRUCTION" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Came_Prof_2_vnul" DataType="CAM_PROFILE" Dimensions="20" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0]]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Array DataType="CAM_PROFILE" Dimensions="20">
+<Element Index="[0]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[1]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[2]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[3]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[4]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[5]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[6]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[7]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[8]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[9]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[10]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[11]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[12]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[13]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[14]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[15]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[16]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[17]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[18]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[19]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+</Array>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="MAPC_2_vnul" DataType="MOTION_INSTRUCTION" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="TEMP_5" DataType="BOOL" Radix="Decimal" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Top_Calage5" DataType="BOOL" Radix="Decimal" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="TEMP_6" DataType="BOOL" Radix="Decimal" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Top_Calage6" DataType="BOOL" Radix="Decimal" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Erreur_3" DataType="BOOL" Radix="Decimal" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Erreur_4" DataType="BOOL" Radix="Decimal" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Front200" DataType="BOOL" Radix="Decimal" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Cam_Pending" DataType="BOOL" Radix="Decimal" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Tempo_degagement" DataType="TIMER" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="TIMER">
+<DataValueMember Name="PRE" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="ACC" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TT" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="decalage_Vnul_Dem" DataType="REAL" Radix="Float" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="decalage_Vnul_Dem_modulo" DataType="REAL" Radix="Float" ExternalAccess="Read/Write">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="front_degagement" DataType="BOOL" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="modulo_div2" DataType="REAL" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[1.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="1.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="MCCP_First_Once" DataType="MOTION_INSTRUCTION" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Came_Prof_First_Once" DataType="CAM_PROFILE" Dimensions="20" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[[[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0]]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Array DataType="CAM_PROFILE" Dimensions="20">
+<Element Index="[0]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[1]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[2]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[3]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[4]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[5]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[6]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[7]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[8]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[9]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[10]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[11]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[12]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[13]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[14]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[15]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[16]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[17]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[18]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+<Element Index="[19]">
+<Structure DataType="CAM_PROFILE">
+<DataValueMember Name="Status" DataType="DINT" Radix="Decimal" Value="0"/>
+</Structure>
+</Element>
+</Array>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="MAPC_First_Once" DataType="MOTION_INSTRUCTION" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[[0,0,0,0,0,0,0,0,0]]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<Structure DataType="MOTION_INSTRUCTION">
+<DataValueMember Name="FLAGS" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DN" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ER" DataType="BOOL" Value="0"/>
+<DataValueMember Name="PC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="IP" DataType="BOOL" Value="0"/>
+<DataValueMember Name="AC" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ACCEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="DECEL" DataType="BOOL" Value="0"/>
+<DataValueMember Name="TrackingMaster" DataType="BOOL" Value="0"/>
+<DataValueMember Name="CalculatedDataAvailable" DataType="BOOL" Value="0"/>
+<DataValueMember Name="ERR" DataType="INT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATUS" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="STATE" DataType="SINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="SEGMENT" DataType="DINT" Radix="Decimal" Value="0"/>
+<DataValueMember Name="EXERR" DataType="SINT" Radix="Decimal" Value="0"/>
+</Structure>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Front_once" DataType="BOOL" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Synchro_0" DataType="BOOL" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Synchro_1" DataType="BOOL" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Val_Engagement_plus_min" DataType="REAL" Radix="Float" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0.00000000e+000]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="REAL" Radix="Float" Value="0.0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Synchro_vnul_0" DataType="BOOL" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+<LocalTag Name="Synchro_vnul_1" DataType="BOOL" Radix="Decimal" ExternalAccess="None">
+<DefaultData Format="L5K">
+<![CDATA[0]]>
+</DefaultData>
+<DefaultData Format="Decorated">
+<DataValue DataType="BOOL" Radix="Decimal" Value="0"/>
+</DefaultData>
+</LocalTag>
+</LocalTags>
+<Routines>
+<Routine Name="Logic" Type="RLL">
+<RLLContent>
+<Rung Number="0" Type="N">
+<Comment>
+<![CDATA[Activation]]>
+</Comment>
+<Text>
+<![CDATA[XIC(Activation)OTE(Axe_Active);]]>
+</Text>
+</Rung>
+<Rung Number="1" Type="N">
+<Comment>
+<![CDATA[Controle Degagement en position]]>
+</Comment>
+<Text>
+<![CDATA[XIC(Degagement_en_pos)XIC(Axe_Engage)OTL(Degagement_en_pos_demande);]]>
+</Text>
+</Rung>
+<Rung Number="2" Type="N">
+<Text>
+<![CDATA[XIO(Axe_Active)OTU(Degagement_en_pos_demande);]]>
+</Text>
+</Rung>
+<Rung Number="3" Type="N">
+<Text>
+<![CDATA[[XIO(Axe_Active) ,XIO(Axe_Engage) ]OTU(Synchro_0)OTU(Synchro_1)OTU(Synchro_vnul_0)OTU(Synchro_vnul_1);]]>
+</Text>
+</Rung>
+<Rung Number="4" Type="N">
+<Comment>
+<![CDATA[Degagement
+Maitre Vitesse > 0]]>
+</Comment>
+<Text>
+<![CDATA[XIC(Activation)XIC(Axe_Active)XIO(Engagement)XIO(Degagement_en_pos_demande)XIO(Maitre_V_Nul)MAS(Axe,MAS_degagement,All,Yes,Val_Dec,Units per sec2,Yes,Val_Acc,Units per sec3)XIC(MAS_degagement.PC)[XIO(Mode_Rotatif) MAM(Axe,MAM_degagement_lineaire,0,Val_Degagement,Val_Vitesse,Units per sec,Val_Acc,Units per sec2,Val_Dec,Units per sec2,S-Curve,Val_Jerk,Val_Jerk,Units per sec3,Disabled,Programmed,0,None,0,0) ,XIC(Mode_Rotatif) MAM(Axe,MAM_degagement_rotatif,2,Val_Degagement,Val_Vitesse,Units per sec,Val_Acc,Units per sec2,Val_Dec,Units per sec2,S-Curve,Val_Jerk,Val_Jerk,Units per sec3,Disabled,Programmed,0,None,0,0) ];]]>
+</Text>
+</Rung>
+<Rung Number="5" Type="N">
+<Text>
+<![CDATA[XIC(MAPC_1.PC)[XIO(TEMP_2) OTE(Top_Calage2) ,OTE(TEMP_2) ];]]>
+</Text>
+</Rung>
+<Rung Number="6" Type="N">
+<Text>
+<![CDATA[XIC(MAPC_2.PC)[XIO(TEMP_3) OTE(Top_Calage3) ,OTE(TEMP_3) ];]]>
+</Text>
+</Rung>
+<Rung Number="7" Type="N">
+<Text>
+<![CDATA[DIV(Modulo_Esclave,2,modulo_div2)ADD(Val_Engagement,modulo_div2,Val_Engagement_plus)ADD(Val_Engagement,2,Val_Engagement_plus_min);]]>
+</Text>
+</Rung>
+<Rung Number="8" Type="N">
+<Text>
+<![CDATA[[LIM(Val_Engagement,Axe.ActualPosition,Val_Engagement_plus) ONS(front_degagement) ,LIM(Val_Engagement,Axe.ActualPosition,Val_Engagement_plus_min) ]XIO(Engagement)XIC(Activation)XIC(Axe_Active)XIC(Degagement_en_pos_demande)OTL(DEGagement_En_Pos_ok);]]>
+</Text>
+</Rung>
+<Rung Number="9" Type="N">
+<Text>
+<![CDATA[[XIO(Activation) ,XIC(Engagement) ,XIO(Axe_Active) ,XIO(Degagement_en_pos_demande) ]OTU(DEGagement_En_Pos_ok);]]>
+</Text>
+</Rung>
+<Rung Number="10" Type="N">
+<Text>
+<![CDATA[XIC(Activation)XIO(Engagement)XIC(Axe_Active)XIC(Degagement_en_pos_demande)XIC(DEGagement_En_Pos_ok)XIO(Maitre_V_Nul)MAS(Axe,MAS_degagement_enpos,All,Yes,Val_Dec,Units per sec2,Yes,Val_Acc,Units per sec3)XIC(MAS_degagement_enpos.PC)[XIO(Mode_Rotatif) MAM(Axe,MAM_degagement_enpos_lineaire,0,Val_Degagement,Val_Vitesse,Units per sec,Val_Acc,Units per sec2,Val_Dec,Units per sec2,S-Curve,Val_Jerk,Val_Jerk,Units per sec3,Disabled,Programmed,0,None,0,0) ,XIC(Mode_Rotatif) MAM(Axe,MAM_degagement_enpos_rotatif,2,Val_Degagement,Val_Vitesse,Units per sec,Val_Acc,Units per sec2,Val_Dec,Units per sec2,S-Curve,Val_Jerk,Val_Jerk,Units per sec3,Disabled,Programmed,0,None,0,0) ];]]>
+</Text>
+</Rung>
+<Rung Number="11" Type="N">
+<Comment>
+<![CDATA[Degagement
+Vitesse Maitre = 0]]>
+</Comment>
+<Text>
+<![CDATA[XIO(Engagement)XIC(Maitre_V_Nul)MAS(Axe,MAS_degagement_maitreVnul,All,Yes,Val_Dec,Units per sec2,Yes,Val_Acc,Units per sec3);]]>
+</Text>
+</Rung>
+<Rung Number="12" Type="N">
+<Comment>
+<![CDATA[Engagement
+Maitre Vitesse > 0]]>
+</Comment>
+<Text>
+<![CDATA[XIC(Activation)XIC(Engagement)XIC(Axe_Active)XIO(Maitre_V_Nul)OTL(Engagement_came);]]>
+</Text>
+</Rung>
+<Rung Number="13" Type="N">
+<Text>
+<![CDATA[[XIO(Engagement) XIO(Degagement_en_pos_demande) ,XIO(Engagement) XIC(Degagement_en_pos_demande) XIC(DEGagement_En_Pos_ok) ,XIO(Axe_Active) ]OTU(Engagement_came);]]>
+</Text>
+</Rung>
+<Rung Number="14" Type="N">
+<Text>
+<![CDATA[XIC(Engagement_came)MAS(Axe,MAS_Engagement,All,Yes,Val_Dec,Units per sec2,Yes,Val_Acc,Units per sec3)XIC(MAS_Engagement.PC)[XIO(Mode_Rotatif) MAM(Axe,MAM_engagement_lineaire,0,Val_Engagement,Val_Vitesse,Units per sec,Val_Acc,Units per sec2,Val_Dec,Units per sec2,S-Curve,Val_Jerk,Val_Jerk,Units per sec3,Disabled,Programmed,0,None,0,0) ,XIC(Mode_Rotatif) MAM(Axe,MAM_engagement_rotatif,2,Val_Engagement,Val_Vitesse,Units per sec,Val_Acc,Units per sec2,Val_Dec,Units per sec2,S-Curve,Val_Jerk,Val_Jerk,Units per sec3,Disabled,Programmed,0,None,0,0) ];]]>
+</Text>
+</Rung>
+<Rung Number="15" Type="N">
+<Text>
+<![CDATA[XIC(Activation)XIC(Engagement_came)MOD(Val_Phase,Modulo_Maitre,Val_phase_modulo);]]>
+</Text>
+</Rung>
+<Rung Number="16" Type="N">
+<Text>
+<![CDATA[XIC(Activation)XIC(Engagement_came)XIO(ModeCamOnce)[XIO(Mode_Rotatif) XIC(MAM_engagement_lineaire.EN) XIC(MAM_engagement_lineaire.DN) XIC(MAM_engagement_lineaire.PC) ,XIC(Mode_Rotatif) XIC(MAM_engagement_rotatif.EN) XIC(MAM_engagement_rotatif.DN) XIC(MAM_engagement_rotatif.PC) ][MCCP(MCCP_First,Came[0],Longeur_Cam,0,0,Came_Prof_First[0]) ,[XIC(MCCP_First.EN) XIC(MCCP_First.DN) MAPC(Axe,Axe_Maitre,MAPC_First,0,Came_Prof_First[0],1,1,Once,Forward Only,Val_phase_modulo,0,Command,Bi-Directional) [XIO(Front) MOV(Val_Phase,Val_Phase_Sauve) ,OTE(Front) ] ,CMP(Num_Cam=0) [XIC(MAPC_First.IP) ,XIC(MAPC_First.EN) XIC(MAPC_First.PC) ] [OTL(Synchro_0) MCCP(MCCP_1,Came[0],Longeur_Cam,0,0,Came_Prof_1[0]) ,XIC(Synchro_0) XIC(MCCP_1.EN) XIC(MCCP_1.DN) MAPC(Axe,Axe_Maitre,MAPC_1,0,Came_Prof_1[0],1,1,Once,Pending,0,0,Command,Bi-Directional) [XIC(MAPC_1.DN) ,XIC(MAPC_1.IP) ] XIO(Axe.PositionCamPendingStatus) [MOV(1,Num_Cam) ,OTU(Synchro_0) ] ] ,CMP(Num_Cam=1) [XIC(MAPC_First.IP) ,XIC(MAPC_First.EN) XIC(MAPC_First.PC) ] [OTL(Synchro_1) MCCP(MCCP_2,Came[0],Longeur_Cam,0,0,Came_Prof_2[0]) ,XIC(Synchro_1) XIC(MCCP_2.EN) XIC(MCCP_2.DN) MAPC(Axe,Axe_Maitre,MAPC_2,0,Came_Prof_2[0],1,1,Once,Pending,0,0,Command,Bi-Directional) [XIC(MAPC_2.DN) ,XIC(MAPC_2.IP) ] XIO(Axe.PositionCamPendingStatus) [MOV(0,Num_Cam) ,OTU(Synchro_1) ] ] ] ];]]>
+</Text>
+</Rung>
+<Rung Number="17" Type="N">
+<Text>
+<![CDATA[XIC(Activation)XIC(Engagement_came)XIC(ModeCamOnce)XIO(Mode_Rotatif)XIC(MAM_engagement_lineaire.EN)XIC(MAM_engagement_lineaire.DN)XIC(MAM_engagement_lineaire.PC)[MCCP(MCCP_First_Once,Came[0],Longeur_Cam,0,0,Came_Prof_First_Once[0]) ,XIC(Top_Once) ONS(Front_once) XIC(MCCP_First_Once.DN) XIC(MCCP_First_Once.EN) MAPC(Axe,Axe_Maitre,MAPC_First_Once,0,Came_Prof_First_Once[0],1,1,Once,Immediate,0,0,Actual,Bi-Directional) ];]]>
+</Text>
+</Rung>
+<Rung Number="18" Type="N">
+<Comment>
+<![CDATA[Engagement
+maitre V = 0]]>
+</Comment>
+<Text>
+<![CDATA[XIC(Activation)XIC(Engagement)XIC(Axe_Active)XIC(Maitre_V_Nul)XIO(ModeCamOnce)OTL(Engagement_came_VNul);]]>
+</Text>
+</Rung>
+<Rung Number="19" Type="N">
+<Text>
+<![CDATA[[XIO(Engagement) ,XIO(Axe_Active) ,XIC(ModeCamOnce) ]OTU(Engagement_came_VNul);]]>
+</Text>
+</Rung>
+<Rung Number="20" Type="N">
+<Text>
+<![CDATA[XIO(Axe.PositionCamPendingStatus)ONS(Front200)OTE(Cam_Pending);]]>
+</Text>
+</Rung>
+<Rung Number="21" Type="N">
+<Text>
+<![CDATA[XIC(Engagement_came_VNul)[MCCP(MCCP_First_Vnul,Came[0],Longeur_Cam,0,0,Came_Prof_First[0]) ,XIC(MCCP_First_Vnul.EN) XIC(MCCP_First_Vnul.DN) MOD(Val_Phase,Modulo_Maitre,Val_Phase_Modulo2) SUB(Axe_Maitre.CommandPosition,Val_Phase_Modulo2,Val_MAitre) ADD(Val_MAitre,Modulo_Maitre,Val_MAitre) MOD(Val_MAitre,Modulo_Maitre,Val_MAitre) MCSV(MCSV,Came_Prof_First[0],Val_MAitre,MCSV_Slave_Value,MCSV_Slope_Value,MCSV_SlopeD_Value) ADD(MCSV_Slave_Value,Val_Engagement,decalage_Vnul_Dem) MOD(decalage_Vnul_Dem,Modulo_Esclave,decalage_Vnul_Dem_modulo) XIC(MCSV.DN) [XIO(Mode_Rotatif) MAM(Axe,MAM_engagement_lineaire_vnul,0,decalage_Vnul_Dem,Val_Vitesse,Units per sec,Val_Acc,Units per sec2,Val_Dec,Units per sec2,S-Curve,Val_Jerk,Val_Jerk,Units per sec3,Disabled,Programmed,0,None,0,0) ,XIC(Mode_Rotatif) MAM(Axe,MAM_engagement_rotatifvnul,2,decalage_Vnul_Dem_modulo,Val_Vitesse,Units per sec,Val_Acc,Units per sec2,Val_Dec,Units per sec2,S-Curve,Val_Jerk,Val_Jerk,Units per sec3,Disabled,Programmed,0,None,0,0) ] ,XIC(MCCP_First_Vnul.EN) XIC(MCCP_First_Vnul.DN) MAPC(Axe,Axe_Maitre,MAPC_First_Vnul,0,Came_Prof_First[0],1,1,Once,Immediate,0,Val_MAitre,Command,Bi-Directional) [XIO(Front_vnul) MOV(Val_Phase,Val_Phase_Sauve) ,OTE(Front_vnul) ] ,CMP(Num_Cam_Vnul=0) [XIC(MAPC_First_Vnul.IP) ,XIC(MAPC_First_Vnul.EN) XIC(MAPC_First_Vnul.PC) ] [OTL(Synchro_vnul_0) MCCP(MCCP_1_vnul,Came[0],Longeur_Cam,0,0,Came_Prof_1_vnul[0]) ,XIC(Synchro_vnul_0) XIC(MCCP_1_vnul.EN) XIC(MCCP_1_vnul.DN) MAPC(Axe,Axe_Maitre,MAPC_1_vnul,0,Came_Prof_1_vnul[0],1,1,Once,Pending,0,0,Command,Bi-Directional) [XIC(MAPC_1_vnul.DN) ,XIC(MAPC_1_vnul.IP) ] XIO(Axe.PositionCamPendingStatus) [MOV(1,Num_Cam_Vnul) ,OTU(Synchro_vnul_0) ] ] ,CMP(Num_Cam_Vnul=1) [XIC(MAPC_First_Vnul.IP) ,XIC(MAPC_First_Vnul.EN) XIC(MAPC_First_Vnul.PC) ] [OTL(Synchro_vnul_1) MCCP(MCCP_2_vnul,Came[0],Longeur_Cam,0,0,Came_Prof_2_vnul[0]) ,XIC(Synchro_vnul_1) XIC(MCCP_2_vnul.EN) XIC(MCCP_2_vnul.DN) MAPC(Axe,Axe_Maitre,MAPC_2_vnul,0,Came_Prof_2_vnul[0],1,1,Once,Pending,0,0,Command,Bi-Directional) [XIC(MAPC_2_vnul.DN) ,XIC(MAPC_2_vnul.IP) ] XIO(Axe.PositionCamPendingStatus) [MOV(0,Num_Cam_Vnul) ,OTU(Synchro_vnul_1) ] ] ];]]>
+</Text>
+</Rung>
+<Rung Number="22" Type="N">
+<Comment>
+<![CDATA[Dephasage axe engage]]>
+</Comment>
+<Text>
+<![CDATA[XIC(Activation)XIO(ModeCamOnce)[XIC(Engagement_came) CPT(Val_Phase_Modifie,Val_Phase_Sauve-Val_Phase) [XIC(MAPC_1.IP) ,XIC(MAPC_2.IP) ] MOD(Val_Phase_Modifie,Modulo_Maitre,Val_phase_modulo) ,XIC(Engagement_came_VNul) CPT(Val_Phase_Modifie,Val_Phase_Sauve-Val_Phase) [XIC(MAPC_1_vnul.IP) ,XIC(MAPC_2_vnul.IP) ] MOD(Val_Phase_Modifie,Modulo_Maitre,Val_phase_modulo) ]XIO(MAM_Phase.EN)XIC(Axe.PositionCamStatus)MAM(Axe,MAM_Phase,5,Val_phase_modulo,Val_Vitesse,Units per sec,Val_Acc,Units per sec2,Val_Dec,Units per sec2,S-Curve,Val_Jerk,Val_Jerk,Units per sec3,Enabled,Programmed,0,None,0,0);]]>
+</Text>
+</Rung>
+<Rung Number="23" Type="N">
+<Comment>
+<![CDATA[Decalage axe engage]]>
+</Comment>
+<Text>
+<![CDATA[XIC(MAPC_1.PC)[XIO(TEMP_0) OTE(Top_Calage0) ,OTE(TEMP_0) ];]]>
+</Text>
+</Rung>
+<Rung Number="24" Type="N">
+<Text>
+<![CDATA[XIC(MAPC_2.PC)[XIO(TEMP_1) OTE(Top_Calage1) ,OTE(TEMP_1) ];]]>
+</Text>
+</Rung>
+<Rung Number="25" Type="N">
+<Text>
+<![CDATA[XIC(MAPC_1_vnul.PC)[XIO(TEMP_5) OTE(Top_Calage5) ,OTE(TEMP_5) ];]]>
+</Text>
+</Rung>
+<Rung Number="26" Type="N">
+<Text>
+<![CDATA[XIC(MAPC_2_vnul.PC)[XIO(TEMP_6) OTE(Top_Calage6) ,OTE(TEMP_6) ];]]>
+</Text>
+</Rung>
+<Rung Number="27" Type="N">
+<Text>
+<![CDATA[XIC(Engagement_Decalage)XIO(ModeCamOnce)[XIC(Engagement_came) [XIC(Top_Calage0) ,XIC(Top_Calage1) ] ,XIC(Engagement_came_VNul) [XIC(Top_Calage5) ,XIC(Top_Calage6) ] ]MAM(Axe,MAM_decalage,0,Val_Decalage,Val_Vitesse,Units per sec,Val_Acc,Units per sec2,Val_Dec,Units per sec2,S-Curve,Val_Jerk,Val_Jerk,Units per sec3,Disabled,Current,0,None,0,0);]]>
+</Text>
+</Rung>
+<Rung Number="28" Type="N">
+<Comment>
+<![CDATA[Indications]]>
+</Comment>
+<Text>
+<![CDATA[XIC(Activation)[XIC(Engagement_came) XIC(Axe.PositionCamLockStatus) ,XIC(Engagement_came_VNul) XIC(Axe.PositionCamLockStatus) ]OTE(Axe_Engage);]]>
+</Text>
+</Rung>
+<Rung Number="29" Type="N">
+<Text>
+<![CDATA[XIO(Axe_Engage)MOV(1500,Tempo_degagement.PRE)TON(Tempo_degagement,?,?)XIC(Tempo_degagement.DN)OTE(Axe_Degage);]]>
+</Text>
+</Rung>
+<Rung Number="30" Type="N">
+<Text>
+<![CDATA[[XIC(MCCP_First.ER) ,XIC(MAPC_First.ER) ,XIC(MCCP_1.ER) ,XIC(MAPC_1.ER) ,XIC(MAM_decalage.ER) ,XIC(MAM_Phase.ER) ,XIC(MAPC_2.ER) ,XIC(MCCP_2.ER) ]OTE(Erreur_1);]]>
+</Text>
+</Rung>
+<Rung Number="31" Type="N">
+<Text>
+<![CDATA[[[XIC(MAM_engagement_lineaire.ER) ,XIC(MAM_engagement_rotatif.ER) ] ,XIC(MAS_Engagement.ER) ,[XIC(MAM_degagement_lineaire.ER) ,XIC(MAM_degagement_rotatif.ER) ] ,XIC(MAS_degagement.ER) ]OTE(Erreur_2);]]>
+</Text>
+</Rung>
+<Rung Number="32" Type="N">
+<Text>
+<![CDATA[[XIC(MAS_degagement_enpos.ER) ,[XIC(MAM_degagement_enpos_lineaire.ER) ,[XIC(MAM_degagement_enpos_rotatif.ER) ,[XIC(MAS_degagement_maitreVnul.ER) ,[XIC(MAM_engagement_lineaire_vnul.ER) ,XIC(MAM_engagement_rotatifvnul.ER) ] ] ] ] ]OTE(Erreur_3);]]>
+</Text>
+</Rung>
+<Rung Number="33" Type="N">
+<Text>
+<![CDATA[[XIC(MCCP_First_Vnul.ER) ,XIC(MAPC_First_Vnul.ER) ,XIC(MCCP_1_vnul.ER) ,XIC(MAPC_1_vnul.ER) ,XIC(MAPC_2_vnul.ER) ,XIC(MCCP_2_vnul.ER) ,XIC(MCSV.ER) ]OTE(Erreur_4);]]>
+</Text>
+</Rung>
+<Rung Number="34" Type="N">
+<Text>
+<![CDATA[[XIC(Erreur_1) ,XIC(Erreur_2) ,XIC(Erreur_3) ,XIC(Erreur_4) ]OTE(ER);]]>
+</Text>
+</Rung>
+</RLLContent>
+</Routine>
+</Routines>
+</AddOnInstructionDefinition>
+</AddOnInstructionDefinitions>
+</Controller>
+</RSLogix5000Content>

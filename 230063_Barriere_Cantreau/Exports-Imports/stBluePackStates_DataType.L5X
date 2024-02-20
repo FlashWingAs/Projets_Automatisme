@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RSLogix5000Content SchemaRevision="1.0" SoftwareRevision="35.00" TargetName="stBluePackStates" TargetType="DataType" ContainsContext="true" ExportDate="Tue Oct 17 11:40:45 2023" ExportOptions="References NoRawData L5KData DecoratedData Context Dependencies ForceProtectedEncoding AllProjDocTrans">
+<Controller Use="Context" Name="L5_GRA_13_10_23">
+<DataTypes Use="Context">
+<DataType Use="Target" Name="stBluePackStates" Family="NoFamily" Class="User">
+<Members>
+<Member Name="Nothing" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[0]]>
+</Description>
+</Member>
+<Member Name="Waiting" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[1]]>
+</Description>
+</Member>
+<Member Name="Resetting" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[5]]>
+</Description>
+</Member>
+<Member Name="Homing" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[15]]>
+</Description>
+</Member>
+<Member Name="Calibration" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[25]]>
+</Description>
+</Member>
+<Member Name="StartingProduction" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[30]]>
+</Description>
+</Member>
+<Member Name="Production" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[35]]>
+</Description>
+</Member>
+<Member Name="StartingCleaning" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[40]]>
+</Description>
+</Member>
+<Member Name="Cleaning" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[45]]>
+</Description>
+</Member>
+<Member Name="Manual" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[55]]>
+</Description>
+</Member>
+<Member Name="Maintenance" DataType="INT" Dimension="0" Radix="Decimal" Hidden="false" ExternalAccess="Read/Write">
+<Description>
+<![CDATA[65]]>
+</Description>
+</Member>
+</Members>
+</DataType>
+</DataTypes>
+</Controller>
+</RSLogix5000Content>
